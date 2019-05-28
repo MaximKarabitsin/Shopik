@@ -8,6 +8,8 @@ public class ShopikApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ShopikApplication.class, args);
+
+
     }
 
 }

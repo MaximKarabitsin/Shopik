@@ -1,0 +1,38 @@
+* {
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+body {
+    font-family: 'Rubik', sans-serif;;
+}
+
+.container {
+    box-sizing: border-box;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.button {
+    border: 1px solid #78c4cd;
+    color: #fff;
+    background-color: #78c4cd;
+    transition: .3s;
+}
+
+.button-icon {
+    fill: #fff;
+    transition: .3s;
+}
+
+.button:hover {
+    border: 1px solid #e0e0e0;
+    background-color: #f5f7f9;
+    color: #444;
+    fill: #444;
+}
+
+.button:hover > .button-icon {
+    fill: #444;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/main.css}">
+    <link rel="stylesheet" th:href="@{css/main_media.css}">
+    <link rel="stylesheet" th:href="@{css/authorization.css}">
+    <title>Shopik - Регистрация</title>
+</head>
+<body>
+    <div class="reg-container">
+        <div class="auth">
+            <div class="auth-title">Регистрация</div>
+            <form class="auth-form">
+                <div class="auth-input-wrapper">
+                    <input class="auth-input" type="text" required>
+                    <label class="auth-label">Введите Логин*</label>
+                </div>
+                <div class="auth-input-wrapper">
+                    <input class="auth-input" type="text" required>
+                    <label class="auth-label">Введите E-mail*</label>
+                </div>
+                <div class="auth-input-wrapper">
+                    <input class="auth-input" type="text" required>
+                    <label class="auth-label">Введите Имя</label>
+                </div>
+                <div class="auth-input-wrapper">
+                    <input class="auth-input" type="text" required>
+                    <label class="auth-label">Введите Фамилию</label>
+                </div>
+                <div class="auth-input-wrapper">
+                    <input class="auth-input" type="password" required>
+                    <label class="auth-label">Введите Пароль*</label>
+
+                </div>
+                <div class="comment">* Обязательное поле</div>
+                <button class="button auth-button">Регистрация</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
