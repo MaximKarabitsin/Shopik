@@ -54,11 +54,10 @@ $(document).ready(function () {
 
     function checkLogin(login) {
         $.ajax({
-            url: '/check/login',
+            url: '/registration/check/login',
             data: 'login=' + login,
             type: 'POST',
             success: function (res) {
-                console.log(res);
                 if (res) {
                     errors.delete("login-exists");
                 } else {
@@ -94,11 +93,10 @@ $(document).ready(function () {
 
     function checkEmail(email) {
         $.ajax({
-            url: '/check/email',
+            url: '/registration/check/email',
             data: 'email=' + email,
             type: 'POST',
             success: function (res) {
-                console.log(res);
                 if (res) {
                     errors.delete("email-exists");
                 } else {
@@ -182,6 +180,8 @@ $(document).ready(function () {
 
     $('form[name=userForm]').submit(function (e) {
         e.preventDefault();
+        checkLogin($('input[name=login]').val());
+        checkEmail($('input[name=email]').val());
         if (errors.size === 0 && checkInputsNull()) {
             $.ajax({
                 url: '/registration',

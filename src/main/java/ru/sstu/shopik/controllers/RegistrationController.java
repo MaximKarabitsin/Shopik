@@ -48,7 +48,7 @@ public class RegistrationController {
         return jsonResponse;
     }
 
-    @PostMapping(value = "/check/login", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/registration/check/login", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public Boolean checkLogin(String login) {
 
@@ -56,7 +56,7 @@ public class RegistrationController {
         return !userService.isUserWithLoginExist(login);
     }
 
-    @PostMapping(value = "/check/email", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/registration/check/email", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public Boolean checkEmail(String email) {
 

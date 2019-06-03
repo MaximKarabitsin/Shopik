@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService{
         user.setRoles(roles);
         user.setBalance(0);
         user.setDate(new Date());
-        user.setEnabled(false);
+        user.setEnabled(true);
         userRepository.save(user);
     }
 }
