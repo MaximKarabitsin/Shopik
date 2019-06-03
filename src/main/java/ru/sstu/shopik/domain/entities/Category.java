@@ -9,10 +9,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoryId")
-    private int category;
+    private int categoryId;
 
-    @Column(name = "categoryName")
-    private String categoryName;
+    @Column(name = "category")
+    private String category;
 
     @Column(name = "motherId")
     private int motherId;
@@ -20,19 +20,19 @@ public class Category {
     public Category(){}
 
     public int getCategory() {
-        return category;
+        return categoryId;
     }
 
     public void setCategory(int category) {
-        this.category = category;
+        this.categoryId = categoryId;
     }
 
     public String getCategoryName() {
-        return categoryName;
+        return category;
     }
 
     public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+        this.category = categoryName;
     }
 
     public int getMotherId() {
