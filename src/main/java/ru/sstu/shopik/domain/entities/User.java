@@ -2,7 +2,6 @@ package ru.sstu.shopik.domain.entities;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,31 +14,31 @@ public class User {
     @Column(name = "userId")
     private Long id;
 
-    @Column(name = "login", length = 15, nullable = false)
+    @Column(name = "login", length = 15, nullable = false, unique = true)
     private String login;
 
-    @Column(name = "email", length = 320, nullable = false)
+    @Column(name = "email", length = 320, nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", length = 60, nullable = false)
     private String password;
 
-    @Column(name = "firstName", length = 20, nullable = true)
+    @Column(name = "firstName", length = 20)
     private String firstName;
 
-    @Column(name = "lastName", length = 20, nullable = true)
+    @Column(name = "lastName", length = 20)
     private String lastName;
 
     @Column(name = "balance", nullable = false)
     private Integer balance;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
     private Set<Role> roles;
 
