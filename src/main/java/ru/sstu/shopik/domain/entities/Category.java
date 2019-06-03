@@ -19,20 +19,20 @@ public class Category {
 
     public Category(){}
 
-    public int getCategory() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategory(int category) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    public String getCategoryName() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.category = categoryName;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getMotherId() {
