@@ -24,7 +24,7 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        return "registration";
+        return "authorization/registration";
     }
 
 
@@ -48,20 +48,31 @@ public class RegistrationController {
         return jsonResponse;
     }
 
-    @PostMapping(value = "/registration/check/login", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/registration/check/{fieldType}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public Boolean checkLogin(String login) {
+    public Boolean checkUnique(@PathVariable String fieldType, String fieldText) {
+        switch (fieldType) {
+            case "login":
+                return !userService.isUserWithLoginExist(fieldText);
+            case "email":
+                return !userService.isUserWithEmailExist(fieldText);
+            default:
+                return false;
+        }
 
-
-        return !userService.isUserWithLoginExist(login);
     }
 
-    @PostMapping(value = "/registration/check/email", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public Boolean checkEmail(String email) {
-
-
-        return !userService.isUserWithEmailExist(email);
+    @GetMapping("/registration/confirm/{token}")
+    public String confirmEmailWithToken(@PathVariable String token) {
+        if (userService.confirmEmail(token)){
+            return "authorization/complete";
+        }
+        return "authorization/registration";
     }
 
+
+    @GetMapping("/registration/confirm")
+    public String confirmEmail(Model model) {
+        return "authorization/confirm";
+    }
 }

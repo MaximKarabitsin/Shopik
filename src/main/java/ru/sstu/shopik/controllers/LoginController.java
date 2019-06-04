@@ -12,19 +12,20 @@ public class LoginController {
     public String loginError(Model model, String username) {
         model.addAttribute("error", "Your username and password is invalid.");                                  //I18N
         model.addAttribute("username", username);
-        return "login";
+        return "authorization/login";
     }
 
     @GetMapping("/login")
     public String login(Model model) {
-        return "login";
+
+        return "authorization/login";
     }
 
 
 
     @GetMapping("/passwordRecovery")
     public String passwordRecovery(Model model, String username) {
-        return "passwordRecovery";
+        return "authorization/passwordRecovery";
     }
 
 }

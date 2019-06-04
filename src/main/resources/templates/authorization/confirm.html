@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main_media.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/header-footer.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/header-footer_media.css}">
+
+    <title>Shopik - Главная</title>
+</head>
+<body>
+    <div sec:authorize="hasRole('USER')">Text visible to user.</div>
+    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+    <div sec:authorize="isAuthenticated()">
+        Text visible only to authenticated users.
+    </div>
+    Authenticated username:
+    <div sec:authentication="name"></div>
+
+
+    <header>
+        <div class="header">
+            <div class="container header-wrapper">
+                <a href="#">
+                    <img class="logo" src="../img/icons/logo.svg" alt="Shopik">
+                </a>
+                <div class="header-search">
+                    <form action="">
+                        <input class="header-search__field" type="text" placeholder="Поиск по каталогу...">
+                        <button class="header-search__btn" type="submit">
+                            <svg class="header-search__icon">
+                                <use xlink:href="../img/icons/icons.svg#search"></use>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <nav sec:authorize="isAuthenticated()" class="user-menu">
+                    <a class="user-menu__item" href="#">Профиль</a>
+                    <a class="user-menu__item" href="#">Список желаемого</a>
+                    <a class="user-menu__item" href="#">Админ-панель</a>
+                    <a class="user-menu__item" th:href="@{/logout}">Выход</a>
+                    <a class="user-menu__cart" href="#">
+                        <img class="cart-icon" src="../img/icons/shopping-cart.svg" alt="">
+                        Корзина</a>
+                </nav>
+                <nav sec:authorize="isAnonymous()" class="user-menu">
+                    <a class="user-menu__item" th:href="@{/login}">Войти</a>
+                    <a class="user-menu__item" th:href="@{/registration}">Зарегестрироваться</a>
+                </nav>
+                <div class="user-menu-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <div class="navigation">
+            <div class="container">
+                <nav class="nav-menu">
+                    <a class="nav-menu__item" href="#">Главная</a>
+                    <a class="nav-menu__item nav-menu__item--active" href="#">Каталог</a>
+                    <a class="nav-menu__item" href="#">Новости</a>
+                    <a class="nav-menu__item" href="#">Скидки</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>На указанную почту отправлено письмо с подтверждением!</main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-blocks">
+                <div class="footer-block">
+                    <div class="footer-block__title">Контакты</div>
+                    <a class="footer-block__item" href=""><img class="footer-icon" src="../img/icons/geolocation.svg"
+                                                               alt="Адресс:">г. Саратов</a>
+                    <a class="footer-block__item" href=""><img class="footer-icon" src="../img/icons/phone.svg"
+                                                               alt="Тел.:">+7 (999) 123 4567</a>
+                    <a class="footer-block__item" href="mailto:mail@shopik.com"><img class="footer-icon"
+                                                                                     src="../img/icons/email.svg"
+                                                                                     alt="email:">mail@shopik.com</a>
+                </div>
+                <!-- /.footer-block -->
+                <div class="footer-block">
+                    <div class="footer-block__title">Shopik</div>
+                    <a class="footer-block__item" href="">Главная</a>
+                    <a class="footer-block__item" href="">Новости</a>
+                    <a class="footer-block__item" href="">Скидки</a>
+                </div>
+                <!-- /.footer-block -->
+                <div class="footer-block">
+                    <div class="footer-block__title">Помощь</div>
+                    <a class="footer-block__item" href="">Помощь</a>
+                    <a class="footer-block__item" href="">FAQ</a>
+                </div>
+                <!-- /.footer-block -->
+                <div class="footer-block">
+                    <div class="footer-block__title">Профиль</div>
+                    <a class="footer-block__item" href="">Профиль</a>
+                    <a class="footer-block__item" href="">Список желаемого</a>
+                    <a class="footer-block__item" href="">Админ-панель</a>
+                    <a class="footer-block__item" href="">Выход</a>
+                </div>
+                <!-- /.footer-block -->
+            </div>
+            <!-- /.footer-blocks -->
+        </div>
+        <!-- /.container -->
+    </footer>
+</body>
+</html>

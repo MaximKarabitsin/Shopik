@@ -14,7 +14,7 @@ import ru.sstu.shopik.forms.UserRegistrationForm;
 import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -24,6 +24,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    MailService mailService;
 
     @Override
     public boolean isUserWithLoginExist(String login) {
@@ -48,7 +51,22 @@ public class UserServiceImpl implements UserService{
         user.setRoles(roles);
         user.setBalance(0);
         user.setDate(new Date());
-        user.setEnabled(true);
+        String token = UUID.randomUUID().toString();
+        user.setToken(token);
+        user.setEnabled(false);
         userRepository.save(user);
+        mailService.sendConfirmEmail(user);
+    }
+
+    @Override
+    public boolean confirmEmail(String token) {
+        Optional<User> optionalUser = userRepository.findByToken(token);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+                user.setEnabled(true);
+                userRepository.save(user);
+                return true;
+        }
+        return false;
     }
 }

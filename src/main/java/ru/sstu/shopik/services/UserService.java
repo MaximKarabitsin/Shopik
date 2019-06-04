@@ -7,4 +7,5 @@ public interface UserService {
     boolean isUserWithLoginExist(String login);
     boolean isUserWithEmailExist(String email);
     void createUserFromRegistrationForm(UserRegistrationForm userForm);
+    boolean confirmEmail(String token);
 }

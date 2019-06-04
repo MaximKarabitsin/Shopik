@@ -38,6 +38,9 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
+    @Column(name = "token", length = 50)
+    private String token;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
     private Set<Role> roles;
@@ -115,6 +118,14 @@ public class User {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Set<Role> getRoles() {

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+Для подтверждения почты перейдите <a th:href="@{http://localhost:8080/registration/confirm/{tkn}(tkn=${token})}">по ссылке</a>.
+
+</body>
+
+</html>
