@@ -6,9 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.forms.UserRegistrationForm;
 import ru.sstu.shopik.forms.responses.JsonResponse;
+import ru.sstu.shopik.forms.validators.UserRegistrationFormValidator;
 import ru.sstu.shopik.services.UserServiceImpl;
 
 import javax.validation.Valid;
@@ -21,6 +23,13 @@ public class RegistrationController {
     @Autowired
     UserServiceImpl userService;
 
+    @Autowired
+    private UserRegistrationFormValidator userValidator;
+
+    @InitBinder("userRegistrationForm")
+    private void initBinder(WebDataBinder binder) {
+        binder.addValidators(userValidator);
+    }
 
     @GetMapping("/registration")
     public String registration(Model model) {

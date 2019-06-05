@@ -24,16 +24,17 @@ public class MailService {
 	
 	@Autowired
 	private TemplateEngine templateEngine;
-	
+
+	@Autowired
 	private JavaMailSender mailSender;
 	 
     @Autowired
     private MessageSource messageSource;
 
-    @Autowired
-    public MailService(JavaMailSender mailSender) {
-    	this.mailSender = mailSender;
-    }
+    //@Autowired
+    //public MailService(JavaMailSender mailSender) {
+    //	this.mailSender = mailSender;
+    //}
     
     public String build(String template, Map<String, Object> variables) {
         Context context = new Context();
@@ -63,6 +64,7 @@ public class MailService {
         replaces.put("token", user.getToken());
         String content = this.build("mail/confirmEmail", replaces);
         //String subject = messageSource.getMessage("mail.test.subject", null, Locale.ENGLISH);
+        String str =  messageSource.getMessage("registration.title", null, new Locale("ru"));
 
         sendMail(MAIL_FROM_DEFAULT, user.getEmail(), "subject", content);
 
@@ -75,7 +77,6 @@ public class MailService {
 
         	replaces.put("fullName", "LOGIN");
 
-        
         String content = this.build("mail/test-email", replaces);
         //String subject = messageSource.getMessage("mail.test.subject", null, Locale.ENGLISH);
 
