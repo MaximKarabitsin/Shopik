@@ -8,29 +8,40 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{css/main.css}">
-    <link rel="stylesheet" th:href="@{css/main_media.css}">
-    <link rel="stylesheet" th:href="@{css/index.css}">
-    <link rel="stylesheet" th:href="@{css/index_media.css}">
-    <link rel="stylesheet" th:href="@{css/header-footer.css}">
-    <link rel="stylesheet" th:href="@{css/header-footer_media.css}">
-    <link rel="stylesheet" th:href="@{css/catalog.css}">
-    <link rel="stylesheet" th:href="@{css/catalog_media.css}">
-    <link rel="stylesheet" th:href="@{css/slick.css}"/>
-    <link rel="stylesheet" th:href="@{css/slider.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main_media.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/index_media.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer_media.css}">
+    <link rel="stylesheet" th:href="@{/css/catalog.css}">
+    <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
+    <link rel="stylesheet" th:href="@{/css/slick.css}"/>
+    <link rel="stylesheet" th:href="@{/css/slider.css}"/>
     <title>Shopik - Главная</title>
 </head>
 <body>
-    <div sec:authorize="hasRole('USER')">Text visible to user.</div>
-    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
-    <div sec:authorize="isAuthenticated()">
-        Text visible only to authenticated users.
-    </div>
-    Authenticated username:
-    <div sec:authentication="name"></div>
-
-
     <header>
+        <div class="top">
+            <div class="container top-wrapper">
+                <div class="top-text">
+                    <span>Добро пожаловать, посетитель, вы можете </span>
+                    <a class="top-text__link" th:href="@{/login}">войти</a>
+                    <span> или </span>
+                    <a class="top-text__link" th:href="@{/registration}">создать аккаунт</a>.
+                </div>
+                <div th:switch="__${#locale}__">
+                    <div th:case="en" class="top-lang">
+                        <a class="top-lang__item lang-switch" name="ru">РУ</a>
+                        <a class="top-lang__item active lang-switch" name="en">EN</a>
+                    </div>
+                    <div th:case="*" class="top-lang">
+                        <a class="top-lang__item active lang-switch" name="ru">РУ</a>
+                        <a class="top-lang__item lang-switch" name="en">EN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="header">
             <div class="container header-wrapper">
                 <a href="#">
@@ -662,9 +673,9 @@
                 </div>
                 <!-- /.footer-block -->
                 <div class="footer-block">
-                    <div class="footer-block__title">Помощь</div>
-                    <a class="footer-block__item" href="">Помощь</a>
-                    <a class="footer-block__item" href="">FAQ</a>
+                    <div class="footer-block__title">Язык</div>
+                    <a class="footer-block__item lang-switch" name="ru">Русский</a>
+                    <a class="footer-block__item lang-switch" name="en">English</a>
                 </div>
                 <!-- /.footer-block -->
                 <div class="footer-block">
@@ -683,8 +694,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
-    <script th:src="@{js/slick.min.js}"></script>
-    <script th:src="@{js/main.js}"></script>
-    <script th:src="@{js/index.js}"></script>
+    <script th:src="@{/js/jquery.cookie.js}"></script>
+    <script th:src="@{/js/slick.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
 </body>
 </html>

@@ -2,8 +2,48 @@ main {
     min-height: 40vh;
 }
 /*HEADER*/
+.top{
+    background-color: #f5f7f9;
+
+}
+
+.top-wrapper{
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.top-text{
+    font-size: 12px;
+    color: #777;
+    margin: 0 auto;
+}
+.top-text__link {
+    text-decoration: none;
+    color: #78c4cd;
+}
+.top-lang {
+    margin-left: 10px;
+    display: flex;
+}
+
+.top-lang__item {
+    cursor: pointer;
+    background-color: #e6e9ed;
+    color: #444444;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 9px;
+    margin: 0 1px;
+}
+
+.top-lang__item:hover,
+.top-lang__item.active {
+    background-color: #78c4cd;
+    color: #fff;
+}
+
 .header {
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 15px;
 }
 
