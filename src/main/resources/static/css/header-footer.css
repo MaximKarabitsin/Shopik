@@ -11,6 +11,7 @@ main {
     height: 30px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 .top-text{
     font-size: 12px;
@@ -27,7 +28,7 @@ main {
 }
 
 .top-lang__item {
-    cursor: pointer;
+
     background-color: #e6e9ed;
     color: #444444;
     font-size: 12px;
@@ -40,6 +41,10 @@ main {
 .top-lang__item.active {
     background-color: #78c4cd;
     color: #fff;
+}
+
+.lang-switch {
+    cursor: pointer;
 }
 
 .header {
