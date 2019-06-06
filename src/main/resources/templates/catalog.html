@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -68,11 +68,11 @@
                 <div class="catalog-list-categories">
                     <input id="checkboxBtn" class="checkboxBtn" type="checkbox">
                     <label for="checkboxBtn" class="labelBtn"></label>
-                    <a href="#" class="button catalog__btn">
+                    <a href="#" class="button catalog__btn" th:text="#{catalog.button.catalog}">
                         <svg class="catalog-icon button-icon">
                             <use xlink:href="../img/icons/icons.svg#arrow-down"></use>
                         </svg>
-                        Каталог</a>
+                        </a>
 
                     <ul class="list-categories">
                         <li class="category">

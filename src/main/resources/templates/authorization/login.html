@@ -9,25 +9,25 @@
     <link rel="stylesheet" th:href="@{css/main.css}">
     <link rel="stylesheet" th:href="@{css/main_media.css}">
     <link rel="stylesheet" th:href="@{css/authorization.css}">
-    <title>Shopik - Авторизация</title>
+    <title th:text="#{authorization.title}"></title>
 </head>
 <body>
     <div class="auth-container">
         <div class="auth">
-            <div class="auth-title">Авторизация</div>
+            <div class="auth-title" th:text="#{authorization.title}"></div>
             <form th:action="@{/login}" method="post" class="auth-form">
                 <div class="auth-input-wrapper">
                     <input class="auth-input" type="text" name="username" th:value="${username}" required>
-                    <label class="auth-label">Введите Логин</label>
+                    <label class="auth-label" th:text="#{enter.login}"></label>
                 </div>
                 <div class="auth-input-wrapper">
                     <input class="auth-input" type="password" name="password" required>
-                    <label class="auth-label">Введите Пароль</label>
+                    <label class="auth-label" th:text="#{enter.password}"></label>
                 </div>
-                <a th:href="@{passwordRecovery}" class="auth-link auth-link--password">Забыли пароль?</a>
-                <div th:text="${error}"></div>
-                <button type="submit" class="button auth-button">Войти</button>
-                <a th:href="@{registration}" class="auth-link">Регистрация</a>
+                <a th:href="@{passwordRecovery}" class="auth-link auth-link--password" th:text="#{authorization.password.forgot}"></a>
+                <div class="login-error" th:text="${error}"></div>
+                <button type="submit" class="button auth-button" th:text="#{authorization.button.submit}"></button>
+                <a th:href="@{registration}" class="auth-link" th:text="#{header.usermenu.signin}">Регистрация</a>
             </form>
 
         </div>
