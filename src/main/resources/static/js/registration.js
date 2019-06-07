@@ -111,17 +111,16 @@ $(document).ready(function () {
                     url: "/registration",
                     data: $(this).serialize(),
                     type: "POST",
+                    async: false,
                     success: function (res) {
                         if (res.validated) {
                             $(location).attr('href', '/registration/confirm')
                         } else {
                             $.each(res.errorMessages, function (key, value) {
-                                //$("input[name=" + key + "]").notify(value, "error");
                             });
                         }
                     }
                 });
-                alert("NICE");
             }
         });
     }

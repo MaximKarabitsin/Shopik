@@ -4,8 +4,7 @@
 <head></head>
 
 <body>
-Для подтверждения почты перейдите <a th:href="@{http://localhost:8080/registration/confirm/{tkn}(tkn=${token})}">по ссылке</a>.
-
+Для подтверждения почты перейдите <a th:href="@{http://localhost:8080/registration/confirm/__${token}__}">по ссылке</a>.
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -72,11 +73,11 @@
                 <div class="catalog-list-categories">
                     <input id="checkboxBtn" class="checkboxBtn" type="checkbox">
                     <label for="checkboxBtn" class="labelBtn"></label>
-                    <a class="button catalog__btn">
+                    <a class="button catalog__btn" th:text="#{catalog.button.catalog}">
                         <svg class="catalog-icon button-icon">
                             <use th:href="@{/img/icons/icons.svg#arrow-down}"></use>
                         </svg>
-                        Каталог</a>
+                        </a>
 
                     <ul th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" class="list-categories">
 

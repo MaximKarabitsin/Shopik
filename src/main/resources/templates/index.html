@@ -18,7 +18,7 @@
     <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
     <link rel="stylesheet" th:href="@{/css/slick.css}"/>
     <link rel="stylesheet" th:href="@{/css/slider.css}"/>
-    <title>Shopik - !!!!!!!!!!!!!!!!!!!!!!!!</title>
+    <title th:text="#{index.title}"></title>
 </head>
 <body>
     <header>
@@ -26,27 +26,27 @@
         <div class="top">
             <div class="container top-wrapper">
                 <div sec:authorize="isAnonymous()" class="top-text">
-                    <span>Добро пожаловать, посетитель, вы можете </span>
-                    <a class="top-text__link" th:href="@{/login}">войти</a>
-                    <span> или </span>
-                    <a class="top-text__link" th:href="@{/registration}">создать аккаунт</a>.
+                    <span th:text="#{header.greeting}"></span>
+                    <a class="top-text__link" th:href="@{/login}" th:text="#{header.greeting.login}"></a>
+                    <span th:text="#{header.greeting.or}"></span>
+                    <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.signin}"></a>.
+                </div>
+                <div sec:authorize="isAuthenticated()" class="top-text">
+                    <span th:text="#{header.greeting.userlogin}"></span>
+                    <span sec:authentication=""></span>
+                    <span th:text="#{header.greeting.balance}"></span>
+                    <span>100&#x20bd;</span>
+                    <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.replenish}"></a>.
                 </div>
 
-                <div sec:authorize="isAuthenticated()" class="top-text">
-                    <span>Логин: </span>
-                    <span></span>
-                    <span>. Баланс: </span>
-                    <span>100руб.</span>    <!-- EDIT-->
-                    <a class="top-text__link" th:href="@{/registration}"> Пополнить</a>.                              <!-- EDIT-->
-                </div>
                 <div th:switch="__${#locale}__">
                     <div th:case="en" class="top-lang">
-                        <a class="top-lang__item lang-switch" name="ru">РУ</a>
-                        <a class="top-lang__item active lang-switch" name="en">EN</a>
+                        <a class="top-lang__item lang-switch" name="ru" th:text="#{header.lang.ru}"></a>
+                        <a class="top-lang__item active lang-switch" name="en" th:text="#{header.lang.en}"></a>
                     </div>
                     <div th:case="*" class="top-lang">
-                        <a class="top-lang__item active lang-switch" name="ru">РУ</a>
-                        <a class="top-lang__item lang-switch" name="en">EN</a>
+                        <a class="top-lang__item active lang-switch" name="ru" th:text="#{header.lang.ru}"></a>
+                        <a class="top-lang__item lang-switch" name="en" th:text="#{header.lang.en}"></a>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 </a>
                 <div class="header-search">                                                                     <!-- EDIT -->
                     <form action="">
-                        <input class="header-search__field" type="text" placeholder="Поиск по каталогу...">
+                        <input class="header-search__field" type="text" th:attr="placeholder=#{header.catalog.search}">
                         <button class="header-search__btn" type="submit">
                             <svg class="header-search__icon">
                                 <use th:href="@{/img/icons/icons.svg#search}"></use>
@@ -71,17 +71,16 @@
                 <!-- /.header-search -->
 
                 <nav sec:authorize="isAuthenticated()" class="user-menu">
-                    <a class="user-menu__item" th:href="@{/profile}">Профиль</a>
-                    <a class="user-menu__item" th:href="@{/wishlist}">Список желаемого</a>
-                    <a sec:authorize="hasRole('ADMIN')" class="user-menu__item" th:href="@{/adminpanel}">Админ-панель</a>
-                    <a class="user-menu__item" th:href="@{/logout}">Выход</a>
+                    <a class="user-menu__item" th:href="@{/profile}" th:text="#{header.usermenu.profile}"></a>
+                    <a class="user-menu__item" th:href="@{/wishlist}" th:text="#{header.usermenu.wishlist}"></a>
+                    <a sec:authorize="hasRole('ADMIN')" class="user-menu__item" th:href="@{/adminpanel}" th:text="#{header.usermenu.adminpanel}"></a>
+                    <a class="user-menu__item" th:href="@{/logout}" th:text="#{header.usermenu.logout}"></a>
                     <a class="user-menu__cart" th:href="@{/cart}">
-                        <img class="cart-icon" th:src="@{/img/icons/shopping-cart.svg}" alt="">
-                        Корзина</a>
+                        <img class="cart-icon" th:src="@{/img/icons/shopping-cart.svg}" alt="" th:text="#{header.usermenu.basket}"></a>
                 </nav>
                 <nav sec:authorize="isAnonymous()" class="user-menu">
-                    <a class="user-menu__item" th:href="@{/login}">Войти</a>
-                    <a class="user-menu__item" th:href="@{/registration}">Зарегестрироваться</a>
+                    <a class="user-menu__item" th:href="@{/login}" th:text="#{header.usermenu.login}"></a>
+                    <a class="user-menu__item" th:href="@{/registration}" th:text="#{header.usermenu.signin}"></a>
                 </nav>
                 <!-- /.user-menu -->
 
@@ -99,11 +98,11 @@
         <div class="navigation">
             <div class="container">
                 <nav class="nav-menu">
-                    <a class="nav-menu__item nav-menu__item--active" th:href="@{/}">Главная</a>
-                    <a class="nav-menu__item" th:href="@{/catalog}">Каталог</a>
-                    <a class="nav-menu__item" th:href="@{#new}">Новинки</a>
-                    <a class="nav-menu__item" th:href="@{#sales}">Скидки</a>
-                    <a class="nav-menu__item" th:href="@{#news}">Новости</a>
+                    <a class="nav-menu__item nav-menu__item--active" th:href="@{/}" th:text="#{header.navbar.home}"></a>
+                    <a class="nav-menu__item" th:href="@{/catalog}" th:text="#{header.navbar.catalog}"></a>
+                    <a class="nav-menu__item" th:href="@{#new}" th:text="#{header.navbar.new}"></a>
+                    <a class="nav-menu__item" th:href="@{#sales}" th:text="#{header.navbar.sales}"></a>
+                    <a class="nav-menu__item" th:href="@{#news}" th:text="#{header.navbar.news}"></a>
                 </nav>
             </div>
         </div>
@@ -675,41 +674,41 @@
         <div class="container">
             <div class="footer-blocks">
                 <div class="footer-block">
-                    <div class="footer-block__title">Контакты</div>
+                    <div class="footer-block__title" th:text="#{footer.contacts}"></div>
                     <a class="footer-block__item" th:href="@{#}"><img class="footer-icon" th:src="@{/img/icons/geolocation.svg}"
-                                                               alt="Адресс:">г. Саратов</a>
+                                                               alt="Адресс:" th:text="#{footer.contacts.address}"></a>
                     <a class="footer-block__item" th:href="@{#}"><img class="footer-icon" th:src="@{/img/icons/phone.svg}"
-                                                               alt="Тел.:">+7 (999) 123 4567</a>
-                    <a class="footer-block__item" th:href="@{mailto:mail@shopik.com}"><img class="footer-icon"
+                                                               alt="Тел.:" th:text="#{footer.contacts.telephone}"></a>
+                    <a class="footer-block__item" th:href="@{'mailto:mail@shopik.com'}"><img class="footer-icon"
                                                                                      th:src="@{/img/icons/email.svg}"
-                                                                                     alt="email:">mail@shopik.com</a>
+                                                                                     alt="email:" th:text="#{footer.contacts.email}"></a>
                 </div>
                 <!-- /.footer-block -->
                 <div class="footer-block">
-                    <div class="footer-block__title">Shopik</div>
-                    <a class="footer-block__item" th:href="@{/catalog}">Главная</a>
-                    <a class="footer-block__item" th:href="@{#new}">Новинки</a>
-                    <a class="footer-block__item" th:href="@{#sales}">Скидки</a>
-                    <a class="footer-block__item" th:href="@{#news}">Новости</a>
+                    <div class="footer-block__title" th:text="#{index.title}"></div>
+                    <a class="footer-block__item" th:href="@{/catalog}" th:text="#{header.navbar.home}"></a>
+                    <a class="footer-block__item" th:href="@{#new}" th:text="#{header.navbar.new}"></a>
+                    <a class="footer-block__item" th:href="@{#sales}" th:text="#{header.navbar.sales}"></a>
+                    <a class="footer-block__item" th:href="@{#news}" th:text="#{header.navbar.news}"></a>
                 </div>
                 <!-- /.footer-block -->
                 <div class="footer-block">
-                    <div class="footer-block__title">Язык</div>
-                    <a class="footer-block__item lang-switch" name="ru">Русский</a>
-                    <a class="footer-block__item lang-switch" name="en">English</a>
+                    <div class="footer-block__title" th:text="#{footer.lang}"></div>
+                    <a class="footer-block__item lang-switch" name="ru" th:text="#{header.lang.ru}"></a>
+                    <a class="footer-block__item lang-switch" name="en" th:text="#{header.lang.en}"></a>
                 </div>
                 <!-- /.footer-block -->
                 <div sec:authorize="isAuthenticated()" class="footer-block">
-                    <div class="footer-block__title">Профиль</div>
-                    <a class="footer-block__item" href="">Профиль</a>
-                    <a class="footer-block__item" href="">Список желаемого</a>
-                    <a sec:authorize="hasRole('ADMIN')" class="footer-block__item" href="">Админ-панель</a>
-                    <a class="footer-block__item" href="">Выход</a>
+                    <div class="footer-block__title" th:text="#{header.usermenu.profile}"></div>
+                    <a class="footer-block__item" href="" th:text="#{header.usermenu.profile}"></a>
+                    <a class="footer-block__item" href="" th:text="#{header.usermenu.wishlist}"></a>
+                    <a sec:authorize="hasRole('ADMIN')" class="footer-block__item" href="" th:text="#{header.usermenu.adminpanel}"></a>
+                    <a class="footer-block__item" href="" th:text="#{header.usermenu.logout}"></a>
                 </div>
                 <div sec:authorize="isAnonymous()" class="footer-block">
-                    <div class="footer-block__title">Профиль</div>
-                    <a class="footer-block__item" th:href="@{/login}">Войти</a>
-                    <a class="footer-block__item" th:href="@{/registration}">Зарегестрироваться</a>
+                    <div class="footer-block__title" th:text="#{header.usermenu.profile}"></div>
+                    <a class="footer-block__item" th:href="@{/login}" th:text="#{header.usermenu.login}"></a>
+                    <a class="footer-block__item" th:href="@{/registration}" th:text="#{header.usermenu.signin}"></a>
                 </div>
                 <!-- /.footer-block -->
             </div>

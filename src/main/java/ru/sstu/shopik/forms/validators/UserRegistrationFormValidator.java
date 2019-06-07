@@ -23,10 +23,10 @@ public class UserRegistrationFormValidator implements Validator {
 		
 		UserRegistrationForm form = (UserRegistrationForm)target;
 		if(userService.isUserWithLoginExist(form.getLogin())) {
-			errors.rejectValue("login", "form.user.login.exist", "User with login already exists");
+			errors.rejectValue("login", "enter.login.exist", "User with login already exists");
 		}
 		if(userService.isUserWithEmailExist(form.getEmail())) {
-			errors.rejectValue("email", "form.user.email.exist", "User with email already exists");
+			errors.rejectValue("email", "enter.email.exist", "User with email already exists");
 		}
 
 	}

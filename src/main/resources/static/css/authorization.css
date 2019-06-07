@@ -176,3 +176,11 @@
 .auth-input:focus ~ .message--help {
     transform: scale(1);
 }
+
+.login-error {
+    margin-top: 15px;
+    padding: 0 25px;
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}

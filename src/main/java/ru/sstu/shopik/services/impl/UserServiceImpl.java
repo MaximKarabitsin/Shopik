@@ -9,6 +9,7 @@ import ru.sstu.shopik.dao.RoleRepository;
 import ru.sstu.shopik.dao.UserRepository;
 import ru.sstu.shopik.domain.entities.Role;
 import ru.sstu.shopik.domain.entities.User;
+import ru.sstu.shopik.forms.PasswordRecoveryForm;
 import ru.sstu.shopik.forms.UserRegistrationForm;
 import ru.sstu.shopik.services.MailService;
 import ru.sstu.shopik.services.UserService;
@@ -41,6 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isUserWithEmailExistAndEnabled(String email) {
+        return userRepository.countByEnabledAndEmail(true, email) != 0 ? true : false;
+    }
+
+    @Override
     public void createUserFromRegistrationForm(UserRegistrationForm userForm) {
         User user = new User();
         BeanUtils.copyProperties(userForm, user);
@@ -70,5 +76,10 @@ public class UserServiceImpl implements UserService {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void recoverPassword(PasswordRecoveryForm passwordRecoveryForm) {
+
     }
 }

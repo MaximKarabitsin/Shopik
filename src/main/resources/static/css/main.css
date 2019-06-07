@@ -36,3 +36,8 @@ body {
 .button:hover > .button-icon {
     fill: #444;
 }
+
+.tex-message {
+    margin-top: 30px;
+    color: #444;
+}

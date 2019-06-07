@@ -8,12 +8,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{css/main.css}">
-    <link rel="stylesheet" th:href="@{css/main_media.css}">
-    <link rel="stylesheet" th:href="@{css/header-footer.css}">
-    <link rel="stylesheet" th:href="@{css/header-footer_media.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main_media.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer_media.css}">
 
-    <title>Shopik - Главная</title>
+    <title th:text="${title}"></title>
 </head>
 <body>
     <div sec:authorize="hasRole('USER')">Text visible to user.</div>
@@ -74,7 +74,9 @@
         </div>
     </header>
 
-    <main>Email подтвержден</main>
+    <main class="container">
+        <div class="test-message" th:text="${message}"></div>
+    </main>
 
     <footer class="footer">
         <div class="container">

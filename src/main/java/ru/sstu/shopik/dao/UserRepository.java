@@ -10,5 +10,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByToken(String token);
     int countByLogin(String login);
     int countByEmail(String email);
-
+    int countByEnabledAndEmail(Boolean enabled, String email);
 }

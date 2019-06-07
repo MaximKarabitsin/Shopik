@@ -1,6 +1,7 @@
 package ru.sstu.shopik.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import ru.sstu.shopik.forms.validators.UserRegistrationFormValidator;
 import ru.sstu.shopik.services.impl.UserServiceImpl;
 
 import javax.validation.Valid;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,7 +26,10 @@ public class RegistrationController {
     UserServiceImpl userService;
 
     @Autowired
-    private UserRegistrationFormValidator userValidator;
+    UserRegistrationFormValidator userValidator;
+
+    @Autowired
+    MessageSource messageSource;
 
     @InitBinder("userRegistrationForm")
     private void initBinder(WebDataBinder binder) {
@@ -72,16 +77,20 @@ public class RegistrationController {
     }
 
     @GetMapping("/registration/confirm/{token}")
-    public String confirmEmailWithToken(@PathVariable String token) {
-        if (userService.confirmEmail(token)){
-            return "authorization/complete";
+    public String confirmEmailWithToken(@PathVariable String token, Model model, Locale locale) {
+        if (userService.confirmEmail(token)) {
+            model.addAttribute("title", messageSource.getMessage("registration.email.title", null, locale));
+            model.addAttribute("message", messageSource.getMessage("registration.email.confirmed", null, locale));
+            return "authorization/message";
         }
         return "authorization/registration";
     }
 
 
     @GetMapping("/registration/confirm")
-    public String confirmEmail(Model model) {
-        return "authorization/confirm";
+    public String confirmEmail(Model model, Locale locale) {
+        model.addAttribute("title", messageSource.getMessage("registration.email.title", null, locale));
+        model.addAttribute("message", messageSource.getMessage("registration.email.confirm", null, locale));
+        return "authorization/message";
     }
 }
