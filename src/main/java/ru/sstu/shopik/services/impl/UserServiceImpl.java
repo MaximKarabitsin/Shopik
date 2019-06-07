@@ -1,4 +1,4 @@
-package ru.sstu.shopik.services;
+package ru.sstu.shopik.services.impl;
 
 
 import org.springframework.beans.BeanUtils;
@@ -10,6 +10,8 @@ import ru.sstu.shopik.dao.UserRepository;
 import ru.sstu.shopik.domain.entities.Role;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.forms.UserRegistrationForm;
+import ru.sstu.shopik.services.MailService;
+import ru.sstu.shopik.services.UserService;
 
 import java.util.*;
 

@@ -58,4 +58,8 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return this.user.getEnabled();
     }
+
+    public Integer getBalance() {
+        return  this.user.getBalance();
+    }
 }

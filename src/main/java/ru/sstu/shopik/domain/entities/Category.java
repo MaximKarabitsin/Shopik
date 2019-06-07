@@ -2,6 +2,7 @@ package ru.sstu.shopik.domain.entities;
 
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -11,11 +12,20 @@ public class Category {
     @Column(name = "categoryId")
     private int categoryId;
 
-    @Column(name = "category")
-    private String category;
+    @Column(name = "categoryRu", length = 50, nullable = false)
+    private String ruCategory;
 
-    @Column(name = "motherId")
-    private int motherId;
+    @Column(name = "categoryEn", length = 50, nullable = false)
+    private String enCategory;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "motherCategory")
+    private Set<Category> subCategories;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "motherId", nullable = false)
+    private Category motherCategory;
 
     public Category(){}
 
@@ -27,19 +37,35 @@ public class Category {
         this.categoryId = categoryId;
     }
 
-    public String getCategory() {
-        return category;
+    public String getRuCategory() {
+        return ruCategory;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setRuCategory(String ruCategory) {
+        this.ruCategory = ruCategory;
     }
 
-    public int getMotherId() {
-        return motherId;
+    public String getEnCategory() {
+        return enCategory;
     }
 
-    public void setMotherId(int motherId) {
-        this.motherId = motherId;
+    public void setEnCategory(String enCategory) {
+        this.enCategory = enCategory;
+    }
+
+    public Set<Category> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(Set<Category> subCategories) {
+        this.subCategories = subCategories;
+    }
+
+    public Category getMotherCategory() {
+        return motherCategory;
+    }
+
+    public void setMotherCategory(Category motherCategory) {
+        this.motherCategory = motherCategory;
     }
 }

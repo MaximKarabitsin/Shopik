@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.forms.UserRegistrationForm;
 import ru.sstu.shopik.forms.responses.JsonResponse;
 import ru.sstu.shopik.forms.validators.UserRegistrationFormValidator;
-import ru.sstu.shopik.services.UserServiceImpl;
+import ru.sstu.shopik.services.impl.UserServiceImpl;
 
 import javax.validation.Valid;
 import java.util.Map;

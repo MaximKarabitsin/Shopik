@@ -16,8 +16,9 @@ public class Product {
     @Column(name = "productName", nullable = false, length = 50)
     private String productName;
 
-    @Column(name = "seller_id")
-    private Long sellerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sellerId", nullable = false)
+    private User seller;
 
     @Column(name = "cost")
     private int cost;
@@ -37,10 +38,9 @@ public class Product {
     @Column(name = "date")
     private Date date;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "productId"),
-            inverseJoinColumns = @JoinColumn(name = "categoryId"))
-    private Set<Category> categories;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoryId", nullable = false)
+    private Category category;
 
 
     public Product() {}
@@ -61,12 +61,12 @@ public class Product {
         this.productName = productName;
     }
 
-    public Long getSellerId() {
-        return sellerId;
+    public User getSeller() {
+        return seller;
     }
 
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 
     public int getCost() {
@@ -117,11 +117,11 @@ public class Product {
         this.date = date;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

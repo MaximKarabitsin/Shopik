@@ -31,6 +31,14 @@
                     <span> или </span>
                     <a class="top-text__link" th:href="@{/registration}">создать аккаунт</a>.
                 </div>
+
+                <div sec:authorize="isAuthenticated()" class="top-text">
+                    <span>Логин: </span>
+                    <span></span>
+                    <span>. Баланс: </span>
+                    <span>100руб.</span>    <!-- EDIT-->
+                    <a class="top-text__link" th:href="@{/registration}"> Пополнить</a>.                              <!-- EDIT-->
+                </div>
                 <div th:switch="__${#locale}__">
                     <div th:case="en" class="top-lang">
                         <a class="top-lang__item lang-switch" name="ru">РУ</a>

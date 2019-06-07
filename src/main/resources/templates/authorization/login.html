@@ -25,7 +25,7 @@
                     <label class="auth-label">Введите Пароль</label>
                 </div>
                 <a th:href="@{passwordRecovery}" class="auth-link auth-link--password">Забыли пароль?</a>
-                <div th:text="${error}"></div>
+                <div class="login-error" th:text="${error}"></div>
                 <button type="submit" class="button auth-button">Войти</button>
                 <a th:href="@{registration}" class="auth-link">Регистрация</a>
             </form>
