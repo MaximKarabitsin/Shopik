@@ -61,9 +61,7 @@ public class LoginController {
             model.addAttribute("passwordRecoveryForm", passwordRecoveryForm);
             return "authorization/passwordRecovery";
         }
-
-
-        //userService
+        userService.recoverPassword(passwordRecoveryForm, locale);
         model.addAttribute("title", messageSource.getMessage("passwordRecovery.title", null, locale));
         model.addAttribute("message", messageSource.getMessage("passwordRecovery.email.send", null, locale));
         return "authorization/message";

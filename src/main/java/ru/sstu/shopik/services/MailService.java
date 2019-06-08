@@ -20,7 +20,7 @@ import ru.sstu.shopik.domain.entities.User;
 @Service
 public class MailService {
 
-	private static String MAIL_FROM_DEFAULT = "no-reply@projm.com";
+	private static String MAIL_NO_REPLY = "no-reply@shopik.com";
 	
 	@Autowired
 	private TemplateEngine templateEngine;
@@ -31,14 +31,10 @@ public class MailService {
     @Autowired
     private MessageSource messageSource;
 
-    //@Autowired
-    //public MailService(JavaMailSender mailSender) {
-    //	this.mailSender = mailSender;
-    //}
-    
-    public String build(String template, Map<String, Object> variables) {
+    public String build(String template, Map<String, Object> variables, Locale locale) {
         Context context = new Context();
         context.setVariables(variables);
+        context.setLocale(locale);
         
         return templateEngine.process(template, context);
     }
@@ -59,29 +55,21 @@ public class MailService {
         }
     }
 
-    public void sendConfirmEmail(User user){
+    public void sendConfirmEmail(User user, Locale locale){
         Map<String, Object> replaces = new HashMap<>();
         replaces.put("token", user.getToken());
-        String content = this.build("mail/confirmEmail", replaces);
-        //String subject = messageSource.getMessage("mail.test.subject", null, Locale.ENGLISH);
-        String str =  messageSource.getMessage("registration.title", null, new Locale("ru"));
-
-        sendMail(MAIL_FROM_DEFAULT, user.getEmail(), "subject", content);
-
-
+        String content = this.build("mail/confirmEmail", replaces, locale);
+        String subject = messageSource.getMessage("mail.confirm.subject", null, locale);
+        sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
     }
 
-    public void sendTestEmail() {
+    public void sendPasswordRecovery(User user, String newPassword, Locale locale){
         Map<String, Object> replaces = new HashMap<>();
-        
-
-        	replaces.put("fullName", "LOGIN");
-
-        String content = this.build("mail/test-email", replaces);
-        //String subject = messageSource.getMessage("mail.test.subject", null, Locale.ENGLISH);
-
-        sendMail(MAIL_FROM_DEFAULT, "user@mail.ru", "subject", content);
+        replaces.put("newPassword", newPassword);
+        replaces.put("login", user.getLogin());
+        String content = this.build("mail/passwordRecovery", replaces, locale);
+        String subject = messageSource.getMessage("mail.passwordRecovery.subject", null, locale);
+        sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
     }
-
     
 }

@@ -44,7 +44,7 @@ public class RegistrationController {
 
     @PostMapping(value = "/registration", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public JsonResponse newUser(@ModelAttribute @Valid UserRegistrationForm userRegistrationForm, BindingResult result) {
+    public JsonResponse newUser(Locale locale, @ModelAttribute @Valid UserRegistrationForm userRegistrationForm, BindingResult result) {
 
         JsonResponse jsonResponse = new JsonResponse();
         if (result.hasErrors()) {
@@ -55,7 +55,7 @@ public class RegistrationController {
             jsonResponse.setValidated(false);
             jsonResponse.setErrorMessages(errors);
         } else {
-            userService.createUserFromRegistrationForm(userRegistrationForm);
+            userService.createUserFromRegistrationForm(userRegistrationForm, locale);
             jsonResponse.setValidated(true);
         }
 

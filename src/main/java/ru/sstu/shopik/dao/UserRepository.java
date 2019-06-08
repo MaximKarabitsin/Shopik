@@ -7,8 +7,10 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByLogin(String login);
+    Optional<User> findByEmail(String email);
     Optional<User> findByToken(String token);
     int countByLogin(String login);
     int countByEmail(String email);
+    int countByToken(String token);
     int countByEnabledAndEmail(Boolean enabled, String email);
 }

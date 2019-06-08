@@ -13,6 +13,7 @@ import ru.sstu.shopik.forms.PasswordRecoveryForm;
 import ru.sstu.shopik.forms.UserRegistrationForm;
 import ru.sstu.shopik.services.MailService;
 import ru.sstu.shopik.services.UserService;
+import ru.sstu.shopik.utils.RandomStringUtil;
 
 import java.util.*;
 
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUserFromRegistrationForm(UserRegistrationForm userForm) {
+    public void createUserFromRegistrationForm(UserRegistrationForm userForm, Locale locale) {
         User user = new User();
         BeanUtils.copyProperties(userForm, user);
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
@@ -59,11 +60,14 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         user.setBalance(0);
         user.setDate(new Date());
-        String token = UUID.randomUUID().toString();
+        String token;
+        do {
+            token = UUID.randomUUID().toString();
+        } while (userRepository.countByToken(token) != 0);
         user.setToken(token);
         user.setEnabled(false);
         userRepository.save(user);
-        mailService.sendConfirmEmail(user);
+        mailService.sendConfirmEmail(user, locale);
     }
 
     @Override
@@ -71,15 +75,20 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByToken(token);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-                user.setEnabled(true);
-                userRepository.save(user);
-                return true;
+            user.setEnabled(true);
+            userRepository.save(user);
+            return true;
         }
         return false;
     }
 
     @Override
-    public void recoverPassword(PasswordRecoveryForm passwordRecoveryForm) {
-
+    public void recoverPassword(PasswordRecoveryForm passwordRecoveryForm, Locale locale) {
+        Optional<User> optionalUser = userRepository.findByEmail(passwordRecoveryForm.getEmail());
+        User user = optionalUser.get();
+        String newPassword = RandomStringUtil.generateString(10);
+        user.setPassword(this.passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        mailService.sendPasswordRecovery(user, newPassword, locale);
     }
 }
