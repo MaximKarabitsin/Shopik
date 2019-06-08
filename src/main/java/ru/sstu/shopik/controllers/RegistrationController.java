@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/registration")
 public class RegistrationController {
 
     @Autowired
@@ -36,13 +37,13 @@ public class RegistrationController {
         binder.addValidators(userValidator);
     }
 
-    @GetMapping("/registration")
+    @GetMapping
     public String registration(Model model) {
         return "authorization/registration";
     }
 
 
-    @PostMapping(value = "/registration", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public JsonResponse newUser(Locale locale, @ModelAttribute @Valid UserRegistrationForm userRegistrationForm, BindingResult result) {
 
@@ -62,7 +63,7 @@ public class RegistrationController {
         return jsonResponse;
     }
 
-    @PostMapping(value = "/registration/check/{fieldType}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/check/{fieldType}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public Boolean checkUnique(@PathVariable String fieldType, String fieldText) {
         switch (fieldType) {
@@ -76,7 +77,7 @@ public class RegistrationController {
 
     }
 
-    @GetMapping("/registration/confirm/{token}")
+    @GetMapping("/confirm/{token}")
     public String confirmEmailWithToken(@PathVariable String token, Model model, Locale locale) {
         if (userService.confirmEmail(token)) {
             model.addAttribute("title", messageSource.getMessage("registration.email.title", null, locale));
@@ -87,7 +88,7 @@ public class RegistrationController {
     }
 
 
-    @GetMapping("/registration/confirm")
+    @GetMapping("/confirm")
     public String confirmEmail(Model model, Locale locale) {
         model.addAttribute("title", messageSource.getMessage("registration.email.title", null, locale));
         model.addAttribute("message", messageSource.getMessage("registration.email.confirm", null, locale));

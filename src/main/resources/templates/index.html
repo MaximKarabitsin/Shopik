@@ -32,11 +32,9 @@
                     <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.signin}"></a>.
                 </div>
                 <div sec:authorize="isAuthenticated()" class="top-text">
-                    <span th:text="#{header.greeting.userlogin}"></span>
-                    <span sec:authentication=""></span>
-                    <span th:text="#{header.greeting.balance}"></span>
-                    <span>100&#x20bd;</span>
-                    <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.replenish}"></a>.
+
+                    <span th:text="|#{header.greeting.userlogin}${user.login}#{header.greeting.balance}${user.balance}&#x20bd;.|"></span>
+                    <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.replenish}"></a>
                 </div>
 
                 <div th:switch="__${#locale}__">
@@ -98,11 +96,11 @@
         <div class="navigation">
             <div class="container">
                 <nav class="nav-menu">
-                    <a class="nav-menu__item nav-menu__item--active" th:href="@{/}" th:text="#{header.navbar.home}"></a>
-                    <a class="nav-menu__item" th:href="@{/catalog}" th:text="#{header.navbar.catalog}"></a>
-                    <a class="nav-menu__item" th:href="@{#new}" th:text="#{header.navbar.new}"></a>
-                    <a class="nav-menu__item" th:href="@{#sales}" th:text="#{header.navbar.sales}"></a>
-                    <a class="nav-menu__item" th:href="@{#news}" th:text="#{header.navbar.news}"></a>
+                    <a class="nav-menu__item" th:classappend="${currentPage == 'home'}? 'nav-menu__item--active' : _" th:href="@{/}" th:text="#{header.navbar.home}"></a>
+                    <a class="nav-menu__item" th:classappend="${currentPage == 'catalog'}? 'nav-menu__item--active' : _" th:href="@{/catalog}" th:text="#{header.navbar.catalog}"></a>
+                    <a class="nav-menu__item" th:href="@{/#new}" th:text="#{header.navbar.new}"></a>
+                    <a class="nav-menu__item" th:href="@{/#sales}" th:text="#{header.navbar.sales}"></a>
+                    <a class="nav-menu__item" th:href="@{/#news}" th:text="#{header.navbar.news}"></a>
                 </nav>
             </div>
         </div>

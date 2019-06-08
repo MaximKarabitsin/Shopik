@@ -56,10 +56,11 @@
         <div class="navigation">
             <div class="container">
                 <nav class="nav-menu">
-                    <a class="nav-menu__item" href="#">Главная</a>
-                    <a class="nav-menu__item nav-menu__item--active" href="#">Каталог</a>
-                    <a class="nav-menu__item" href="#">Новости</a>
-                    <a class="nav-menu__item" href="#">Скидки</a>
+                    <a class="nav-menu__item" th:classappend="${currentPage == 'home'}? 'nav-menu__item--active' : _" th:href="@{/}" th:text="#{header.navbar.home}"></a>
+                    <a class="nav-menu__item" th:classappend="${currentPage == 'catalog'}? 'nav-menu__item--active' : _" th:href="@{/catalog}" th:text="#{header.navbar.catalog}"></a>
+                    <a class="nav-menu__item" th:href="@{/#new}" th:text="#{header.navbar.new}"></a>
+                    <a class="nav-menu__item" th:href="@{/#sales}" th:text="#{header.navbar.sales}"></a>
+                    <a class="nav-menu__item" th:href="@{/#news}" th:text="#{header.navbar.news}"></a>
                 </nav>
             </div>
         </div>
@@ -73,10 +74,11 @@
                 <div class="catalog-list-categories">
                     <input id="checkboxBtn" class="checkboxBtn" type="checkbox">
                     <label for="checkboxBtn" class="labelBtn"></label>
-                    <a class="button catalog__btn" th:text="#{catalog.button.catalog}">
+                    <a class="button catalog__btn">
                         <svg class="catalog-icon button-icon">
                             <use th:href="@{/img/icons/icons.svg#arrow-down}"></use>
                         </svg>
+                        <th:block  th:text="#{catalog.button.catalog}"></th:block>
                         </a>
 
                     <ul th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" class="list-categories">
@@ -122,12 +124,12 @@
                     </div>
                     <!-- /.current-categories -->
                     <form class="form-search">
-                        <input type="text" class="catalog-search__input" placeholder="Поиск по каталогу...">
+                        <input type="text" class="catalog-search__input" th:attr="placeholder=#{header.catalog.search}">
                         <button class="catalog-search__btn button">
                             <svg class="catalog-search__icon button-icon">
-                                <use xlink:href="../img/icons/icons.svg#search"></use>
+                                <use th:href="@{/img/icons/icons.svg#search}"></use>
                             </svg>
-                            Поиск
+                            <th:block  th:text="#{catalog.button.search}"></th:block>
                         </button>
                     </form>
                     <!-- /.form-search -->

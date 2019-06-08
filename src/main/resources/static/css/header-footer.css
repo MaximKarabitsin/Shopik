@@ -223,7 +223,18 @@ main {
     transition: 0.3s;
 }
 
-.nav-menu__item--active,
+.nav-menu__item--active{
+    display: block;
+    padding: 20px;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #78c4cd;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
 .nav-menu__item:hover {
     color: #ffffff;
     background-color: #78c4cd;
