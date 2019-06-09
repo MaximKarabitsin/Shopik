@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main-layout}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" th:href="@{/css/profile_media.css}">
+    <title>Profile-layout</title>
+</head>
+<body>
+
+
+    <th:block layout:fragment="main">
+        <div class="container">
+            <div class="profile-wrapper">
+                <nav class="profile-menu">
+                    <a class="profile-menu__item" th:classappend="${currentSection == 'profile'}? 'profile-menu__item--active' : _">Профиль</a>
+                    <a class="profile-menu__item" th:classappend="${currentSection == 'orders'}? 'profile-menu__item--active' : _">Заказы</a>
+                    <a th:if="${user.hasRole('SELLER')}" class="profile-menu__item"  th:classappend="${currentSection == 'products'}? 'profile-menu__item--active' : _">Мои товары</a>
+                </nav>
+                <!-- /.profile-menu -->
+
+                <th:block layout:fragment="section"/>
+            </div>
+            <!-- /.profile-wrapper -->
+        </div>
+        <!-- /.container -->
+    </th:block>
+
+
+</body>
+</html>

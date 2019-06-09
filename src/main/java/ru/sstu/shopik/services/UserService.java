@@ -1,6 +1,8 @@
 package ru.sstu.shopik.services;
 
+import org.springframework.security.core.Authentication;
 import ru.sstu.shopik.domain.entities.User;
+import ru.sstu.shopik.forms.FullNameChangeForm;
 import ru.sstu.shopik.forms.PasswordRecoveryForm;
 import ru.sstu.shopik.forms.UserRegistrationForm;
 
@@ -14,5 +16,6 @@ public interface UserService {
     void createUserFromRegistrationForm(UserRegistrationForm userForm, Locale locale);
     boolean confirmEmail(String token);
     void recoverPassword(PasswordRecoveryForm passwordRecoveryForm, Locale locale);
-    User getByLogin(String login);
+    User getById(long id);
+    void changeFullName(Authentication authentication, FullNameChangeForm fullNameChangeForm);
 }

@@ -48,6 +48,10 @@ public class User {
     public User() {
     }
 
+    public Boolean hasRole(String role){
+       return this.roles.stream().anyMatch(r -> r.getRole().equals(role));
+    }
+
     public Long getId() {
         return id;
     }

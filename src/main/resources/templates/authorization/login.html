@@ -17,14 +17,14 @@
             <div class="auth-title" th:text="#{authorization.form.title}"></div>
             <form th:action="@{/login}" method="post" class="auth-form">
                 <div class="auth-input-wrapper">
-                    <input class="auth-input" type="text" name="username" th:value="${username}" required>
+                    <input class="auth-input" type="text" name="username" th:value="${username}" required value="user">
                     <label class="auth-label" th:text="#{enter.login}"></label>
                 </div>
                 <div class="auth-input-wrapper">
-                    <input class="auth-input" type="password" name="password" required>
+                    <input class="auth-input" type="password" name="password" required value="user12345">
                     <label class="auth-label" th:text="#{enter.password}"></label>
                 </div>
-                <a th:href="@{/passwordRecovery}" class="auth-link auth-link--password" th:text="#{authorization.password.forgot}"></a>
+                <a th:href="@{/login/passwordRecovery}" class="auth-link auth-link--password" th:text="#{authorization.password.forgot}"></a>
                 <div class="login-error" th:text="${error}"></div>
                 <button type="submit" class="button auth-button" th:text="#{authorization.button.submit}"></button>
                 <a th:href="@{/registration}" class="auth-link" th:text="#{header.usermenu.signin}">Регистрация</a>

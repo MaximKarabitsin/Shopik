@@ -68,7 +68,7 @@
                 <nav sec:authorize="isAuthenticated()" class="user-menu">
                     <a class="user-menu__item" th:href="@{/profile}" th:text="#{header.usermenu.profile}"></a>
                     <a class="user-menu__item" th:href="@{/wishlist}" th:text="#{header.usermenu.wishlist}"></a>
-                    <a sec:authorize="hasRole('ADMIN')" class="user-menu__item" th:href="@{/adminpanel}"
+                    <a th:if="${user.hasRole('ADMIN')}" class="user-menu__item" th:href="@{/adminpanel}"
                        th:text="#{header.usermenu.adminpanel}"></a>
                     <a class="user-menu__item" th:href="@{/logout}" th:text="#{header.usermenu.logout}"></a>
                     <a class="user-menu__cart" th:href="@{/cart}">
@@ -153,7 +153,7 @@
                         <div class="footer-block__title" th:text="#{header.usermenu.profile}"></div>
                         <a class="footer-block__item" href="" th:text="#{header.usermenu.profile}"></a>
                         <a class="footer-block__item" href="" th:text="#{header.usermenu.wishlist}"></a>
-                        <a sec:authorize="hasRole('ADMIN')" class="footer-block__item" href=""
+                        <a th:if="${user.hasRole('ADMIN')}" class="footer-block__item" href=""
                            th:text="#{header.usermenu.adminpanel}"></a>
                         <a class="footer-block__item" href="" th:text="#{header.usermenu.logout}"></a>
                     </th:block>
