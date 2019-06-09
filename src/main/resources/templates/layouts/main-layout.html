@@ -1,0 +1,183 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main_media.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer_media.css}">
+    <title>Main-layout</title>
+</head>
+
+<body>
+
+    <header>
+        <div class="top">
+            <div class="container top-wrapper">
+                <div sec:authorize="isAnonymous()" class="top-text">
+                    <span th:text="#{header.greeting}"></span>
+                    <a class="top-text__link" th:href="@{/login}" th:text="#{header.greeting.login}"></a>
+                    <span th:text="#{header.greeting.or}"></span>
+                    <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.signin}"></a>.
+                </div>
+                <div sec:authorize="isAuthenticated()" class="top-text">
+
+                    <span th:text="|#{header.greeting.userlogin}${user.login}#{header.greeting.balance}${user.balance}&#x20bd;|"></span>
+                    <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.replenish}"></a>
+                </div>
+
+                <div th:switch="__${#locale}__">
+                    <div th:case="en" class="top-lang">
+                        <a class="top-lang__item lang-switch" name="ru" th:text="#{header.lang.ru}"></a>
+                        <a class="top-lang__item active lang-switch" name="en" th:text="#{header.lang.en}"></a>
+                    </div>
+                    <div th:case="*" class="top-lang">
+                        <a class="top-lang__item active lang-switch" name="ru" th:text="#{header.lang.ru}"></a>
+                        <a class="top-lang__item lang-switch" name="en" th:text="#{header.lang.en}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.top -->
+
+        <div class="header">
+            <div class="container header-wrapper">
+                <a th:href="@{/}">
+                    <img class="logo" th:src="@{/img/icons/logo.svg}" alt="Shopik">
+                </a>
+                <div class="header-search">
+                    <!-- EDIT -->
+                    <form action="">
+                        <input class="header-search__field" type="text" th:attr="placeholder=#{header.catalog.search}">
+                        <button class="header-search__btn" type="submit">
+                            <svg class="header-search__icon">
+                                <use th:href="@{/img/icons/icons.svg#search}"></use>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <!-- /.header-search -->
+
+                <nav sec:authorize="isAuthenticated()" class="user-menu">
+                    <a class="user-menu__item" th:href="@{/profile}" th:text="#{header.usermenu.profile}"></a>
+                    <a class="user-menu__item" th:href="@{/wishlist}" th:text="#{header.usermenu.wishlist}"></a>
+                    <a sec:authorize="hasRole('ADMIN')" class="user-menu__item" th:href="@{/adminpanel}"
+                       th:text="#{header.usermenu.adminpanel}"></a>
+                    <a class="user-menu__item" th:href="@{/logout}" th:text="#{header.usermenu.logout}"></a>
+                    <a class="user-menu__cart" th:href="@{/cart}">
+                        <img class="cart-icon" th:src="@{/img/icons/shopping-cart.svg}" alt=""
+                             th:text="#{header.usermenu.basket}"></a>
+                </nav>
+                <nav sec:authorize="isAnonymous()" class="user-menu">
+                    <a class="user-menu__item" th:href="@{/login}" th:text="#{header.usermenu.login}"></a>
+                    <a class="user-menu__item" th:href="@{/registration}" th:text="#{header.usermenu.signin}"></a>
+                </nav>
+                <!-- /.user-menu -->
+
+                <div class="user-menu-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <!-- /.header-wrapper -->
+        </div>
+        <!-- /.header -->
+
+        <div class="navigation">
+            <div class="container">
+                <nav class="nav-menu">
+                    <a class="nav-menu__item" th:classappend="${currentPage == 'home'}? 'nav-menu__item--active' : _"
+                       th:href="@{/}" th:text="#{header.navbar.home}"></a>
+                    <a class="nav-menu__item" th:classappend="${currentPage == 'catalog'}? 'nav-menu__item--active' : _"
+                       th:href="@{/catalog}" th:text="#{header.navbar.catalog}"></a>
+                    <a class="nav-menu__item" th:href="@{/#new}" th:text="#{header.navbar.new}"></a>
+                    <a class="nav-menu__item" th:href="@{/#sales}" th:text="#{header.navbar.sales}"></a>
+                    <a class="nav-menu__item" th:href="@{/#news}" th:text="#{header.navbar.news}"></a>
+                </nav>
+            </div>
+        </div>
+        <!-- /.navigation -->
+    </header>
+
+    <main class="main">
+        <th:block layout:fragment="main"/>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-blocks">
+                <div class="footer-block">
+                    <div class="footer-block__title" th:text="#{footer.contacts}"></div>
+                    <a class="footer-block__item" th:href="@{#}"><img class="footer-icon"
+                                                                      th:src="@{/img/icons/geolocation.svg}"
+                                                                      alt="Адресс:"
+                                                                      th:text="#{footer.contacts.address}"></a>
+                    <a class="footer-block__item" th:href="@{#}"><img class="footer-icon"
+                                                                      th:src="@{/img/icons/phone.svg}"
+                                                                      alt="Тел.:"
+                                                                      th:text="#{footer.contacts.telephone}"></a>
+                    <a class="footer-block__item" th:href="@{'mailto:mail@shopik.com'}"><img class="footer-icon"
+                                                                                             th:src="@{/img/icons/email.svg}"
+                                                                                             alt="email:"
+                                                                                             th:text="#{footer.contacts.email}"></a>
+                </div>
+                <!-- /.footer-block -->
+
+                <div class="footer-block">
+                    <div class="footer-block__title" th:text="#{index.title}"></div>
+                    <a class="footer-block__item" th:href="@{/catalog}" th:text="#{header.navbar.home}"></a>
+                    <a class="footer-block__item" th:href="@{#new}" th:text="#{header.navbar.new}"></a>
+                    <a class="footer-block__item" th:href="@{#sales}" th:text="#{header.navbar.sales}"></a>
+                    <a class="footer-block__item" th:href="@{#news}" th:text="#{header.navbar.news}"></a>
+                </div>
+                <!-- /.footer-block -->
+
+                <div class="footer-block">
+                    <div class="footer-block__title" th:text="#{footer.lang}"></div>
+                    <a class="footer-block__item lang-switch" name="ru" th:text="#{header.lang.ru}"></a>
+                    <a class="footer-block__item lang-switch" name="en" th:text="#{header.lang.en}"></a>
+                </div>
+                <!-- /.footer-block -->
+
+                <div class="footer-block">
+                    <th:block sec:authorize="isAuthenticated()">
+                        <div class="footer-block__title" th:text="#{header.usermenu.profile}"></div>
+                        <a class="footer-block__item" href="" th:text="#{header.usermenu.profile}"></a>
+                        <a class="footer-block__item" href="" th:text="#{header.usermenu.wishlist}"></a>
+                        <a sec:authorize="hasRole('ADMIN')" class="footer-block__item" href=""
+                           th:text="#{header.usermenu.adminpanel}"></a>
+                        <a class="footer-block__item" href="" th:text="#{header.usermenu.logout}"></a>
+                    </th:block>
+
+                    <th:block sec:authorize="isAnonymous()">
+                        <div class="footer-block__title" th:text="#{header.usermenu.profile}"></div>
+                        <a class="footer-block__item" th:href="@{/login}" th:text="#{header.usermenu.login}"></a>
+                        <a class="footer-block__item" th:href="@{/registration}"
+                           th:text="#{header.usermenu.signin}"></a>
+                    </th:block>
+                </div>
+                <!-- /.footer-block -->
+            </div>
+            <!-- /.footer-blocks -->
+        </div>
+        <!-- /.container -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script th:src="@{/js/jquery.cookie.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <th:block layout:fragment="jsscript"/>
+
+</body>
+</html>
