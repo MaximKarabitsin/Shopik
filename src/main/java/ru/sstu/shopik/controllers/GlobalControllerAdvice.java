@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.sstu.shopik.dao.UserRepository;
 import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.User;
+import ru.sstu.shopik.services.UserService;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -17,12 +18,12 @@ import java.util.Optional;
 public class GlobalControllerAdvice {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @ModelAttribute
     public void addUser(Model model, Principal principal) {
         if (principal != null){
-           User user = userRepository.findByLogin(principal.getName()).get();
+           User user = userService.getByLogin(principal.getName());
            model.addAttribute("user", user);
         }
     }

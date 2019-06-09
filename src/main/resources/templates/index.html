@@ -33,7 +33,7 @@
                 </div>
                 <div sec:authorize="isAuthenticated()" class="top-text">
 
-                    <span th:text="|#{header.greeting.userlogin}${user.login}#{header.greeting.balance}${user.balance}&#x20bd;.|"></span>
+                    <span th:text="|#{header.greeting.userlogin}${user.login}#{header.greeting.balance}${user.balance}&#x20bd;|"></span>
                     <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.replenish}"></a>
                 </div>
 

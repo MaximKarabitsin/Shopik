@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         mailService.sendPasswordRecovery(user, newPassword, locale);
     }
+
+    @Override
+    public User getByLogin(String login) {
+        return userRepository.findByLogin(login).orElse(null);
+    }
 }
