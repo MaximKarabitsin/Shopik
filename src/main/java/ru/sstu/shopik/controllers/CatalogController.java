@@ -22,7 +22,7 @@ public class CatalogController {
 
     @GetMapping
     public String getCatalog(Model model) {
-        model.addAttribute("catalog",categoryService.getCatalog().orElse(null));
+        model.addAttribute("catalog", this.categoryService.getCatalog().orElse(null));
         return "catalog/catalog";
     }
 }

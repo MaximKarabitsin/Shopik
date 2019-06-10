@@ -38,7 +38,6 @@ public class ProfileController {
 
     @GetMapping
     public String getProfile(Model model) {
-
         return "profile/profile";
     }
 
@@ -54,8 +53,6 @@ public class ProfileController {
         } catch (UserDoesNotExist e) {
             return "redirect:/error";
         }
-
-
     }
 
     @PostMapping("/passwordChange")

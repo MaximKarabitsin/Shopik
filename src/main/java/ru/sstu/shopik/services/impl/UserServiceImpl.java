@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void confirmUserEmail(String token) throws UserDoesNotExist {
-        Optional<User> optionalUser = userRepository.findByToken(token);
+        Optional<User> optionalUser = this.userRepository.findByToken(token);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setEnabled(true);

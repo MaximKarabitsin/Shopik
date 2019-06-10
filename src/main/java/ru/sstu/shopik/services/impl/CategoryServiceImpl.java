@@ -18,7 +18,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<Category> getCatalog() {
 
-        return categoryRepository.findByEnCategory("Catalog");
+        return this.categoryRepository.findByEnCategory("Catalog");
     }
 
 }
