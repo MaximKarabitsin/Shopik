@@ -12,6 +12,7 @@ import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Role;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
+import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.FullNameChangeForm;
 import ru.sstu.shopik.forms.PasswordChangeForm;
 import ru.sstu.shopik.forms.PasswordRecoveryForm;
@@ -76,26 +77,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean confirmUserEmail(String token) {
+    public void confirmUserEmail(String token) throws UserDoesNotExist {
         Optional<User> optionalUser = userRepository.findByToken(token);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setEnabled(true);
             this.userRepository.save(user);
-            return true;
+        } else {
+            throw new UserDoesNotExist();
         }
-        return false;
     }
 
     @Override
-    public void recoverUserPassword(PasswordRecoveryForm passwordRecoveryForm, Locale locale) {
+    public void recoverUserPassword(PasswordRecoveryForm passwordRecoveryForm, Locale locale) throws UserDoesNotExist {
         Optional<User> optionalUser = this.userRepository.findByEmail(passwordRecoveryForm.getEmail());
-        optionalUser.ifPresent(user -> {
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
             String newPassword = RandomStringUtil.generateString(10);
             user.setPassword(this.passwordEncoder.encode(newPassword));
             this.userRepository.save(user);
             this.mailService.sendPasswordRecovery(user, newPassword, locale);
-        });
+        } else {
+            throw new UserDoesNotExist();
+        }
     }
 
     @Override
@@ -104,13 +108,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUserFullName(Authentication authentication, FullNameChangeForm fullNameChangeForm) {
+    public void changeUserFullName(Authentication authentication, FullNameChangeForm fullNameChangeForm) throws UserDoesNotExist {
         Optional<User> optionalUser = this.getUserFromAuthentication(authentication);
-        optionalUser.ifPresent(user -> {
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
             user.setFirstName(fullNameChangeForm.getFirstName());
             user.setLastName(fullNameChangeForm.getLastName());
             this.userRepository.save(user);
-        });
+        } else {
+            throw new UserDoesNotExist();
+        }
     }
 
     @Override
@@ -119,7 +126,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUserPassword(Authentication authentication, PasswordChangeForm passwordChangeForm) throws InvalidCurrentPassword{
+    public void changeUserPassword(Authentication authentication, PasswordChangeForm passwordChangeForm) throws UserDoesNotExist, InvalidCurrentPassword {
         Optional<User> optionalUser = this.getUserFromAuthentication(authentication);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -128,6 +135,8 @@ public class UserServiceImpl implements UserService {
             }
             user.setPassword(this.passwordEncoder.encode(passwordChangeForm.getNewPassword()));
             this.userRepository.save(user);
+        } else {
+            throw new UserDoesNotExist();
         }
     }
 }

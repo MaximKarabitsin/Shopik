@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
+import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.FullNameChangeForm;
 import ru.sstu.shopik.forms.PasswordChangeForm;
 import ru.sstu.shopik.services.UserService;
@@ -47,10 +48,14 @@ public class ProfileController {
         if (binding.hasErrors()) {
             return "profile/profile";
         }
+        try {
+            this.userService.changeUserFullName(authentication, fullNameChangeForm);
+            return "redirect:/profile";
+        } catch (UserDoesNotExist e) {
+            return "redirect:/error";
+        }
 
-        this.userService.changeUserFullName(authentication, fullNameChangeForm);
 
-        return "redirect:/profile";
     }
 
     @PostMapping("/passwordChange")
@@ -62,8 +67,10 @@ public class ProfileController {
         try {
             this.userService.changeUserPassword(authentication, passwordChangeForm);
         } catch (InvalidCurrentPassword e) {
-            model.addAttribute("errorChangePassword", this.messageSource.getMessage("profile.section.profile.currentPassword.invalid", null, locale));
+            model.addAttribute("errorChangePassword", this.messageSource.getMessage("settings.section.profile.currentPassword.invalid", null, locale));
             return "profile/profile";
+        } catch (UserDoesNotExist e) {
+            return "redirect:/error";
         }
 
         return "redirect:/profile";

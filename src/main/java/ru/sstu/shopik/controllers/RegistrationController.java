@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.UserRegistrationForm;
 import ru.sstu.shopik.forms.responses.JsonResponse;
 import ru.sstu.shopik.forms.validators.UserRegistrationFormValidator;
@@ -34,7 +35,7 @@ public class RegistrationController {
 
     @InitBinder("userRegistrationForm")
     private void initBinder(WebDataBinder binder) {
-        binder.addValidators(userValidator);
+        binder.addValidators(this.userValidator);
     }
 
     @GetMapping
@@ -56,7 +57,7 @@ public class RegistrationController {
             jsonResponse.setValidated(false);
             jsonResponse.setErrorMessages(errors);
         } else {
-            userService.createUserFromRegistrationForm(userRegistrationForm, locale);
+            this.userService.createUserFromRegistrationForm(userRegistrationForm, locale);
             jsonResponse.setValidated(true);
         }
 
@@ -68,9 +69,9 @@ public class RegistrationController {
     public Boolean checkUnique(@PathVariable String fieldType, String fieldText) {
         switch (fieldType) {
             case "login":
-                return !userService.isUserWithLoginExist(fieldText);
+                return !this.userService.isUserWithLoginExist(fieldText);
             case "email":
-                return !userService.isUserWithEmailExist(fieldText);
+                return !this.userService.isUserWithEmailExist(fieldText);
             default:
                 return false;
         }
@@ -79,19 +80,21 @@ public class RegistrationController {
 
     @GetMapping("/confirm/{token}")
     public String confirmEmailWithToken(@PathVariable String token, Model model, Locale locale) {
-        if (userService.confirmUserEmail(token)) {
-            model.addAttribute("title", messageSource.getMessage("registration.email.title", null, locale));
-            model.addAttribute("message", messageSource.getMessage("registration.email.confirmed", null, locale));
+        try {
+            this.userService.confirmUserEmail(token);
+            model.addAttribute("title", this.messageSource.getMessage("registration.email.title", null, locale));
+            model.addAttribute("message", this.messageSource.getMessage("registration.email.confirmed", null, locale));
             return "authorization/message";
-        }
-        return "authorization/registration";
-    }
+        } catch (UserDoesNotExist e) {
+            return "authorization/registration";
 
+        }
+    }
 
     @GetMapping("/confirm")
     public String confirmEmail(Model model, Locale locale) {
-        model.addAttribute("title", messageSource.getMessage("registration.email.title", null, locale));
-        model.addAttribute("message", messageSource.getMessage("registration.email.confirm", null, locale));
+        model.addAttribute("title", this.messageSource.getMessage("registration.email.title", null, locale));
+        model.addAttribute("message", this.messageSource.getMessage("registration.email.confirm", null, locale));
         return "authorization/message";
     }
 }
