@@ -11,7 +11,9 @@ import ru.sstu.shopik.dao.UserRepository;
 import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Role;
 import ru.sstu.shopik.domain.entities.User;
+import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
 import ru.sstu.shopik.forms.FullNameChangeForm;
+import ru.sstu.shopik.forms.PasswordChangeForm;
 import ru.sstu.shopik.forms.PasswordRecoveryForm;
 import ru.sstu.shopik.forms.UserRegistrationForm;
 import ru.sstu.shopik.services.MailService;
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean confirmEmail(String token) {
+    public boolean confirmUserEmail(String token) {
         Optional<User> optionalUser = userRepository.findByToken(token);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -86,23 +88,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void recoverPassword(PasswordRecoveryForm passwordRecoveryForm, Locale locale) {
+    public void recoverUserPassword(PasswordRecoveryForm passwordRecoveryForm, Locale locale) {
         Optional<User> optionalUser = this.userRepository.findByEmail(passwordRecoveryForm.getEmail());
-        User user = optionalUser.get();
-        String newPassword = RandomStringUtil.generateString(10);
-        user.setPassword(this.passwordEncoder.encode(newPassword));
-        this.userRepository.save(user);
-        this.mailService.sendPasswordRecovery(user, newPassword, locale);
+        optionalUser.ifPresent(user -> {
+            String newPassword = RandomStringUtil.generateString(10);
+            user.setPassword(this.passwordEncoder.encode(newPassword));
+            this.userRepository.save(user);
+            this.mailService.sendPasswordRecovery(user, newPassword, locale);
+        });
     }
 
     @Override
-    public User getById(long id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<User> getUserById(long id) {
+        return userRepository.findById(id);
     }
 
     @Override
-    public void changeFullName(Authentication authentication, FullNameChangeForm fullNameChangeForm) {
-        Optional<User> optionalUser = this.userRepository.findById(((UserDetailsImpl) authentication.getPrincipal()).getId());
+    public void changeUserFullName(Authentication authentication, FullNameChangeForm fullNameChangeForm) {
+        Optional<User> optionalUser = this.getUserFromAuthentication(authentication);
         optionalUser.ifPresent(user -> {
             user.setFirstName(fullNameChangeForm.getFirstName());
             user.setLastName(fullNameChangeForm.getLastName());
@@ -110,4 +113,21 @@ public class UserServiceImpl implements UserService {
         });
     }
 
+    @Override
+    public Optional<User> getUserFromAuthentication(Authentication authentication) {
+        return this.getUserById(((UserDetailsImpl) authentication.getPrincipal()).getId());
+    }
+
+    @Override
+    public void changeUserPassword(Authentication authentication, PasswordChangeForm passwordChangeForm) throws InvalidCurrentPassword{
+        Optional<User> optionalUser = this.getUserFromAuthentication(authentication);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (!this.passwordEncoder.matches(passwordChangeForm.getCurrentPassword(), user.getPassword())) {
+                throw new InvalidCurrentPassword();
+            }
+            user.setPassword(this.passwordEncoder.encode(passwordChangeForm.getNewPassword()));
+            this.userRepository.save(user);
+        }
+    }
 }

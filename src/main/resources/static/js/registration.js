@@ -114,11 +114,14 @@ $(document).ready(function () {
                     async: false,
                     success: function (res) {
                         if (res.validated) {
-                            $(location).attr('href', '/registration/confirm')
+                            $(location).attr('href', '/registration?confirm');
                         } else {
                             $.each(res.errorMessages, function (key, value) {
                             });
                         }
+                    },
+                    error: function (res) {
+                            $(location).attr('href', '/error');
                     }
                 });
             }

@@ -16,28 +16,40 @@
             <div class="profile-section__field" th:text="|#{profile.section.profile.email}${user.email}|"></div>
             <div class="profile-section__field" th:text="|#{profile.section.profile.firstName}${user.firstName}|"></div>
             <div class="profile-section__field" th:text="|#{profile.section.profile.lastName}${user.lastName}|"></div>
-            <div class="profile-section__field" th:text="#{profile.section.profile.type} + (${user.hasRole('ADMIN')}? #{account.type.admin}: (${user.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer}))"></div>
+            <div class="profile-section__field"
+                 th:text="#{profile.section.profile.type} + (${user.hasRole('ADMIN')}? #{account.type.admin}: (${user.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer}))"></div>
 
-            <form th:action="@{/profile/fullNameChange}" method="post" th:object="${fullNameChangeForm}" class="profile-section__form" >
+            <form th:action="@{/profile/fullNameChange}" method="post" th:object="${fullNameChangeForm}"
+                  class="profile-section__form">
                 <div class="profile-section__input-wrapper">
-                    <label class="profile-section__label"><th:block th:text="#{profile.section.profile.firstName}"/><input type="text" name="firstName" th:value="${user.firstName}"></label>
+                    <label class="profile-section__label">
+                        <th:block th:text="#{profile.section.profile.firstName}"/>
+                        <input type="text" name="firstName" th:value="${user.firstName}"></label>
                     <span class="profile-section__error" th:errors="*{firstName}"></span>
                 </div>
                 <div class="profile-section__input-wrapper">
-                    <label class="profile-section__label"><th:block th:text="#{profile.section.profile.lastName}"/><input type="text" name="lastName"  th:value="${user.lastName}"></label>
+                    <label class="profile-section__label">
+                        <th:block th:text="#{profile.section.profile.lastName}"/>
+                        <input type="text" name="lastName" th:value="${user.lastName}"></label>
                     <span class="profile-section__error" th:errors="*{lastName}"></span>
                 </div>
                 <button class="button profile-section__button" th:text="#{profile.section.profile.button}"></button>
             </form>
 
-            <form class="profile-section__form">
+            <form th:action="@{/profile/passwordChange}" method="post" th:object="${passwordChangeForm}"
+                  class="profile-section__form">
                 <div class="profile-section__input-wrapper">
-                    <label class="profile-section__label"><th:block th:text="#{profile.section.profile.oldPassword}"/><input type="password"></label>
-                    <span class="profile-section__error">Ошибка ввода</span>
+                    <label class="profile-section__label">
+                        <th:block th:text="#{profile.section.profile.currentPassword}"/>
+                        <input type="password" name="currentPassword"></label>
+                    <span class="profile-section__error" th:errors="*{currentPassword}"></span>
+                    <span class="profile-section__error" th:text="${errorChangePassword}"></span>
                 </div>
                 <div class="profile-section__input-wrapper">
-                    <label class="profile-section__label"><th:block th:text="#{profile.section.profile.newPassword}"/><input type="password"></label>
-                    <span class="profile-section__error">Ошибка ввода</span>
+                    <label class="profile-section__label">
+                        <th:block th:text="#{profile.section.profile.newPassword}"/>
+                        <input type="password" name="newPassword"></label>
+                    <span class="profile-section__error" th:errors="*{newPassword}"></span>
                 </div>
                 <button class="button profile-section__button" th:text="#{profile.section.profile.button}"></button>
             </form>

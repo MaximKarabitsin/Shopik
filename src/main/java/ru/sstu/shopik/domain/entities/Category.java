@@ -2,6 +2,8 @@ package ru.sstu.shopik.domain.entities;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,7 +23,7 @@ public class Category {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "motherCategory")
-    private Set<Category> subCategories;
+    private List<Category> subCategories;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "motherId", nullable = false)
@@ -53,11 +55,11 @@ public class Category {
         this.enCategory = enCategory;
     }
 
-    public Set<Category> getSubCategories() {
+    public List<Category> getSubCategories() {
         return subCategories;
     }
 
-    public void setSubCategories(Set<Category> subCategories) {
+    public void setSubCategories(List<Category> subCategories) {
         this.subCategories = subCategories;
     }
 
@@ -68,4 +70,5 @@ public class Category {
     public void setMotherCategory(Category motherCategory) {
         this.motherCategory = motherCategory;
     }
+
 }

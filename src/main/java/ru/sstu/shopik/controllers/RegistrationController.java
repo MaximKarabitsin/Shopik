@@ -79,7 +79,7 @@ public class RegistrationController {
 
     @GetMapping("/confirm/{token}")
     public String confirmEmailWithToken(@PathVariable String token, Model model, Locale locale) {
-        if (userService.confirmEmail(token)) {
+        if (userService.confirmUserEmail(token)) {
             model.addAttribute("title", messageSource.getMessage("registration.email.title", null, locale));
             model.addAttribute("message", messageSource.getMessage("registration.email.confirmed", null, locale));
             return "authorization/message";

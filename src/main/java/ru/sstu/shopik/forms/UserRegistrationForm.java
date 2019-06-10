@@ -22,7 +22,6 @@ public class UserRegistrationForm {
     private String lastName;
 
     @NotBlank
-    @NotEmpty
     @Pattern(regexp = "[a-zA-Z0-9]{9,40}")
     private String password;
 
