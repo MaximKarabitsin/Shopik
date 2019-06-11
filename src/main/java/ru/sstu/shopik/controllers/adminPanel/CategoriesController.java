@@ -1,15 +1,14 @@
-package ru.sstu.shopik.controllers;
+package ru.sstu.shopik.controllers.adminPanel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.FullNameChangeForm;
@@ -20,8 +19,8 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
-@RequestMapping("/profile")
-public class ProfileController {
+@RequestMapping("/adminpanel")
+public class CategoriesController {
 
     @Autowired
     UserService userService;
@@ -30,16 +29,24 @@ public class ProfileController {
     MessageSource messageSource;
 
     @ModelAttribute
-    public void addCurrentPage(Model model, FullNameChangeForm fullNameChangeForm, PasswordChangeForm passwordChangeForm) {
-        model.addAttribute("fullNameChangeForm", fullNameChangeForm);
-        model.addAttribute("passwordChangeForm", passwordChangeForm);
-        model.addAttribute("currentSection", "profile");
+    public void addCurrentPage(Model model) {
+        model.addAttribute("currentSection", "users");
     }
 
     @GetMapping
-    public String getProfile(Model model) {
-        return "profile/profile";
+    public String getProfile(@RequestParam(required = false) Integer page, Model model) {
+        if (page == null) {
+            page = 0;
+        } else {
+            page-=1;
+        }
+        Page<User> userPage = this.userService.getPageUser(page);
+int t = userPage.getTotalPages();
+        model.addAttribute("users", userPage);
+
+        return "adminPanel/users";
     }
+
 
     @PostMapping("/fullNameChange")
     public String changeFullName(Model model, Authentication authentication, @Valid @ModelAttribute("fullNameChangeForm") FullNameChangeForm fullNameChangeForm,

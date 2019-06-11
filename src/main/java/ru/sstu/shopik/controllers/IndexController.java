@@ -24,8 +24,5 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/access-denied")
-    public  String getAccessDenied(Model model){
-        return "access-denied";
-    }
+
 }

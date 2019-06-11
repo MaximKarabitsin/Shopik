@@ -1,5 +1,6 @@
 package ru.sstu.shopik.dao;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.sstu.shopik.domain.entities.User;
 
@@ -13,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     int countByEmail(String email);
     int countByToken(String token);
     int countByEnabledAndEmail(Boolean enabled, String email);
+
 }

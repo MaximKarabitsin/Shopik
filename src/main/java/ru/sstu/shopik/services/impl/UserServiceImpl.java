@@ -3,6 +3,8 @@ package ru.sstu.shopik.services.impl;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -138,5 +140,12 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserDoesNotExist();
         }
+    }
+
+    @Override
+    public Page<User> getPageUser(int page) {
+
+
+        return this.userRepository.findAll(PageRequest.of(page,5));
     }
 }

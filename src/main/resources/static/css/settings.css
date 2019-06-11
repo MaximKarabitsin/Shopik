@@ -68,3 +68,21 @@ margin: 25px 0;
     font-size: 16px;
     padding: 5px;
 }
+
+.settings-section__table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.settings-section__table th, td {
+    border: #e0e0e0 solid 1px;
+    padding: 2px;
+}
+
+.settings-section__table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.settings-section__table tr:nth-child(even) {
+    background-color: #e0e0e0;
+}

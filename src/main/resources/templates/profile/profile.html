@@ -9,7 +9,6 @@
 <body>
 
     <th:block layout:fragment="section">
-        <section class="settings-section">
             <h2 class="settings-section__title" th:text="#{settings.section.profile.title}"></h2>
             <div class="settings-section__field" th:text="|#{settings.section.profile.login}${user.login}|"></div>
             <div class="settings-section__field" th:text="|#{settings.section.profile.email}${user.email}|"></div>
@@ -52,8 +51,6 @@
                 </div>
                 <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
             </form>
-        </section>
-        <!-- /.settings-section -->
     </th:block>
 
 </body>
