@@ -68,7 +68,7 @@
                 <nav sec:authorize="isAuthenticated()" class="user-menu">
                     <a class="user-menu__item" th:href="@{/profile}" th:text="#{header.usermenu.profile}"></a>
                     <a class="user-menu__item" th:href="@{/wishlist}" th:text="#{header.usermenu.wishlist}"></a>
-                    <a sec:authorize="hasRole('ADMIN')" class="user-menu__item" th:href="@{/adminpanel}"
+                    <a sec:authorize="hasRole('ADMIN')" class="user-menu__item" th:href="@{/adminpanel/users}"
                        th:text="#{header.usermenu.adminpanel}"></a>
                     <a class="user-menu__item" th:href="@{/logout}" th:text="#{header.usermenu.logout}"></a>
                     <a class="user-menu__cart" th:href="@{/cart}">
@@ -117,11 +117,11 @@
             <div class="footer-blocks">
                 <div class="footer-block">
                     <div class="footer-block__title" th:text="#{footer.contacts}"></div>
-                    <a class="footer-block__item" th:href="@{#}"><img class="footer-icon"
+                    <a class="footer-block__item"><img class="footer-icon"
                                                                       th:src="@{/img/icons/geolocation.svg}"
                                                                       alt="Адресс:"
                                                                       th:text="#{footer.contacts.address}"></a>
-                    <a class="footer-block__item" th:href="@{#}"><img class="footer-icon"
+                    <a class="footer-block__item"><img class="footer-icon"
                                                                       th:src="@{/img/icons/phone.svg}"
                                                                       alt="Тел.:"
                                                                       th:text="#{footer.contacts.telephone}"></a>
@@ -151,11 +151,11 @@
                 <div class="footer-block">
                     <th:block sec:authorize="isAuthenticated()">
                         <div class="footer-block__title" th:text="#{header.usermenu.profile}"></div>
-                        <a class="footer-block__item" href="" th:text="#{header.usermenu.profile}"></a>
-                        <a class="footer-block__item" href="" th:text="#{header.usermenu.wishlist}"></a>
-                        <a th:if="${user.hasRole('ADMIN')}" class="footer-block__item" href=""
+                        <a class="footer-block__item" th:href="@{/profile}" th:text="#{header.usermenu.profile}"></a>
+                        <a class="footer-block__item" th:href="@{/wishlist}" th:text="#{header.usermenu.wishlist}"></a>
+                        <a th:if="${user.hasRole('ADMIN')}" class="footer-block__item" th:href="@{/adminpanel/users}"
                            th:text="#{header.usermenu.adminpanel}"></a>
-                        <a class="footer-block__item" href="" th:text="#{header.usermenu.logout}"></a>
+                        <a class="footer-block__item" th:href="@{/logout}" th:text="#{header.usermenu.logout}"></a>
                     </th:block>
 
                     <th:block sec:authorize="isAnonymous()">

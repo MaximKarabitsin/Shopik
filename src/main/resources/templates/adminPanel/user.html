@@ -29,6 +29,7 @@
                     <th:block th:text="#{settings.section.user.login}"/>
                     <input type="text" name="login" th:value="${u.login}"></label>
                 <span class="settings-section__error" th:errors="*{login}"></span>
+                <span class="settings-section__error" th:text="${errorLogin}"></span>
             </div>
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">

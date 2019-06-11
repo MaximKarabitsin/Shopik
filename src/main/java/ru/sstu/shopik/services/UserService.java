@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
+import ru.sstu.shopik.exceptions.InvalidLogin;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.*;
 
@@ -34,5 +35,5 @@ public interface UserService {
 
     Page<User> getPageUser(int page);
 
-    void changeUser(UserChangeForm userChangeForm, long id) throws UserDoesNotExist;
+    void changeUser(UserChangeForm userChangeForm, long id) throws InvalidLogin, UserDoesNotExist;
 }

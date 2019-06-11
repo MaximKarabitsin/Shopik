@@ -1,6 +1,7 @@
 package ru.sstu.shopik.exceptions;
 
 public class InvalidCurrentPassword extends  Exception {
+
     public InvalidCurrentPassword() {
     }
 
@@ -12,4 +13,7 @@ public class InvalidCurrentPassword extends  Exception {
         super(message, cause);
     }
 
+    public InvalidCurrentPassword(Throwable cause) {
+        super(cause);
+    }
 }

@@ -11,75 +11,44 @@ import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
+import ru.sstu.shopik.forms.CategoryAddForm;
 import ru.sstu.shopik.forms.FullNameChangeForm;
 import ru.sstu.shopik.forms.PasswordChangeForm;
+import ru.sstu.shopik.services.CategoryService;
 import ru.sstu.shopik.services.UserService;
 
 import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
-@RequestMapping("/adminpanel")
+@RequestMapping("/adminpanel/categories")
 public class CategoriesController {
 
-/*
-    @Autowired
-    UserService userService;
 
     @Autowired
-    MessageSource messageSource;
+    CategoryService categoryService;
 
     @ModelAttribute
     public void addCurrentPage(Model model) {
-        model.addAttribute("currentSection", "users");
+        model.addAttribute("currentSection", "categories");
     }
 
     @GetMapping
-    public String getProfile(@RequestParam(required = false) Integer page, Model model) {
-        if (page == null) {
-            page = 0;
-        } else {
-            page-=1;
-        }
-        Page<User> userPage = this.userService.getPageUser(page);
-int t = userPage.getTotalPages();
-        model.addAttribute("users", userPage);
-
-        return "adminPanel/users";
+    public String getProfile(Model model, CategoryAddForm categoryAddForm) {
+        model.addAttribute("categoryAddForm", categoryAddForm);
+        model.addAttribute("catalog", this.categoryService.getCatalog().orElse(null));
+        return "adminPanel/categories";
     }
 
 
-    @PostMapping("/fullNameChange")
-    public String changeFullName(Model model, Authentication authentication, @Valid @ModelAttribute("fullNameChangeForm") FullNameChangeForm fullNameChangeForm,
+    @PostMapping
+    public String changeFullName(Model model, @Valid @ModelAttribute("categoryAddForm") CategoryAddForm categoryAddMain,
                                  BindingResult binding) {
         if (binding.hasErrors()) {
-            return "profile/profile";
+            return "adminPanel/categories";
         }
-        try {
-            this.userService.changeUserFullName(authentication, fullNameChangeForm);
-            return "redirect:/profile";
-        } catch (UserDoesNotExist e) {
-            return "redirect:/error";
-        }
+        return "redirect:/adminpanel/categories";
     }
 
-    @PostMapping("/passwordChange")
-    public String changePassword(Model model, Locale locale, Authentication authentication, @Valid @ModelAttribute("passwordChangeForm") PasswordChangeForm passwordChangeForm,
-                                 BindingResult binding) {
-        if (binding.hasErrors()) {
-            return "profile/profile";
-        }
-        try {
-            this.userService.changeUserPassword(authentication, passwordChangeForm);
-        } catch (InvalidCurrentPassword e) {
-            model.addAttribute("errorChangePassword", this.messageSource.getMessage("settings.section.profile.currentPassword.invalid", null, locale));
-            return "profile/profile";
-        } catch (UserDoesNotExist e) {
-            return "redirect:/error";
-        }
-
-        return "redirect:/profile";
-    }
-*/
 
 }

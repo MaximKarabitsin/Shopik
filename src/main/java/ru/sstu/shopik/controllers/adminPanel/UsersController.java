@@ -11,6 +11,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
+import ru.sstu.shopik.exceptions.InvalidLogin;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.FullNameChangeForm;
 import ru.sstu.shopik.forms.PasswordChangeForm;
@@ -69,53 +70,22 @@ public class UsersController {
 
 
     @PostMapping("/{id}")
-    public String changeUser(@PathVariable Long id, Model model, @Valid @ModelAttribute("userChangeForm") UserChangeForm userChangeForm,
+    public String changeUser(@PathVariable Long id, Model model, Locale locale, @Valid @ModelAttribute("userChangeForm") UserChangeForm userChangeForm,
                              BindingResult binding) {
         Optional<User> optionalUser = this.userService.getUserById(id);
         model.addAttribute("u", optionalUser.orElse(null));
         if (binding.hasErrors()) {
             return "adminPanel/user";
         }
+
         try {
             this.userService.changeUser(userChangeForm, id);
         } catch (UserDoesNotExist e) {
 
+        } catch (InvalidLogin e){
+            model.addAttribute("errorLogin", messageSource.getMessage("enter.login.exist", null, locale));
+            return "adminPanel/user";
         }
         return "redirect:/adminpanel/users/" + id;
     }
-
-
-
-/*    @PostMapping("/fullNameChange")
-    public String changeFullName(Model model, Authentication authentication, @Valid @ModelAttribute("fullNameChangeForm") FullNameChangeForm fullNameChangeForm,
-                                 BindingResult binding) {
-        if (binding.hasErrors()) {
-            return "profile/profile";
-        }
-        try {
-            this.userService.changeUserFullName(authentication, fullNameChangeForm);
-            return "redirect:/profile";
-        } catch (UserDoesNotExist e) {
-            return "redirect:/error";
-        }
-    }*/
-/*
-    @PostMapping("/passwordChange")
-    public String changePassword(Model model, Locale locale, Authentication authentication, @Valid @ModelAttribute("passwordChangeForm") PasswordChangeForm passwordChangeForm,
-                                 BindingResult binding) {
-        if (binding.hasErrors()) {
-            return "profile/profile";
-        }
-        try {
-            this.userService.changeUserPassword(authentication, passwordChangeForm);
-        } catch (InvalidCurrentPassword e) {
-            model.addAttribute("errorChangePassword", this.messageSource.getMessage("settings.section.profile.currentPassword.invalid", null, locale));
-            return "profile/profile";
-        } catch (UserDoesNotExist e) {
-            return "redirect:/error";
-        }
-
-        return "redirect:/profile";
-    }*/
-
 }

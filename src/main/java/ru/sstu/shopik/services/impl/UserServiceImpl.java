@@ -14,6 +14,7 @@ import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Role;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
+import ru.sstu.shopik.exceptions.InvalidLogin;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.*;
 import ru.sstu.shopik.services.MailService;
@@ -143,14 +144,17 @@ public class UserServiceImpl implements UserService {
     public Page<User> getPageUser(int page) {
 
 
-        return this.userRepository.findAll(PageRequest.of(page,5));
+        return this.userRepository.findAll(PageRequest.of(page, 5));
     }
 
     @Override
-    public void changeUser(UserChangeForm userChangeForm, long id) throws UserDoesNotExist {
+    public void changeUser(UserChangeForm userChangeForm, long id) throws InvalidLogin, UserDoesNotExist {
         Optional<User> optionalUser = this.getUserById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+            if (!user.getLogin().equals(userChangeForm.getLogin()) && this.isUserWithLoginExist(userChangeForm.getLogin())) {
+                throw new InvalidLogin();
+            }
             user.setLogin(userChangeForm.getLogin());
             user.setFirstName(userChangeForm.getFirstName());
             user.setLastName(userChangeForm.getLastName());

@@ -23,9 +23,9 @@ public class UserChangeFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         UserChangeForm form = (UserChangeForm) target;
         /*При вводе этого же логина срабатывает*/
-        if (this.userService.isUserWithLoginExist(form.getLogin())) {
+/*        if (this.userService.isUserWithLoginExist(form.getLogin())) {
             errors.rejectValue("login", "enter.login.exist", "User with login already exists");
-        }
+        }*/
 
         switch (form.getRole()) {
             case "admin":
