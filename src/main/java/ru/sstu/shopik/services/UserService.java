@@ -5,10 +5,7 @@ import org.springframework.security.core.Authentication;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
-import ru.sstu.shopik.forms.FullNameChangeForm;
-import ru.sstu.shopik.forms.PasswordChangeForm;
-import ru.sstu.shopik.forms.PasswordRecoveryForm;
-import ru.sstu.shopik.forms.UserRegistrationForm;
+import ru.sstu.shopik.forms.*;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -36,4 +33,6 @@ public interface UserService {
     void changeUserPassword(Authentication authentication, PasswordChangeForm passwordChangeForm) throws UserDoesNotExist, InvalidCurrentPassword;
 
     Page<User> getPageUser(int page);
+
+    void changeUser(UserChangeForm userChangeForm, long id) throws UserDoesNotExist;
 }

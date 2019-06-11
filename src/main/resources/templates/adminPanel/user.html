@@ -1,0 +1,67 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/adminPanel-layout}">
+<head>
+    <title th:text="#{settings.title.user}"></title>
+</head>
+<body>
+
+    <th:block layout:fragment="section">
+        <h2 class="settings-section__title" th:text="#{settings.section.user.title}"></h2>
+        <div class="settings-section__field" th:text="|#{settings.section.user.id}${u.id}|"></div>
+        <div class="settings-section__field" th:text="|#{settings.section.user.login}${u.login}|"></div>
+        <div class="settings-section__field" th:text="|#{settings.section.user.email}${u.email}|"></div>
+        <div class="settings-section__field"
+             th:text="#{settings.section.user.type}+(${u.hasRole('ADMIN')}? #{account.type.admin}: (${user.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer}))"></div>
+        <div class="settings-section__field" th:text="|#{settings.section.user.firstName}${u.firstName}|"></div>
+        <div class="settings-section__field" th:text="|#{settings.section.user.lastName}${u.lastName}|"></div>
+        <div class="settings-section__field" th:text="|#{settings.section.user.balance}${u.balance}|"></div>
+        <div class="settings-section__field" th:text="|#{settings.section.user.date}${u.date}|"></div>
+        <div class="settings-section__field" th:text="#{settings.section.user.enabled}+(${u.enabled}?'+':'-')"></div>
+
+
+        <form th:action="@{/adminpanel/users/__${u.id}__}" method="post" th:object="${userChangeForm}"
+              class="settings-section__form">
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.user.login}"/>
+                    <input type="text" name="login" th:value="${u.login}"></label>
+                <span class="settings-section__error" th:errors="*{login}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.user.type}"/>
+                    <select size="1" name="role">
+                        <option th:selected="${u.hasRole('USER')}" value="user" th:text="#{account.type.buyer}"></option>
+                        <option th:selected="${u.hasRole('SELLER')}" value="seller" th:text="#{account.type.seller}"></option>
+                        <option th:selected="${u.hasRole('ADMIN')}" value="admin" th:text="#{account.type.admin}"></option>
+                    </select></label>
+                <span class="settings-section__error" th:errors="*{role}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.user.firstName}"/>
+                    <input type="text" name="firstName" th:value="${u.firstName}"></label>
+                <span class="settings-section__error" th:errors="*{firstName}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.user.lastName}"/>
+                    <input type="text" name="lastName" th:value="${u.lastName}"></label>
+                <span class="settings-section__error" th:errors="*{lastName}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.user.balance}"/>
+                    <input type="text" name="balance" th:value="${u.balance}"></label>
+                <span class="settings-section__error" th:errors="*{balance}"></span>
+            </div>
+            <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
+        </form>
+
+    </th:block>
+
+</body>
+</html>

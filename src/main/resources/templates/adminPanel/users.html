@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layouts/profile-layout}">
+      layout:decorate="~{layouts/adminPanel-layout}">
 <head>
-    <title th:text="#{settings.users.title}"></title>
+    <title th:text="#{settings.title.users}"></title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
                 <th th:text="#{settings.section.users.table.id}"></th>
                 <th th:text="#{settings.section.users.table.login}"></th>
                 <th th:text="#{settings.section.users.table.email}"></th>
-                <th th:text="#{settings.section.users.table.role}"></th>
+                <th th:text="#{settings.section.users.table.type}"></th>
                 <th th:text="#{settings.section.users.table.firstName}"></th>
                 <th th:text="#{settings.section.users.table.lastName}"></th>
                 <th th:text="#{settings.section.users.table.balance}"></th>
@@ -37,8 +37,8 @@
                     <td th:text="${u.lastName}"></td>
                     <td th:text="${u.balance}"></td>
                     <td th:text="${u.date}"></td>
-                    <td th:text="${u.enabled}"></td>
-                    <td><a th:href="@{/adminpanel/user}" th:text="#{settings.section.users.table.edit}"></a></td>
+                    <td th:text="${u.enabled}?'+':'-'"></td>
+                    <td><a th:href="@{/adminpanel/users/__${u.id}__}" th:text="#{settings.section.users.table.edit}"></a></td>
                     <td><a href="" th:text="#{settings.section.users.table.delete}"></a></td>
                 </tr>
 

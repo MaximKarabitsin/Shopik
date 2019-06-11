@@ -22,6 +22,7 @@ import java.util.Locale;
 @RequestMapping("/adminpanel")
 public class CategoriesController {
 
+/*
     @Autowired
     UserService userService;
 
@@ -79,5 +80,6 @@ int t = userPage.getTotalPages();
 
         return "redirect:/profile";
     }
+*/
 
 }

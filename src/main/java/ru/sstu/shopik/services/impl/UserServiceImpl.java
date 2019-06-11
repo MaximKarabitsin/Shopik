@@ -15,10 +15,7 @@ import ru.sstu.shopik.domain.entities.Role;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
-import ru.sstu.shopik.forms.FullNameChangeForm;
-import ru.sstu.shopik.forms.PasswordChangeForm;
-import ru.sstu.shopik.forms.PasswordRecoveryForm;
-import ru.sstu.shopik.forms.UserRegistrationForm;
+import ru.sstu.shopik.forms.*;
 import ru.sstu.shopik.services.MailService;
 import ru.sstu.shopik.services.UserService;
 import ru.sstu.shopik.utils.RandomStringUtil;
@@ -147,5 +144,31 @@ public class UserServiceImpl implements UserService {
 
 
         return this.userRepository.findAll(PageRequest.of(page,5));
+    }
+
+    @Override
+    public void changeUser(UserChangeForm userChangeForm, long id) throws UserDoesNotExist {
+        Optional<User> optionalUser = this.getUserById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setLogin(userChangeForm.getLogin());
+            user.setFirstName(userChangeForm.getFirstName());
+            user.setLastName(userChangeForm.getLastName());
+            user.setBalance(userChangeForm.getBalance());
+            Set<Role> roles = new HashSet<>();
+            roles.add(this.roleRepository.findByRole("USER"));
+            switch (userChangeForm.getRole()) {
+                case "admin":
+                    roles.add(this.roleRepository.findByRole("ADMIN"));
+                case "seller":
+                    roles.add(this.roleRepository.findByRole("SELLER"));
+                    break;
+            }
+            user.setRoles(roles);
+            this.userRepository.save(user);
+            this.mailService.sendUserChange(user);
+        } else {
+            throw new UserDoesNotExist();
+        }
     }
 }

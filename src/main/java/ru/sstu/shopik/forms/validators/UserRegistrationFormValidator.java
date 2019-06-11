@@ -29,6 +29,14 @@ public class UserRegistrationFormValidator implements Validator {
 			errors.rejectValue("email", "enter.email.exist", "User with email already exists");
 		}
 
+		switch (form.getRole()) {
+			case "seller":
+			case "user":
+				break;
+			default:
+				errors.rejectValue("role", "settings.section.user.type.invalid", "Invalid type");
+		}
+
 	}
 
 }

@@ -10,7 +10,7 @@
 
     <th:block layout:fragment="menu">
                 <nav class="settings-menu">
-                    <a th:href="@{/adminpanel/users}" class="settings-menu__item" th:classappend="${currentSection == 'user'}? 'settings-menu__item--active' : _">Пользователи</a>
+                    <a th:href="@{/adminpanel/users}" class="settings-menu__item" th:classappend="${currentSection == 'users'}? 'settings-menu__item--active' : _">Пользователи</a>
                     <a th:href="@{/adminpanel/categories}" class="settings-menu__item" th:classappend="${currentSection == 'categories'}? 'settings-menu__item--active' : _">Категории</a>
                     <a th:href="@{/adminpanel/products}" class="settings-menu__item" th:classappend="${currentSection == 'products'}? 'settings-menu__item--active' : _">Товары</a>
                     <a th:href="@{/adminpanel/news}" class="settings-menu__item"  th:classappend="${currentSection == 'news'}? 'settings-menu__item--active' : _">Новости</a>
