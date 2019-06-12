@@ -26,6 +26,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<Category> getCategoryById(int id) {
+        return categoryRepository.findByCategoryId(id);
+    }
+
+    @Override
     public void addCategory(CategoryAddForm categoryAddForm) {
         Category category = new Category();
         category.setMotherCategory(this.categoryRepository.findById(categoryAddForm.getMotherId()).orElse(null));
@@ -58,5 +63,6 @@ public class CategoryServiceImpl implements CategoryService {
         } else {
             throw new CategoryDoesNotExist();
         }
+
     }
 }

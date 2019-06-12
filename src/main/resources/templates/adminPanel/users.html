@@ -32,7 +32,7 @@
                     <td th:text="${u.login}"></td>
                     <td th:text="${u.email}"></td>
                     <td class="td"
-                        th:text="${u.hasRole('ADMIN')}? #{account.type.admin}: (${user.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer})"></td>
+                        th:text="${u.hasRole('ADMIN')}? #{account.type.admin}: (${u.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer})"></td>
                     <td th:text="${u.firstName}"></td>
                     <td th:text="${u.lastName}"></td>
                     <td th:text="${u.balance}"></td>
