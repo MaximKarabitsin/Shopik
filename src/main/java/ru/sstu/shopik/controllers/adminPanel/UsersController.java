@@ -61,7 +61,11 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public String getUser(@PathVariable Long id, Model model, UserChangeForm userChangeForm) {
+    public String getUser(@PathVariable Long id, @RequestParam(required = false) String delete, Model model, UserChangeForm userChangeForm) {
+        if (delete != null){
+            this.userService.deleteUser(id);
+            return "redirect:/adminpanel/users";
+        }
         Optional<User> optionalUser = this.userService.getUserById(id);
         model.addAttribute("u", optionalUser.orElse(null));
         model.addAttribute("userChangeForm", userChangeForm);
@@ -82,7 +86,7 @@ public class UsersController {
             this.userService.changeUser(userChangeForm, id);
         } catch (UserDoesNotExist e) {
 
-        } catch (InvalidLogin e){
+        } catch (InvalidLogin e) {
             model.addAttribute("errorLogin", messageSource.getMessage("enter.login.exist", null, locale));
             return "adminPanel/user";
         }

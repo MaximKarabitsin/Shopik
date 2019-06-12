@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     int countByToken(String token);
     int countByEnabledAndEmail(Boolean enabled, String email);
 
+    int countById(Long id);
 }

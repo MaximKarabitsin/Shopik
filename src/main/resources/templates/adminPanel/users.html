@@ -39,7 +39,7 @@
                     <td th:text="${u.date}"></td>
                     <td th:text="${u.enabled}?'+':'-'"></td>
                     <td><a th:href="@{/adminpanel/users/__${u.id}__}" th:text="#{settings.section.users.table.edit}"></a></td>
-                    <td><a href="" th:text="#{settings.section.users.table.delete}"></a></td>
+                    <td><a th:href="@{/adminpanel/users/__${u.id}__(delete='')}" th:text="#{settings.section.users.table.delete}"></a></td>
                 </tr>
 
             </th:block>
