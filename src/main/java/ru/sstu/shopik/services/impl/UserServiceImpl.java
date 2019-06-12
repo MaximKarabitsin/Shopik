@@ -175,4 +175,11 @@ public class UserServiceImpl implements UserService {
             throw new UserDoesNotExist();
         }
     }
+
+    @Override
+    public void deleteUser(Long id) {
+        if (this.userRepository.countById(id) != 0) {
+            this.userRepository.deleteById(id);
+        }
+    }
 }

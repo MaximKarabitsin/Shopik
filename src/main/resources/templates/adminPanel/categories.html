@@ -17,7 +17,10 @@
                 <label class="settings-section__label">
                     <th:block th:text="#{settings.section.categories.main}"/>
                     <select th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" size="1" name="motherId">
-                        <option selected value="${catalog.id}" th:text="${catalog['__${langCategory}__']}"></option>
+                        <option selected th:value="${catalog.categoryId}" th:text="${catalog['__${langCategory}__']}"></option>
+                        <th:block th:each="category : ${catalog.subCategories}">
+                            <option th:value="${category.categoryId}" th:text="${category['__${langCategory}__']}"></option>
+                        </th:block>
                     </select></label>
                 <span class="settings-section__error" th:errors="*{motherId}"></span>
             </div>

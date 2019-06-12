@@ -36,4 +36,6 @@ public interface UserService {
     Page<User> getPageUser(int page);
 
     void changeUser(UserChangeForm userChangeForm, long id) throws InvalidLogin, UserDoesNotExist;
+
+    void deleteUser(Long id);
 }
