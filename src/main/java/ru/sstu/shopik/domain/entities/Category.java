@@ -1,10 +1,11 @@
 package ru.sstu.shopik.domain.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -23,9 +24,11 @@ public class Category {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "motherCategory")
+    @JsonManagedReference
     private List<Category> subCategories;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "motherId", nullable = false)
     private Category motherCategory;
 
@@ -70,5 +73,4 @@ public class Category {
     public void setMotherCategory(Category motherCategory) {
         this.motherCategory = motherCategory;
     }
-
 }
