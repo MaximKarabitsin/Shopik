@@ -58,4 +58,15 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return false;
     }
+
+
+    @Override
+    public List<Category> getSubCategories(String categoryName) throws CategoryDoesNotExist {
+        Optional<Category> optionalCategory = this.categoryRepository.findByEnCategoryOrRuCategory(categoryName, categoryName);
+        if (optionalCategory.isPresent() && optionalCategory.orElse(null).getMotherCategory().getCategoryId() == 2) {
+            return Objects.requireNonNull(optionalCategory.orElse(null)).getSubCategories();
+        } else {
+            throw new CategoryDoesNotExist();
+        }
+    }
 }

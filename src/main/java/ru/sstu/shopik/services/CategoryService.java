@@ -12,4 +12,5 @@ public interface CategoryService {
     List<Category> getSubCategories(String motherName) throws CategoryDoesNotExist;
     void addCategory(CategoryAddForm categoryAddForm);
     boolean checkMotherCategory(int motherId);
+    List<Category> getSubCategories(String motherName) throws CategoryDoesNotExist;
 }
