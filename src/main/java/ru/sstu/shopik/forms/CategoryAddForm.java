@@ -1,6 +1,6 @@
 package ru.sstu.shopik.forms;
 
-import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -13,6 +13,7 @@ public class CategoryAddForm {
     @Pattern(regexp = "[a-zA-Zа-яА-Я0-9]{1,30}")
     private String ruCategory;
 
+    @Min(2)
     private Integer motherId;
 
     public String getEnCategory() {

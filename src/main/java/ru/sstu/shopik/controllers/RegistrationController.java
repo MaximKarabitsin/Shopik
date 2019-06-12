@@ -28,10 +28,10 @@ public class RegistrationController {
     UserServiceImpl userService;
 
     @Autowired
-    UserRegistrationFormValidator userValidator;
+    MessageSource messageSource;
 
     @Autowired
-    MessageSource messageSource;
+    UserRegistrationFormValidator userValidator;
 
     @InitBinder("userRegistrationForm")
     private void initBinder(WebDataBinder binder) {
