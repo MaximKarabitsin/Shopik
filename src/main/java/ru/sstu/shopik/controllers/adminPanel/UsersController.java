@@ -54,7 +54,6 @@ public class UsersController {
             page -= 1;
         }
         Page<User> userPage = this.userService.getPageUser(page);
-        int t = userPage.getTotalPages();
         model.addAttribute("users", userPage);
 
         return "adminPanel/users";

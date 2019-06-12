@@ -6,11 +6,11 @@ import javax.validation.constraints.Pattern;
 
 public class CategoryAddForm {
     @NotBlank
-    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9]{1,30}")
+    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9 ]{1,50}")
     private String enCategory;
 
     @NotBlank
-    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9]{1,30}")
+    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9 ]{1,50}")
     private String ruCategory;
 
     @Min(2)
