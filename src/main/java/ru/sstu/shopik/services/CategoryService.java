@@ -5,5 +5,6 @@ import ru.sstu.shopik.domain.entities.Category;
 import java.util.Optional;
 
 public interface CategoryService {
-    public Optional<Category> getCatalog();
+    Optional<Category> getCatalog();
+    Optional<Category> getCategoryById(int id);
 }

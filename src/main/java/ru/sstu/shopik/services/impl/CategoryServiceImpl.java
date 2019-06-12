@@ -21,4 +21,8 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findByEnCategory("Catalog");
     }
 
+    @Override
+    public Optional<Category> getCategoryById(int id) {
+        return categoryRepository.findByCategoryId(id);
+    }
 }

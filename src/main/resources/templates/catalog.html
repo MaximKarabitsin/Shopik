@@ -9,12 +9,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/main_media.css">
-    <link rel="stylesheet" href="../css/header-footer.css">
-    <link rel="stylesheet" href="../css/header-footer_media.css">
-    <link rel="stylesheet" href="../css/catalog.css">
-    <link rel="stylesheet" href="../css/catalog_media.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main_media.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer_media.css}">
+    <link rel="stylesheet" th:href="@{/css/catalog.css}">
+    <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
     <title>Shopik - каталог</title>
 </head>
 <body>
@@ -24,7 +24,7 @@
         <div class="header">
             <div class="container header-wrapper">
                 <a href="#">
-                    <img class="logo" src="../img/icons/logo.svg" alt="Shopik">
+                    <img class="logo" th:src="@{/img/icons/logo.svg}" alt="Shopik">
                 </a>
                 <div class="header-search">
                     <form action="">
@@ -42,7 +42,7 @@
                     <a class="user-menu__item" href="#">Админ-панель</a>
                     <a class="user-menu__item" href="#">Выход</a>
                     <a class="user-menu__cart" href="#">
-                        <img class="cart-icon" src="../img/icons/shopping-cart.svg" alt="">
+                        <img class="cart-icon" th:src="@{/img/icons/shopping-cart.svg}" alt="">
                         Корзина</a>
                 </nav>
                 <div class="user-menu-icon">
@@ -87,14 +87,14 @@
                                 <input th:id="|category_${category.categoryId}|" class="checkboxCategory"
                                        type="checkbox">
                                 <a class="category__link category__link--main"
-                                   th:href="@{/catalog/__${category.enCategory.toLowerCase()}__}"
+                                   th:href="@{/catalog/__${category.enCategory}__}"
                                    th:text="${category['__${langCategory}__']}"></a>
                                 <label th:for="|category_${category.categoryId}|" class="labelCategory"></label>
 
                                 <ul class="list-categories">
                                     <th:block th:each="subCategory : ${category.subCategories}">
                                         <li class="category"><a class="category__link"
-                                                                th:href="@{/catalog/__${category.enCategory.toLowerCase()}__/__${subCategory.enCategory.toLowerCase()}__}"
+                                                                th:href="@{/catalog/__${category.enCategory}__/__${subCategory.enCategory}__}"
                                                                 th:text="${subCategory['__${langCategory}__']}"></a>
                                         </li>
                                     </th:block>
@@ -121,9 +121,10 @@
 
                     </div>
                     <!-- /.current-categories -->
-                    <form class="form-search">
-                        <input type="text" class="catalog-search__input" placeholder="Поиск по каталогу...">
-                        <button class="catalog-search__btn button">
+
+                    <form class="form-search"method="get">
+                        <input type="text" class="catalog-search__input" placeholder="Поиск по каталогу..." th:name="search">
+                        <button class="catalog-search__btn button" type="submit">
                             <svg class="catalog-search__icon button-icon">
                                 <use xlink:href="../img/icons/icons.svg#search"></use>
                             </svg>
@@ -138,24 +139,26 @@
 
 
             <div class="catalog-list">
+                <th:block th:each="product: ${products}">
                 <div class="product-wrapper">
                     <div class="product">
                         <div class="sale-ribbon-wrapper">
                             <div class="sale-ribbon">sale</div>
                         </div>
-                        <a href="#" class="product-info">
-                            <div class="product__image-wrapper"><img src="../img/Samsung%20Galaxy%20S8+.jpg"
-                                                                     alt="Samsung Galaxy S8+"
+                        <a th:href="@{/product/{productId}(productId=${product.id})}" class="product-info">
+                            <div class="product__image-wrapper"><img src="/img/Samsung%20Galaxy%20S8+.jpg"
+                                                                     th:alt="${product.productName}"
                                                                      class="product__image">
                             </div>
-                            <div class="product__name" title="Samsung Galaxy S8+">Смартфон Samsung Galaxy S8+</div>
-                            <div class="product__quantity">Количество: 100 шт.</div>
-                            <a href="/user" class="product__seller">Продавец: Samsung</a>
+                            <div class="product__name" th:title="${product.productName}" th:text="${product.productName}"></div>
+                            <div class="product__quantity" th:text="|Количество: ${product.quantity} шт|"></div>
+                            <a href="#" class="product__seller" th:text="|Продавец: ${product.seller.login}|"></a>
                         </a>
                         <div class="product-option">
                             <div class="product__cost">
-                                <span class="cost">&#x20bd; 37490</span>
-                                <span class="cost--sale">&#x20bd; 47490</span>
+                                <span  class="cost" th:text=" ${product.getCostWithDiscount()}"></span>
+                                <span th:if="${product.discount != 0}"
+                                      class="cost--sale" th:text="${product.cost}"></span>
                             </div>
                             <button class="product__wish-list"><img src="../img/icons/wishlist.svg"
                                                                     alt="add" class="icon"></button>
@@ -165,133 +168,26 @@
                     </div>
                     <!-- /.product -->
                 </div>
+                </th:block>
                 <!-- /.product-wrapper -->
-                <div class="product-wrapper">
-                    <div class="product">
-                        <div class="sale-ribbon-wrapper">
-                            <div class="sale-ribbon">sale</div>
-                        </div>
-                        <a href="#" class="product-info">
-                            <div class="product__image-wrapper"><img src="../img/Samsung%20Galaxy%20S8+.jpg"
-                                                                     alt="Samsung Galaxy S8+"
-                                                                     class="product__image">
-                            </div>
-                            <div class="product__name" title="Samsung Galaxy S8+">Смартфон Samsung Galaxy S8+</div>
-                            <div class="product__quantity">Количество: 100 шт.</div>
-                            <a href="/user" class="product__seller">Продавец: Samsung</a>
-                        </a>
-                        <div class="product-option">
-                            <div class="product__cost">
-                                <span class="cost">&#x20bd; 37490</span>
-                                <span class="cost--sale">&#x20bd; 47490</span>
-                            </div>
-                            <button class="product__wish-list"><img src="../img/icons/wishlist.svg"
-                                                                    alt="add" class="icon"></button>
-                            <button class="product__cart"><img src="../img/icons/add-to-shopping-cart.svg"
-                                                               alt="add" class="icon"></button>
-                        </div>
-                    </div>
-                    <!-- /.product -->
-                </div>
-                <!-- /.product-wrapper -->
-                <div class="product-wrapper">
-                    <div class="product">
-                        <div class="sale-ribbon-wrapper">
-                            <div class="sale-ribbon">sale</div>
-                        </div>
-                        <a href="#" class="product-info">
-                            <div class="product__image-wrapper"><img src="../img/Samsung%20Galaxy%20S8+.jpg"
-                                                                     alt="Samsung Galaxy S8+"
-                                                                     class="product__image">
-                            </div>
-                            <div class="product__name" title="Samsung Galaxy S8+">Смартфон Samsung Galaxy S8+</div>
-                            <div class="product__quantity">Количество: 100 шт.</div>
-                            <a href="/user" class="product__seller">Продавец: Samsung</a>
-                        </a>
-                        <div class="product-option">
-                            <div class="product__cost">
-                                <span class="cost">&#x20bd; 37490</span>
-                                <span class="cost--sale">&#x20bd; 47490</span>
-                            </div>
-                            <button class="product__wish-list"><img src="../img/icons/wishlist.svg"
-                                                                    alt="add" class="icon"></button>
-                            <button class="product__cart"><img src="../img/icons/add-to-shopping-cart.svg"
-                                                               alt="add" class="icon"></button>
-                        </div>
-                    </div>
-                    <!-- /.product -->
-                </div>
-                <!-- /.product-wrapper -->
-                <div class="product-wrapper">
-                    <div class="product">
-                        <div class="sale-ribbon-wrapper">
-                            <div class="sale-ribbon">sale</div>
-                        </div>
-                        <a href="#" class="product-info">
-                            <div class="product__image-wrapper"><img src="../img/Samsung%20Galaxy%20S8+.jpg"
-                                                                     alt="Samsung Galaxy S8+"
-                                                                     class="product__image">
-                            </div>
-                            <div class="product__name" title="Samsung Galaxy S8+">Смартфон Samsung Galaxy S8+</div>
-                            <div class="product__quantity">Количество: 100 шт.</div>
-                            <a href="/user" class="product__seller">Продавец: Samsung</a>
-                        </a>
-                        <div class="product-option">
-                            <div class="product__cost">
-                                <span class="cost">&#x20bd; 37490</span>
-                                <span class="cost--sale">&#x20bd; 47490</span>
-                            </div>
-                            <button class="product__wish-list"><img src="../img/icons/wishlist.svg"
-                                                                    alt="add" class="icon"></button>
-                            <button class="product__cart"><img src="../img/icons/add-to-shopping-cart.svg"
-                                                               alt="add" class="icon"></button>
-                        </div>
-                    </div>
-                    <!-- /.product -->
-                </div>
-                <!-- /.product-wrapper -->
-                <div class="product-wrapper">
-                    <div class="product">
-                        <div class="sale-ribbon-wrapper">
-                            <div class="sale-ribbon">sale</div>
-                        </div>
-                        <a href="#" class="product-info">
-                            <div class="product__image-wrapper"><img src="../img/Samsung%20Galaxy%20S8+.jpg"
-                                                                     alt="Samsung Galaxy S8+"
-                                                                     class="product__image">
-                            </div>
-                            <div class="product__name" title="Samsung Galaxy S8+">Смартфон Samsung Galaxy S8+</div>
-                            <div class="product__quantity">Количество: 100 шт.</div>
-                            <a href="/user" class="product__seller">Продавец: Samsung</a>
-                        </a>
-                        <div class="product-option">
-                            <div class="product__cost">
-                                <span class="cost">&#x20bd; 37490</span>
-                                <span class="cost--sale">&#x20bd; 47490</span>
-                            </div>
-                            <button class="product__wish-list"><img src="../img/icons/wishlist.svg"
-                                                                    alt="add" class="icon"></button>
-                            <button class="product__cart"><img src="../img/icons/add-to-shopping-cart.svg"
-                                                               alt="add" class="icon"></button>
-                        </div>
-                    </div>
-                    <!-- /.product -->
-                </div>
-                <!-- /.product-wrapper -->
-
             </div>
             <!-- /.catalog-list -->
 
 
-            <nav class="pagination">
+            <nav class="pagination" th:if="${products.totalPages > 1}">
                 <div class="pagination-list">
-                    <a href="" class="pagination__item">&#8592;</a>
-                    <a href="" class="pagination__item pagination__item--active">1</a>
-                    <a href="" class="pagination__item">2</a>
-                    <a href="" class="pagination__item">3</a>
-                    <a href="" class="pagination__item">4</a>
-                    <a href="" class="pagination__item">5</a>
-                    <a href="" class="pagination__item">&#8594;</a>
+                        <a th:if="${products.hasPrevious()}" class="pagination__item"
+                           th:href="@{/catalog(page = ${products.number - 1}, search = ${search})}">&#8592;</a>
+
+                    <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                        <a th:if="${products.number == i - 1 }" class="pagination__item pagination__item--active" th:text="${i}"
+                        th:href="@{/catalog(page = ${i} - 1, search = ${search})}"></a>
+                        <a th:unless="${products.number == i - 1}" class="pagination__item"
+                        th:href="@{/catalog(page = ${i} - 1, search = ${search})}" th:text="${i}"></a>
+                    </th:block>
+                        </a>
+                    <a th:if="${products.hasNext()}" class="pagination__item"
+                       th:href="@{/catalog(page = ${products.number + 1}, search = ${search})}">&#8594;</a>
                 </div>
             </nav>
             <!-- /.pagination -->
@@ -315,7 +211,7 @@
                 <!-- /.footer-block -->
                 <div class="footer-block">
                     <div class="footer-block__title">Shopik</div>
-                    <a class="footer-block__item" href="">Главная</a>
+                    <a class="footer-block__item" th:href="@{/}">Главная</a>
                     <a class="footer-block__item" href="">Новости</a>
                     <a class="footer-block__item" href="">Скидки</a>
                 </div>
