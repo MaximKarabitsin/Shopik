@@ -22,14 +22,14 @@ public class GlobalControllerAdvice {
 
     @ModelAttribute
     public void addUser(Model model, Authentication authentication) {
-        if (authentication != null) {
+/*        if (authentication != null) {
             this.userService.getUserFromAuthentication(authentication).ifPresent(user -> {
                 UserDetails userDetails = new UserDetailsImpl(user);
                 Authentication newAuthentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(newAuthentication);
                 model.addAttribute("user", user);
             });
-        }
+        }*/
     }
 
 

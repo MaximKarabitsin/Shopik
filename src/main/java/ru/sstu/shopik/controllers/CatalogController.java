@@ -25,9 +25,16 @@ public class CatalogController {
     @Autowired
     private ProductService productService;
 
+
+    @ModelAttribute
+    public void addCurrentPage(Model model) {
+        model.addAttribute("currentPage", "catalog");
+    }
+
     @GetMapping
     public String getCatalogWithoutCategories(Model model, @PageableDefault(size = INITIAL_PAGE_SIZE) Pageable pageable,
                                               @RequestParam(required = false, value = "search") String search) {
+        model.addAttribute("currentCategory", this.categoryService.getCatalog().orElse(null));
         pageable = isCorrectPage(pageable);
         Page<Product> products;
         if (search != null && !search.isEmpty()) {
@@ -45,7 +52,7 @@ public class CatalogController {
     public String getCatalogWithCategories(Model model, @PathVariable String category,
                                            @PageableDefault(size = INITIAL_PAGE_SIZE) Pageable pageable,
                                            @RequestParam(required = false, value = "search") String search) {
-
+        model.addAttribute("currentCategory", this.categoryService.getCategoryByEnCategory(category).orElse(null));
         pageable = isCorrectPage(pageable);
         Page<Product> products;
         if (search != null && !search.isEmpty()) {
@@ -63,7 +70,7 @@ public class CatalogController {
     public String getCatalogWithCategories(Model model, @PathVariable String motherCategory, @PathVariable String category,
                                            @PageableDefault(size = INITIAL_PAGE_SIZE) Pageable pageable,
                                            @RequestParam(required = false, value = "search") String search) {
-
+        model.addAttribute("currentCategory", this.categoryService.getCategoryByEnCategory(category).orElse(null));
         pageable = isCorrectPage(pageable);
         Page<Product> products;
         if (search != null && !search.isEmpty()) {
@@ -74,11 +81,6 @@ public class CatalogController {
         }
         addInModel(model, products);
         return "catalog/catalog";
-    }
-
-    @ModelAttribute
-    public void addCurrentPage(Model model) {
-        model.addAttribute("currentPage", "catalog");
     }
 
     private Pageable isCorrectPage(Pageable pageable) {

@@ -13,4 +13,5 @@ public interface CategoryService {
     void addCategory(CategoryAddForm categoryAddForm);
     boolean checkMotherCategory(int motherId);
     List<Category> getSubCategories(String motherName) throws CategoryDoesNotExist;
+    Optional<Category> getCategoryByEnCategory(String enCategory);
 }
