@@ -1,0 +1,88 @@
+.settings-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-menu {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.settings-menu__item {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #444;
+    font-size: 18px;
+    transition: .3s;
+    text-decoration: none;
+}
+
+.settings-menu__item:last-child {
+    border-bottom: none;
+}
+
+.settings-menu__item--active,
+.settings-menu__item:hover {
+    background-color: #33d3fe;
+    color: #fff;
+}
+
+.settings-section {
+
+}
+
+.settings-section__title {
+    font-weight: 400;
+    color: #33d3fe;
+}
+.settings-section__field {
+    color: #444;
+    margin: 5px 0;
+}
+
+.settings-section__form {
+margin: 25px 0;
+}
+
+.settings-section__input-wrapper {
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+    width: 290px;
+}
+
+.settings-section__label {
+    display: flex;
+    flex-direction: column;
+    color: #444;
+}
+
+.settings-section__error {
+    font-size: 14px;
+    color: red;
+}
+
+.settings-section__button {
+    font-size: 16px;
+    padding: 5px;
+}
+
+.settings-section__table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.settings-section__table th, td {
+    border: #777 solid 1px;
+    padding: 2px;
+}
+
+.settings-section__table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.settings-section__table tr:nth-child(even) {
+    background-color: #e0e0e0;
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/profile-layout}">
+<head>
+    <title th:text="#{settings.title.addProduct}"></title>
+</head>
+<body>
+
+    <th:block layout:fragment="section">
+        <h2 class="settings-section__title" th:text="#{settings.section.addProduct.title}"></h2>
+
+
+        <form th:action="@{/profile/products/addProduct}" method="post" th:object="${productAddForm}"
+              class="settings-section__form">
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="Название"/>
+                    <input type="text" name="productName"></label>
+                <span class="settings-section__error" th:errors="*{productName}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="Стоимость"/>
+                    <input type="text" name="cost"></label>
+                <span class="settings-section__error" th:errors="*{cost}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="Колличество"/>
+                    <input type="text" name="quantity"></label>
+                <span class="settings-section__error" th:errors="*{quantity}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="Описание"/>
+                    <input type="text" name="description"></label>
+                <span class="settings-section__error" th:errors="*{description}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="Категория"/>
+                    <select name="mainCategory" th:size="${catalog.getSubCategories().size()}">
+                        <option th:each="category : ${catalog.subCategories}" th:text="${category.getEnCategory()}"
+                                th:value="${category.getEnCategory()}"></option>
+                    </select></label>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="Подкатегория"/>
+                    <select name="motherCategory"></select></label>
+                <span class="settings-section__error" th:errors="*{motherCategory}"></span>
+            </div>
+            <button class="button settings-section__button" type="submit">Добавить</button>
+        </form>
+
+    </th:block>
+    <th:block layout:fragment="jsscript">
+        <script th:src="@{/js/addProduct.js}"></script>
+    </th:block>
+</body>
+</html>

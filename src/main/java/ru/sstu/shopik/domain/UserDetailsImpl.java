@@ -22,7 +22,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        user.getRoles().forEach(role -> System.out.println(role.getRole()));
         return user.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
@@ -59,7 +58,15 @@ public class UserDetailsImpl implements UserDetails {
         return this.user.getEnabled();
     }
 
-    public Integer getBalance() {
-        return  this.user.getBalance();
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public long getId() {
+        return this.user.getId();
     }
 }

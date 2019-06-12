@@ -25,7 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests() //SECURITY EDIT
-                .antMatchers("/login/**", "/registration/**", "/**", "/img/**", "/js/**", "/css/**").permitAll()
+                .antMatchers("/login/**", "/registration/**", "/", "/catalog/**", "/img/**", "/js/**", "/css/**").permitAll()
+                //.antMatchers("/login/**", "/registration/**").anonymous()
+                .antMatchers("/profile/products/**").hasRole("SELLER")
+                .antMatchers("adminpanel/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -49,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCrypt());
+        auth.userDetailsService(this.userDetailsService).passwordEncoder(this.bCrypt());
 
     }
 }

@@ -1,0 +1,62 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/adminPanel-layout}">
+<head>
+    <title th:text="#{settings.title.users}"></title>
+</head>
+<body>
+
+    <th:block layout:fragment="section">
+        <h2 class="settings-section__title" th:text="#{settings.section.users.title}"></h2>
+        <table class="settings-section__table">
+            <tr>
+                <th th:text="#{settings.section.users.table.id}"></th>
+                <th th:text="#{settings.section.users.table.login}"></th>
+                <th th:text="#{settings.section.users.table.email}"></th>
+                <th th:text="#{settings.section.users.table.type}"></th>
+                <th th:text="#{settings.section.users.table.firstName}"></th>
+                <th th:text="#{settings.section.users.table.lastName}"></th>
+                <th th:text="#{settings.section.users.table.balance}"></th>
+                <th th:text="#{settings.section.users.table.date}"></th>
+                <th th:text="#{settings.section.users.table.enabled}"></th>
+                <th></th>
+                <th></th>
+            </tr>
+
+
+            <th:block th:each="u : ${users}">
+                <tr>
+                    <td th:text="${u.id}"></td>
+                    <td th:text="${u.login}"></td>
+                    <td th:text="${u.email}"></td>
+                    <td class="td"
+                        th:text="${u.hasRole('ADMIN')}? #{account.type.admin}: (${user.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer})"></td>
+                    <td th:text="${u.firstName}"></td>
+                    <td th:text="${u.lastName}"></td>
+                    <td th:text="${u.balance}"></td>
+                    <td th:text="${u.date}"></td>
+                    <td th:text="${u.enabled}?'+':'-'"></td>
+                    <td><a th:href="@{/adminpanel/users/__${u.id}__}" th:text="#{settings.section.users.table.edit}"></a></td>
+                    <td><a th:href="@{/adminpanel/users/__${u.id}__(delete='')}" th:text="#{settings.section.users.table.delete}"></a></td>
+                </tr>
+
+            </th:block>
+        </table>
+        <nav class="pagination">
+            <div class="pagination-list">
+                <a href="" class="pagination__item">&#8592;</a>
+                <a href="" class="pagination__item pagination__item--active">1</a>
+                <a href="" class="pagination__item">2</a>
+                <a href="" class="pagination__item">3</a>
+                <a href="" class="pagination__item">4</a>
+                <a href="" class="pagination__item">5</a>
+                <a href="" class="pagination__item">&#8594;</a>
+            </div>
+        </nav>
+        <!-- /.pagination -->
+    </th:block>
+
+</body>
+</html>

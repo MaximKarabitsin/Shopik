@@ -21,6 +21,6 @@ public class ProductController {
     public String getInfoAboutProduct(@PathVariable Long productId, Model model) {
         Product product = productService.getInfoAboutProductForBigPageById(productId).get();
         model.addAttribute("product", product);
-        return "product";
+        return "catalog/product";
     }
 }

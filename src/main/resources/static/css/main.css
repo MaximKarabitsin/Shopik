@@ -41,3 +41,45 @@ body {
     margin-top: 30px;
     color: #444;
 }
+
+/*PAGINATION*/
+.pagination {
+    margin-top: 20px;
+
+}
+
+.pagination-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.pagination__item {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    line-height: 32px;
+    margin: 0 2px;
+    color: #777777;
+    height: 32px;
+    width: 32px;
+    transition: .3s;
+}
+
+.pagination__item:first-child,
+.pagination__item:last-child {
+    line-height: 28px;
+    font-size: 20px;
+}
+
+.pagination__item:hover {
+    background-color: #78c4cd;
+    color: #fff;
+
+}
+
+.pagination__item--active {
+    background-color: #78c4cd;
+    color: #fff;
+}

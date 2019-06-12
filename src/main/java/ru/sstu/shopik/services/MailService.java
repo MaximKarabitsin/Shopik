@@ -36,20 +36,20 @@ public class MailService {
         context.setVariables(variables);
         context.setLocale(locale);
         
-        return templateEngine.process(template, context);
+        return this.templateEngine.process(template, context);
     }
     
     
     public void sendMail(String from, String to, String subject, String msg) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessage message = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             
             helper.setSubject(subject);
             helper.setFrom(from);
             helper.setTo(to);
             helper.setText(msg, true);
-            mailSender.send(message);
+            this.mailSender.send(message);
         } catch (MessagingException ex) {
             ex.printStackTrace();
         }
@@ -59,8 +59,8 @@ public class MailService {
         Map<String, Object> replaces = new HashMap<>();
         replaces.put("token", user.getToken());
         String content = this.build("mail/confirmEmail", replaces, locale);
-        String subject = messageSource.getMessage("mail.confirm.subject", null, locale);
-        sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
+        String subject = this.messageSource.getMessage("mail.confirm.subject", null, locale);
+        this.sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
     }
 
     public void sendPasswordRecovery(User user, String newPassword, Locale locale){
@@ -68,8 +68,15 @@ public class MailService {
         replaces.put("newPassword", newPassword);
         replaces.put("login", user.getLogin());
         String content = this.build("mail/passwordRecovery", replaces, locale);
-        String subject = messageSource.getMessage("mail.passwordRecovery.subject", null, locale);
-        sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
+        String subject = this.messageSource.getMessage("mail.passwordRecovery.subject", null, locale);
+        this.sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
     }
-    
+
+    public void sendUserChange(User user){
+        Map<String, Object> replaces = new HashMap<>();
+        replaces.put("u", user);
+        String content = this.build("mail/userChange", replaces, Locale.ENGLISH);
+        String subject = this.messageSource.getMessage("mail.userChange.subject", null, Locale.ENGLISH);
+        this.sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
+    }
 }

@@ -16,6 +16,6 @@ public class CustomAuthenticationFailure implements AuthenticationFailureHandler
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         request.setAttribute("username", request.getParameter("username"));
-        request.getRequestDispatcher("/loginError").forward(request, response);
+        request.getRequestDispatcher("/login/error").forward(request, response);
     }
 }

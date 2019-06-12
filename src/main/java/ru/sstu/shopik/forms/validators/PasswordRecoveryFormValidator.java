@@ -22,7 +22,7 @@ public class PasswordRecoveryFormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		
 		PasswordRecoveryForm form = (PasswordRecoveryForm)target;
-		if(!userService.isUserWithEmailExistAndEnabled(form.getEmail())) {
+		if(!this.userService.isUserWithEmailExistAndEnabled(form.getEmail())) {
 			errors.rejectValue("email", "passwordRecovery.email.exists", "User with email no exists");
 		}
 

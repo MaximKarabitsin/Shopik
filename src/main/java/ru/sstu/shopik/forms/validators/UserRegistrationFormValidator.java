@@ -22,11 +22,19 @@ public class UserRegistrationFormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		
 		UserRegistrationForm form = (UserRegistrationForm)target;
-		if(userService.isUserWithLoginExist(form.getLogin())) {
+		if(this.userService.isUserWithLoginExist(form.getLogin())) {
 			errors.rejectValue("login", "enter.login.exist", "User with login already exists");
 		}
-		if(userService.isUserWithEmailExist(form.getEmail())) {
+		if(this.userService.isUserWithEmailExist(form.getEmail())) {
 			errors.rejectValue("email", "enter.email.exist", "User with email already exists");
+		}
+
+		switch (form.getRole()) {
+			case "seller":
+			case "user":
+				break;
+			default:
+				errors.rejectValue("role", "settings.section.user.type.invalid", "Invalid type");
 		}
 
 	}

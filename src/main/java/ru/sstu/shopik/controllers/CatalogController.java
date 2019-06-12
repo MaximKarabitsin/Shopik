@@ -7,21 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import ru.sstu.shopik.dao.ProductRepository;
-import ru.sstu.shopik.dao.UserRepository;
-import ru.sstu.shopik.domain.entities.Category;
+import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.domain.models.Pager;
 import ru.sstu.shopik.services.CategoryService;
 import ru.sstu.shopik.services.ProductService;
-import ru.sstu.shopik.services.impl.ProductServiceImpl;
-
-import java.util.Date;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/catalog")
@@ -48,7 +38,7 @@ public class CatalogController {
         }
 
         addInModel(model, products);
-        return "catalog";
+        return "catalog/catalog";
     }
 
     @GetMapping("/{category}")
@@ -66,7 +56,7 @@ public class CatalogController {
         }
 
         addInModel(model, products);
-        return "catalog";
+        return "catalog/catalog";
     }
 
     @GetMapping("/{motherCategory}/{category}")
@@ -83,7 +73,12 @@ public class CatalogController {
             products = productService.getAllByCategoryAndProductName(category, "", motherCategory, pageable);
         }
         addInModel(model, products);
-        return "catalog";
+        return "catalog/catalog";
+    }
+
+    @ModelAttribute
+    public void addCurrentPage(Model model) {
+        model.addAttribute("currentPage", "catalog");
     }
 
     private Pageable isCorrectPage(Pageable pageable) {
