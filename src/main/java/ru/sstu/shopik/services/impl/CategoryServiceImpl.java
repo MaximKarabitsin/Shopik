@@ -64,4 +64,9 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryDoesNotExist();
         }
     }
+
+    @Override
+    public Optional<Category> getCategoryByEnCategory(String enCategory) {
+        return this.categoryRepository.findByEnCategory(enCategory);
+    }
 }
