@@ -1,6 +1,7 @@
 package ru.sstu.shopik.services;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
@@ -33,7 +34,7 @@ public interface UserService {
 
     void changeUserPassword(Authentication authentication, PasswordChangeForm passwordChangeForm) throws UserDoesNotExist, InvalidCurrentPassword;
 
-    Page<User> getPageUser(int page);
+    Page<User> getPageUser(Pageable pageable);
 
     void changeUser(UserChangeForm userChangeForm, long id) throws InvalidLogin, UserDoesNotExist;
 

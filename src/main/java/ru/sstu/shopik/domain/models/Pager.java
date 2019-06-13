@@ -6,29 +6,29 @@ public class Pager {
     private int endPage;
 
     public Pager(int totalPages, int currentPage) {
-        int halfPagesTtShow = getButtonToShow()/2;
+        int halfPagesTtShow = getButtonToShow() / 2;
         //if we have only 4 or less pages, we show all of them
         if (totalPages <= getButtonToShow()) {
             setStartPage(1);
             setEndPage(totalPages);
         } else {
             //if we stay on 1,2, we show first 5 pages
-            if (currentPage - halfPagesTtShow <=0) {
+            if (currentPage - halfPagesTtShow <= 0) {
                 setStartPage(1);
                 setEndPage(getButtonToShow());
             } else {
                 // if we stay on pages, that less than last page by two, we show 5 last
                 if (currentPage + halfPagesTtShow == totalPages) {
-                    setStartPage(currentPage -halfPagesTtShow);
+                    setStartPage(currentPage - halfPagesTtShow);
                     setEndPage(totalPages);
                 } else {
                     //look at the previous block
                     if (currentPage + halfPagesTtShow > totalPages) {
-                        setStartPage(totalPages-getButtonToShow()+1);
+                        setStartPage(totalPages - getButtonToShow() + 1);
                         setEndPage(totalPages);
                     } else { //all another variants
-                        setStartPage(currentPage-halfPagesTtShow);
-                        setEndPage(currentPage+halfPagesTtShow);
+                        setStartPage(currentPage - halfPagesTtShow);
+                        setEndPage(currentPage + halfPagesTtShow);
                     }
                 }
             }
