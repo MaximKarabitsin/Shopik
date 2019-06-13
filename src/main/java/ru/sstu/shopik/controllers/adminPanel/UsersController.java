@@ -56,6 +56,7 @@ public class UsersController {
         pageable = isCorrectPage(pageable);
         Page<User> userPage = this.userService.getPageUser(pageable);
         Pager pager = new Pager(userPage.getTotalPages(), userPage.getNumber());
+
         model.addAttribute("users", userPage);
         model.addAttribute("pager", pager);
 

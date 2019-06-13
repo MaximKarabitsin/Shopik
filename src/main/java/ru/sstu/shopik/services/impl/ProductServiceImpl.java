@@ -22,8 +22,10 @@ import ru.sstu.shopik.dao.ProductRepository;
 import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.forms.ProductAddForm;
+import ru.sstu.shopik.services.ImageProductService;
 import ru.sstu.shopik.services.ProductService;
 
+import java.io.IOException;
 import java.util.Date;
 
 
@@ -61,6 +63,9 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
         }
     }
+
+    @Autowired
+    ImageProductService imageProductService;
 
     @Override
     public Optional<Product> getInfoAboutProductForBigPageById(Long id) {
@@ -102,15 +107,19 @@ public class ProductServiceImpl implements ProductService {
             return Page.empty();
         }
     }
+
     @Override
-    public void createProductFromAddProductForm(ProductAddForm productAddForm) {
+    public void createProductFromAddProductForm(ProductAddForm productAddForm) throws  IOException{
         Product product = new Product();
         BeanUtils.copyProperties(productAddForm, product);
+        long id = this.productRepository.getMaxId();
+        product.setId(++id);
         product.setCategory(this.categoryRepository.findByEnCategoryOrRuCategory(productAddForm.getMotherCategory(), productAddForm.getMotherCategory()).orElse(null));
         product.setDate(new Date());
         product.setDiscount(0);
         product.setSeller(((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser());
         product.setDeleted(false);
+        this.imageProductService.saveImage(productAddForm.getFiles(), id);
         this.productRepository.save(product);
 
     }

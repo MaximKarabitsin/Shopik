@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.forms.ProductAddForm;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public interface ProductService {
@@ -23,7 +24,7 @@ public interface ProductService {
 
     Page<Product> getAllByCategoryAndProductName(String categoryName, String productName, String motherCategoryName, Pageable pageable);
 
-    void createProductFromAddProductForm(ProductAddForm productAddForm);
+    void createProductFromAddProductForm(ProductAddForm productAddForm) throws IOException;
 }
 
 
