@@ -3,6 +3,9 @@ package ru.sstu.shopik.controllers.adminPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.User;
+import ru.sstu.shopik.domain.models.Pager;
 import ru.sstu.shopik.exceptions.InvalidCurrentPassword;
 import ru.sstu.shopik.exceptions.InvalidLogin;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
@@ -26,6 +30,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/adminpanel/users")
 public class UsersController {
+    private static final int INITIAL_PAGE_SIZE = 18;
 
     @Autowired
     UserService userService;
@@ -47,22 +52,19 @@ public class UsersController {
     }
 
     @GetMapping
-    public String getUsers(@RequestParam(required = false) Integer page, Model model) {
-        if (page == null) {
-            page = 0;
-        } else {
-            page -= 1;
-        }
-        Page<User> userPage = this.userService.getPageUser(page);
-        int t = userPage.getTotalPages();
+    public String getUsers(@PageableDefault(size = INITIAL_PAGE_SIZE)Pageable pageable, Model model) {
+        pageable = isCorrectPage(pageable);
+        Page<User> userPage = this.userService.getPageUser(pageable);
+        Pager pager = new Pager(userPage.getTotalPages(), userPage.getNumber());
         model.addAttribute("users", userPage);
+        model.addAttribute("pager", pager);
 
         return "adminPanel/users";
     }
 
     @GetMapping("/{id}")
     public String getUser(@PathVariable Long id, @RequestParam(required = false) String delete, Model model, UserChangeForm userChangeForm) {
-        if (delete != null){
+        if (delete != null) {
             this.userService.deleteUser(id);
             return "redirect:/adminpanel/users";
         }
@@ -91,5 +93,13 @@ public class UsersController {
             return "adminPanel/user";
         }
         return "redirect:/adminpanel/users/" + id;
+    }
+
+    private Pageable isCorrectPage(Pageable pageable) {
+        if (pageable.getPageSize() != INITIAL_PAGE_SIZE) {
+            return PageRequest.of(0, INITIAL_PAGE_SIZE);
+        } else {
+            return pageable;
+        }
     }
 }

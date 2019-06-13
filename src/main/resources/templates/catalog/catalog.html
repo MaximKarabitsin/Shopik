@@ -4,15 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/main-layout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
-    <link rel="stylesheet" th:href="@{/css/main_media.css}">
-    <link rel="stylesheet" th:href="@{/css/header-footer.css}">
-    <link rel="stylesheet" th:href="@{/css/header-footer_media.css}">
+
     <link rel="stylesheet" th:href="@{/css/catalog.css}">
     <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
     <title th:text="#{catalog.title}"></title>
@@ -20,232 +12,142 @@
 <body>
 
 
-    <header>
-        <div class="header">
-            <div class="container header-wrapper">
-                <a href="#">
-                    <img class="logo" th:src="@{/img/icons/logo.svg}" alt="Shopik">
+<th:block layout:fragment="main">
+
+    <div class="container">
+
+        <div class="catalog-nav">
+            <div class="catalog-list-categories">
+                <input id="checkboxBtn" class="checkboxBtn" type="checkbox">
+                <label for="checkboxBtn" class="labelBtn"></label>
+                <a class="button catalog__btn">
+                    <svg class="catalog-icon button-icon">
+                        <use th:href="@{/img/icons/icons.svg#arrow-down}"></use>
+                    </svg>
+                    <th:block th:text="#{catalog.button.catalog}"></th:block>
                 </a>
-                <div class="header-search">
-                    <form action="">
-                        <input class="header-search__field" type="text" placeholder="Поиск по каталогу...">
-                        <button class="header-search__btn" type="submit">
-                            <svg class="header-search__icon">
-                                <use xlink:href="../img/icons/icons.svg#search"></use>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-                <nav class="user-menu">
-                    <a class="user-menu__item" href="#">Профиль</a>
-                    <a class="user-menu__item" href="#">Список желаемого</a>
-                    <a class="user-menu__item" href="#">Админ-панель</a>
-                    <a class="user-menu__item" href="#">Выход</a>
-                    <a class="user-menu__cart" href="#">
-                        <img class="cart-icon" th:src="@{/img/icons/shopping-cart.svg}" alt="">
-                        Корзина</a>
-                </nav>
-                <div class="user-menu-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+
+                <ul th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" class="list-categories">
+
+                    <th:block th:each="category : ${catalog.subCategories}">
+
+                        <li class="category" th:unless="${#lists.isEmpty(category.subCategories)}">
+                            <input th:id="|category_${category.categoryId}|" class="checkboxCategory"
+                                   type="checkbox">
+                            <a class="category__link category__link--main"
+                               th:href="@{/catalog/__${category.enCategory}__}"
+                               th:text="${category['__${langCategory}__']}"></a>
+                            <label th:for="|category_${category.categoryId}|" class="labelCategory"></label>
+
+                            <ul class="list-categories">
+                                <th:block th:each="subCategory : ${category.subCategories}">
+                                    <li class="category"><a class="category__link"
+                                                            th:href="@{/catalog/__${category.enCategory}__/__${subCategory.enCategory}__}"
+                                                            th:text="${subCategory['__${langCategory}__']}"></a>
+                                    </li>
+                                </th:block>
+                            </ul>
+
+                        </li>
+
+                        <li class="category" th:if="${#lists.isEmpty(category.subCategories)}">
+                            <a class="category__link" href="#"
+                               th:text="${category['__${langCategory}__']}"></a>
+
+
+                        </li>
+                    </th:block>
+
+                </ul>
             </div>
-        </div>
-        <div class="navigation">
-            <div class="container">
-                <nav class="nav-menu">
-                    <a class="nav-menu__item" href="#">Главная</a>
-                    <a class="nav-menu__item nav-menu__item--active" href="#">Каталог</a>
-                    <a class="nav-menu__item" href="#">Новости</a>
-                    <a class="nav-menu__item" href="#">Скидки</a>
-                </nav>
-            </div>
-        </div>
-    </header>
+            <!-- /.catalog-list-categories -->
+            <div class="catalog-info">
+                <div class="current-categories">
+                    <a href="#" class="current-category">Каталог</a>
+                    <a href="#" class="current-category">Бытовая электроника</a>
+                    <a href="#" class="current-category">Смартфоны</a>
 
-    <th:block layout:fragment="main">
+                </div>
+                <!-- /.current-categories -->
 
-        <div class="container">
-
-            <div class="catalog-nav">
-                <div class="catalog-list-categories">
-                    <input id="checkboxBtn" class="checkboxBtn" type="checkbox">
-                    <label for="checkboxBtn" class="labelBtn"></label>
-                    <a class="button catalog__btn">
-                        <svg class="catalog-icon button-icon">
-                            <use th:href="@{/img/icons/icons.svg#arrow-down}"></use>
+                <form class="form-search" method="get">
+                    <input type="text" class="catalog-search__input"
+                           th:attr="placeholder=#{header.catalog.search}" th:name="search">
+                    <button class="catalog-search__btn button" type="submit">
+                        <svg class="catalog-search__icon button-icon">
+                            <use th:href="@{/img/icons/icons.svg#search}"></use>
                         </svg>
-                        <th:block  th:text="#{catalog.button.catalog}"></th:block>
-                        </a>
-
-                    <ul th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" class="list-categories">
-
-                        <th:block th:each="category : ${catalog.subCategories}">
-
-                            <li class="category" th:unless="${#lists.isEmpty(category.subCategories)}">
-                                <input th:id="|category_${category.categoryId}|" class="checkboxCategory"
-                                       type="checkbox">
-                                <a class="category__link category__link--main"
-                                   th:href="@{/catalog/__${category.enCategory}__}"
-                                   th:text="${category['__${langCategory}__']}"></a>
-                                <label th:for="|category_${category.categoryId}|" class="labelCategory"></label>
-
-                                <ul class="list-categories">
-                                    <th:block th:each="subCategory : ${category.subCategories}">
-                                        <li class="category"><a class="category__link"
-                                                                th:href="@{/catalog/__${category.enCategory}__/__${subCategory.enCategory}__}"
-                                                                th:text="${subCategory['__${langCategory}__']}"></a>
-                                        </li>
-                                    </th:block>
-                                </ul>
-
-                            </li>
-
-                            <li class="category" th:if="${#lists.isEmpty(category.subCategories)}">
-                                <a class="category__link" href="#"
-                                   th:text="${category['__${langCategory}__']}"></a>
-
-
-                            </li>
-                        </th:block>
-
-                    </ul>
-                </div>
-                <!-- /.catalog-list-categories -->
-                <div class="catalog-info">
-                    <div class="current-categories">
-                        <a href="#" class="current-category">Каталог</a>
-                        <a href="#" class="current-category">Бытовая электроника</a>
-                        <a href="#" class="current-category">Смартфоны</a>
-
-                    </div>
-                    <!-- /.current-categories -->
-
-                    <form class="form-search"method="get">
-                        <input type="text" class="catalog-search__input"
-                               th:attr="placeholder=#{header.catalog.search}" th:name="search">
-                        <button class="catalog-search__btn button" type="submit">
-                            <svg class="catalog-search__icon button-icon">
-                                <use th:href="@{/img/icons/icons.svg#search}"></use>
-                            </svg>
-                            <th:block  th:text="#{catalog.button.search}"></th:block>
-                        </button>
-                    </form>
-                    <!-- /.form-search -->
-                </div>
-                <!-- /.catalog-info -->
+                        <th:block th:text="#{catalog.button.search}"></th:block>
+                    </button>
+                </form>
+                <!-- /.form-search -->
             </div>
-            <!-- /.catalog-nav -->
+            <!-- /.catalog-info -->
+        </div>
+        <!-- /.catalog-nav -->
 
 
-            <div class="catalog-list">
-                <th:block th:each="product: ${products}">
+        <div class="catalog-list">
+            <th:block th:each="product: ${products}">
                 <div class="product-wrapper">
                     <div class="product">
-                        <div class="sale-ribbon-wrapper">
+                        <div th:if="${product.discount != 0}" class="sale-ribbon-wrapper">
                             <div class="sale-ribbon">sale</div>
                         </div>
                         <a th:href="@{/product/{productId}(productId=${product.id})}" class="product-info">
-                            <div class="product__image-wrapper"><img src="/img/Samsung%20Galaxy%20S8+.jpg"
+                            <div class="product__image-wrapper"><img th:src="@{/image/product/main/__${product.id}__}"
                                                                      th:alt="${product.productName}"
                                                                      class="product__image">
                             </div>
-                            <div class="product__name" th:title="${product.productName}" th:text="${product.productName}"></div>
+                            <div class="product__name" th:title="${product.productName}"
+                                 th:text="${product.productName}"></div>
                             <div class="product__quantity" th:text="|Количество: ${product.quantity} шт|"></div>
                             <a href="#" class="product__seller" th:text="|Продавец: ${product.seller.login}|"></a>
                         </a>
                         <div class="product-option">
                             <div class="product__cost">
-                                <span  class="cost" th:text=" ${product.getCostWithDiscount()}"></span>
+                                <span class="cost" th:text="|&#x20bd; ${product.getCostWithDiscount()}|"></span>
                                 <span th:if="${product.discount != 0}"
-                                      class="cost--sale" th:text="${product.cost}"></span>
+                                      class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
                             </div>
-                            <button class="product__wish-list"><img src="../img/icons/wishlist.svg"
-                                                                    alt="add" class="icon"></button>
-                            <button class="product__cart"><img src="../img/icons/add-to-shopping-cart.svg"
-                                                               alt="add" class="icon"></button>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <button class="product__wish-list"><img th:src="@{/img/icons/wishlist.svg}"
+                                                                        alt="add" class="icon"></button>
+                                <button class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                                   alt="add" class="icon"></button>
+                            </th:block>
                         </div>
                     </div>
                     <!-- /.product -->
                 </div>
+            </th:block>
+            <!-- /.product-wrapper -->
+        </div>
+        <!-- /.catalog-list -->
+
+
+        <nav class="pagination" th:if="${products.totalPages > 1}">
+            <div class="pagination-list">
+                <a th:if="${products.hasPrevious()}" class="pagination__item"
+                   th:href="@{/catalog(page = ${products.number - 1}, search = ${search})}">&#8592;</a>
+
+                <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                    <a th:if="${products.number == i - 1 }" class="pagination__item pagination__item--active"
+                       th:text="${i}"
+                       th:href="@{/catalog(page = ${i} - 1, search = ${search})}"></a>
+                    <a th:unless="${products.number == i - 1}" class="pagination__item"
+                       th:href="@{/catalog(page = ${i} - 1, search = ${search})}" th:text="${i}"></a>
                 </th:block>
-                <!-- /.product-wrapper -->
+                </a>
+                <a th:if="${products.hasNext()}" class="pagination__item"
+                   th:href="@{/catalog(page = ${products.number + 1}, search = ${search})}">&#8594;</a>
             </div>
-            <!-- /.catalog-list -->
+        </nav>
+        <!-- /.pagination -->
+    </div>
+    <!-- /.container -->
+</th:block>
 
 
-            <nav class="pagination" th:if="${products.totalPages > 1}">
-                <div class="pagination-list">
-                        <a th:if="${products.hasPrevious()}" class="pagination__item"
-                           th:href="@{/catalog(page = ${products.number - 1}, search = ${search})}">&#8592;</a>
-
-                    <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-                        <a th:if="${products.number == i - 1 }" class="pagination__item pagination__item--active" th:text="${i}"
-                        th:href="@{/catalog(page = ${i} - 1, search = ${search})}"></a>
-                        <a th:unless="${products.number == i - 1}" class="pagination__item"
-                        th:href="@{/catalog(page = ${i} - 1, search = ${search})}" th:text="${i}"></a>
-                    </th:block>
-                        </a>
-                    <a th:if="${products.hasNext()}" class="pagination__item"
-                       th:href="@{/catalog(page = ${products.number + 1}, search = ${search})}">&#8594;</a>
-                </div>
-            </nav>
-            <!-- /.pagination -->
-        </div>
-        <!-- /.container -->
-<<<<<<< HEAD:src/main/resources/templates/catalog.html
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-blocks">
-                <div class="footer-block">
-                    <div class="footer-block__title">Контакты</div>
-                    <a class="footer-block__item" href=""><img class="footer-icon" src="../img/icons/geolocation.svg"
-                                                               alt="Адресс:">г. Саратов</a>
-                    <a class="footer-block__item" href=""><img class="footer-icon" src="../img/icons/phone.svg"
-                                                               alt="Тел.:">+7 (999) 123 4567</a>
-                    <a class="footer-block__item" href="mailto:mail@shopik.com"><img class="footer-icon"
-                                                                                     src="../img/icons/email.svg"
-                                                                                     alt="email:">mail@shopik.com</a>
-                </div>
-                <!-- /.footer-block -->
-                <div class="footer-block">
-                    <div class="footer-block__title">Shopik</div>
-                    <a class="footer-block__item" th:href="@{/}">Главная</a>
-                    <a class="footer-block__item" href="">Новости</a>
-                    <a class="footer-block__item" href="">Скидки</a>
-                </div>
-                <!-- /.footer-block -->
-                <div class="footer-block">
-                    <div class="footer-block__title">Помощь</div>
-                    <a class="footer-block__item" href="">Помощь</a>
-                    <a class="footer-block__item" href="">FAQ</a>
-                </div>
-                <!-- /.footer-block -->
-                <div class="footer-block">
-                    <div class="footer-block__title">Профиль</div>
-                    <a class="footer-block__item" href="">Профиль</a>
-                    <a class="footer-block__item" href="">Список желаемого</a>
-                    <a class="footer-block__item" href="">Админ-панель</a>
-                    <a class="footer-block__item" href="">Выход</a>
-                </div>
-                <!-- /.footer-block -->
-            </div>
-            <!-- /.footer-blocks -->
-        </div>
-        <!-- /.container -->
-    </footer>
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="../js/main.js"></script>
-=======
-    </th:block>
->>>>>>> d18098d607d49656b3f69e372231931ed321c939:src/main/resources/templates/catalog/catalog.html
 </body>
 </html>
