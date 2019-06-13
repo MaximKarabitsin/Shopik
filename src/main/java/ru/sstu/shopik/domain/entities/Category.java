@@ -24,6 +24,8 @@ public class Category {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "motherCategory")
+
+
     @JsonManagedReference
     private List<Category> subCategories;
 

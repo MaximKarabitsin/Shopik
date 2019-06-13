@@ -43,7 +43,8 @@ public class Product {
     private Category category;
 
 
-    public Product() {}
+    public Product() {
+    }
 
     public Long getId() {
         return id;
@@ -123,5 +124,9 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public int getCostWithDiscount() {
+        return (int)((long)(this.cost) * (100 - this.discount)/100);
     }
 }

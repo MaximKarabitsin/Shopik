@@ -12,7 +12,7 @@
         <h2 class="settings-section__title" th:text="#{settings.section.addProduct.title}"></h2>
 
 
-        <form th:action="@{/profile/products/addProduct}" method="post" th:object="${productAddForm}"
+        <form th:action="@{/profile/products/addProduct}" enctype="multipart/form-data" method="post" th:object="${productAddForm}"
               class="settings-section__form">
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
@@ -51,6 +51,12 @@
                     <th:block th:text="Подкатегория"/>
                     <select name="motherCategory"></select></label>
                 <span class="settings-section__error" th:errors="*{motherCategory}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="Фотографии"/>
+                    <input type="file" name="files" multiple accept="image/png, image/jpeg"></label>
+                <span class="settings-section__error" th:errors="*{files}"></span>
             </div>
             <button class="button settings-section__button" type="submit">Добавить</button>
         </form>

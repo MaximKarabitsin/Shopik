@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryService {
-    public Optional<Category> getCatalog();
-    List<Category> getSubCategories(String motherName) throws CategoryDoesNotExist;
+    Optional<Category> getCatalog();
+    Optional<Category> getCategoryById(int id);
     void addCategory(CategoryAddForm categoryAddForm);
     boolean checkMotherCategory(int motherId);
     List<Category> getSubCategories(String motherName) throws CategoryDoesNotExist;

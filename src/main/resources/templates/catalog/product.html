@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -55,7 +55,7 @@
             <div class="container">
                 <nav class="nav-menu">
                     <a class="nav-menu__item" href="#">Главная</a>
-                    <a class="nav-menu__item nav-menu__item--active" href="#">Каталог</a>
+                    <a class="nav-menu__item nav-menu__item--active" >Каталог</a>
                     <a class="nav-menu__item" href="#">Новости</a>
                     <a class="nav-menu__item" href="#">Скидки</a>
                 </nav>
@@ -82,32 +82,27 @@
                             <a href="#" class="current-category">Смартфоны</a>
                             <a href="#" class="current-category">Смартфон Samsung Galaxy S8+</a>
                         </div>
-                        <div class="product__name">Смартфон Samsung Galaxy S8+</div>
+                        <div class="product__name" th:text="${product.productName}"></div>
                         <div class="product mx-auto my-3">
                             <div class="col-md-8 p-0">
-                                <div class="product__seller">Продавец:
-                                    <a href="/user" class="product__seller-id">Samsung</a></div>
-                                <div class="product__quantity">Имеется в продаже:
-                                    <span class="product__quantity-value">100</span></div>
-                                <div class="product__desc">Описание:
-                                    <span class="product__desc-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                                    do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam,
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    Duis
-                                    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                    nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                    deserunt
-                                    mollit anim id est laborum.</span>
+                                <div class="product__seller" >
+                                    <th:block th:text="|Продавец: |"/>
+                                        <a href="/user" class="product__seller-id" th:text="${product.seller.login}"></a>
+                                   </div>
+                                <div class="product__quantity" >
+                                    <th:block th:text="|Имеется в продаже: |"/>
+                                    <span class="product__quantity-value" th:text="${product.quantity}"></span></div>
+                                <div class="product__desc" >
+                                    <th:block th:text="|Описание: |" />
+                                    <span class="product__desc-text" th:text="${product.description}"></span>
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="product__cost">
                                     <div class="col-md-4">
-                                        <span class="cost-sign">&#x20bd;<span class="cost">37490</span></span>
-                                        <span class="cost--sale-sign">&#x20bd;<span
-                                                class="cost--sale">47490</span></span>
+                                        <span class="cost-sign"><span class="cost" th:text="${product.getCostWithDiscount()}"></span></span>
+                                        <span class="cost--sale-sign" th:if="${product.discount} != 0"><span
+                                                class="cost--sale" th:text="${product.cost}"></span></span>
                                     </div>
                                 </div>
                                 <div class="product-option">

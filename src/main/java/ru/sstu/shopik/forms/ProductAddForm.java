@@ -1,5 +1,7 @@
 package ru.sstu.shopik.forms;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -7,7 +9,7 @@ import javax.validation.constraints.Pattern;
 public class ProductAddForm {
 
     @NotBlank
-    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9]{1,50}")
+    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9 ]{1,50}")
     private String productName;
 
     @Min(1)
@@ -17,11 +19,13 @@ public class ProductAddForm {
     private int quantity;
 
     @NotBlank
-    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9]{1,200}")
+    @Pattern(regexp = "[a-zA-Zа-яА-Я0-9., ]{1,200}")
     private String description;
 
     @NotBlank
     private String motherCategory;
+
+    private MultipartFile[] files;
 
     public String getProductName() {
         return productName;
@@ -61,5 +65,13 @@ public class ProductAddForm {
 
     public void setMotherCategory(String motherCategory) {
         this.motherCategory = motherCategory;
+    }
+
+    public MultipartFile[] getFiles() {
+        return files;
+    }
+
+    public void setFiles(MultipartFile[] files) {
+        this.files = files;
     }
 }
