@@ -1,12 +1,5 @@
 package ru.sstu.shopik.services;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,7 +7,14 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.domain.entities.User;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 @Service
@@ -78,5 +78,13 @@ public class MailService {
         String content = this.build("mail/userChange", replaces, Locale.ENGLISH);
         String subject = this.messageSource.getMessage("mail.userChange.subject", null, Locale.ENGLISH);
         this.sendMail(MAIL_NO_REPLY, user.getEmail(), subject, content);
+    }
+
+    public void sendProductChange(Product product) {
+        Map<String, Object> replaces = new HashMap<>();
+        replaces.put("p", product);
+        String content = this.build("mail/productChange", replaces, Locale.ENGLISH);
+        String subject = this.messageSource.getMessage("mail.productChange.subject", null, Locale.ENGLISH);
+        this.sendMail(MAIL_NO_REPLY, product.getSeller().getEmail(), subject, content);
     }
 }

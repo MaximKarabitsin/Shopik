@@ -1,15 +1,23 @@
 package ru.sstu.shopik.services;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.forms.ProductAddForm;
+import ru.sstu.shopik.forms.ProductChangeForm;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public interface ProductService {
+    Page<Product> getPageProduct(int page);
+
+    Optional<Product> getProductById(long id);
+
+    void deleteProduct(Long id);
+
+    void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist;
     void delete(Product product);
 
     Page<Product> getAllByNameForSearchInGeneralCategory(String productName, Pageable pageable);
@@ -26,5 +34,3 @@ public interface ProductService {
 
     void createProductFromAddProductForm(ProductAddForm productAddForm) throws IOException;
 }
-
-
