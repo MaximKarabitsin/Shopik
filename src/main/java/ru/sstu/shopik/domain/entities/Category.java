@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -77,5 +75,4 @@ public class Category {
     public void setMotherCategory(Category motherCategory) {
         this.motherCategory = motherCategory;
     }
-
 }

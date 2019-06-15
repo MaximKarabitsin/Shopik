@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    Page<Product> findByDeleted(boolean param, Pageable pageable);
+
+    int countById(Long id);
 
     @Query("SELECT coalesce(max(pr.id), 0) FROM Product pr")
     Long getMaxId();

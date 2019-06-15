@@ -1,7 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/profile-layout}">
 <head>
     <title th:text="#{settings.title.addProduct}"></title>
@@ -41,8 +40,10 @@
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
                     <th:block th:text="Категория"/>
-                    <select name="mainCategory" th:size="${catalog.getSubCategories().size()}">
-                        <option th:each="category : ${catalog.subCategories}" th:text="${category.getEnCategory()}"
+                    <select name="mainCategory" th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'"
+                            th:size="${catalog.getSubCategories().size()}">
+                        <option th:each="category : ${catalog.subCategories}"
+                                th:text="${category['__${langCategory}__']}"
                                 th:value="${category.getEnCategory()}"></option>
                     </select></label>
             </div>

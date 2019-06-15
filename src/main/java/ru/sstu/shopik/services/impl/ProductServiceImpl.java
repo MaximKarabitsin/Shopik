@@ -14,12 +14,16 @@ import ru.sstu.shopik.dao.UserRepository;
 import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.forms.ProductAddForm;
+import ru.sstu.shopik.forms.ProductChangeForm;
 import ru.sstu.shopik.services.ImageProductService;
+import ru.sstu.shopik.services.MailService;
 import ru.sstu.shopik.services.ProductService;
 
 import java.io.IOException;
 import java.util.*;
+
 
 
 @Service
@@ -35,6 +39,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+
+    @Autowired
+    MailService mailService;
 
     @Override
     public void delete(Product product) {
@@ -114,7 +121,39 @@ public class ProductServiceImpl implements ProductService {
         product.setDeleted(false);
         this.imageProductService.saveImage(productAddForm.getFiles(), id);
         this.productRepository.save(product);
+    }
 
+    @Override
+    public Page<Product> getPageProduct(int page) {
+        return this.productRepository.findByDeleted(false, PageRequest.of(page, 5));
+    }
+
+    @Override
+    public Optional<Product> getProductById(long id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        if (this.productRepository.countById(id) != 0) {
+            this.productRepository.deleteById(id);
+        }
+    }
+
+    @Override
+    public void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist {
+        Optional<Product> optionalProduct = this.getProductById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setProductName(productChangeForm.getProductName());
+            product.setDescription(productChangeForm.getDescription());
+            product.setCost(productChangeForm.getCost());
+            product.setCategory(this.categoryRepository.findByEnCategoryOrRuCategory(productChangeForm.getMotherCategory(), productChangeForm.getMotherCategory()).orElse(null));
+            this.productRepository.save(product);
+            this.mailService.sendProductChange(product);
+        } else {
+            throw new ProductDoesNotExist();
+        }
     }
 
     @Override

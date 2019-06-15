@@ -62,10 +62,26 @@
             </div>
             <!-- /.catalog-list-categories -->
             <div class="catalog-info">
-                <div class="current-categories">
-                    <a href="#" class="current-category">Каталог</a>
-                    <a href="#" class="current-category">Бытовая электроника</a>
-                    <a href="#" class="current-category">Смартфоны</a>
+                <div th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'"
+                     class="current-categories">
+                    <th:block th:if="${currentCategory.categoryId != 2}">
+                        <th:block th:if="${currentCategory.getMotherCategory().categoryId != 2}">
+                            <a th:href="@{/catalog}" class="current-category"
+                               th:text="${currentCategory.getMotherCategory().getMotherCategory()['__${langCategory}__']}"></a>
+                            <a th:href="@{/catalog/__${currentCategory.getMotherCategory().enCategory}__}"
+                               class="current-category"
+                               th:text="${currentCategory.getMotherCategory()['__${langCategory}__']}"></a>
+                            <a class="current-category" th:text="${currentCategory['__${langCategory}__']}"></a>
+                        </th:block>
+                        <th:block th:unless="${currentCategory.getMotherCategory().categoryId != 2}">
+                            <a th:href="@{/catalog}" class="current-category"
+                               th:text="${currentCategory.getMotherCategory()['__${langCategory}__']}"></a>
+                            <a class="current-category" th:text="${currentCategory['__${langCategory}__']}"></a>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${currentCategory.categoryId != 2}">
+                        <a class="current-category" th:text="${currentCategory['__${langCategory}__']}"></a>
+                    </th:block>
 
                 </div>
                 <!-- /.current-categories -->
@@ -77,7 +93,7 @@
                         <svg class="catalog-search__icon button-icon">
                             <use th:href="@{/img/icons/icons.svg#search}"></use>
                         </svg>
-                        <th:block th:text="#{catalog.button.search}"></th:block>
+                        <th:block th:text="#{catalog.button.search}"/>
                     </button>
                 </form>
                 <!-- /.form-search -->
@@ -94,16 +110,19 @@
                         <div th:if="${product.discount != 0}" class="sale-ribbon-wrapper">
                             <div class="sale-ribbon">sale</div>
                         </div>
+
                         <a th:href="@{/product/{productId}(productId=${product.id})}" class="product-info">
-                            <div class="product__image-wrapper"><img th:src="@{/image/product/main/__${product.id}__}"
-                                                                     th:alt="${product.productName}"
-                                                                     class="product__image">
+                            <div class="product__image-wrapper"><img
+                                    th:src="@{/image/product/main/__${product.id}__}"
+                                    th:alt="${product.productName}"
+                                    class="product__image">
                             </div>
                             <div class="product__name" th:title="${product.productName}"
                                  th:text="${product.productName}"></div>
                             <div class="product__quantity" th:text="#{catalog.product.quantity}
                              +  ${product.quantity} + #{catalog.product.unit}"></div>
-                            <a href="#" class="product__seller" th:text="|#{catalog.product.seller} ${product.seller.login}|"></a>
+                            <a href="#" class="product__seller"
+                               th:text="|#{catalog.product.seller} ${product.seller.login}|"></a>
                         </a>
                         <div class="product-option">
                             <div class="product__cost">
@@ -117,6 +136,7 @@
                                 <button class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
                                                                    alt="add" class="icon"></button>
                             </th:block>
+
                         </div>
                     </div>
                     <!-- /.product -->
