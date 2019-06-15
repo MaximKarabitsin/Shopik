@@ -71,7 +71,7 @@
                     <a sec:authorize="hasRole('ADMIN')" class="user-menu__item" th:href="@{/adminpanel/users}"
                        th:text="#{header.usermenu.adminpanel}"></a>
                     <a class="user-menu__item" th:href="@{/logout}" th:text="#{header.usermenu.logout}"></a>
-                    <a class="user-menu__cart" th:href="@{/cart}">
+                    <a class="user-menu__cart" th:href="@{/basket}">
                         <img class="cart-icon" th:src="@{/img/icons/shopping-cart.svg}" alt=""
                              th:text="#{header.usermenu.basket}"></a>
                 </nav>

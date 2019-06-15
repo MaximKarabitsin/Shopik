@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/order-layout}">
+<head>
+
+    <title th:text="#{settings.title.basket}"></title>
+</head>
+<body>
+    <th:block layout:fragment="section">
+        <div class="container">
+            <h2 class="settings-section__title" th:text="#{settings.section.basket.title}"></h2>
+            <table class="settings-section__table">
+                <tr>
+                    <th th:text="#{settings.section.basket.table.name}"></th>
+                    <th th:text="#{settings.section.basket.table.priceForOnePc}"></th>
+                    <th th:text="#{settings.section.basket.table.quantity}"></th>
+                    <th th:text="#{settings.section.basket.table.availableQuantity}"></th>
+                    <th th:text="#{settings.section.basket.table.cost}"></th>
+                    <th></th>
+                </tr>
+
+
+                <th:block th:each="p : ${order.getOrderProducts()}">
+                    <tr class="row">
+                        <td th:text="${p.getProduct().getProductName()}"></td>
+                        <td th:text="${p.getCost()}"></td>
+                        <td><input class="input-number" type="number" th:value="${p.getQuantity()}" th:max="${p.getProduct().getQuantity()}" min="1" size="6"></td>
+                        <td th:text="${p.getProduct().getQuantity()}"></td>
+                        <td></td>
+                        <td>Удалить из корзины</td>
+                    </tr>
+
+                </th:block>
+            </table>
+            <span>Итог: </span><span id="sum"></span><span> &#x20bd;</span>
+        </div>
+        <!-- /.container -->
+    </th:block>
+
+    <th:block layout:fragment="jsscript">
+        <script th:src="@{/js/order.js}"></script>
+    </th:block>
+</body>
+</html>

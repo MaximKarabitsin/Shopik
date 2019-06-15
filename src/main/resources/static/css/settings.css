@@ -86,3 +86,8 @@ margin: 25px 0;
 .settings-section__table tr:nth-child(even) {
     background-color: #e0e0e0;
 }
+
+.input-number {
+    box-sizing: border-box;
+    width: 100%;
+}

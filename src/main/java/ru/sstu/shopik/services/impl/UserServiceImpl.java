@@ -28,16 +28,16 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    MailService mailService;
+    private MailService mailService;
 
     @Override
     public boolean isUserWithLoginExist(String login) {

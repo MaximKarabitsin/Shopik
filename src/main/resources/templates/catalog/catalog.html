@@ -4,7 +4,8 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/main-layout}">
 <head>
-
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <link rel="stylesheet" th:href="@{/css/catalog.css}">
     <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
     <title th:text="#{catalog.title}"></title>
@@ -24,7 +25,7 @@
                         <svg class="catalog-icon button-icon">
                             <use th:href="@{/img/icons/icons.svg#arrow-down}"></use>
                         </svg>
-                        <th:block th:text="#{catalog.button.catalog}"></th:block>
+                        <th:block th:text="#{catalog.button.catalog}"/>
                     </a>
 
                     <ul th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" class="list-categories">
@@ -128,10 +129,10 @@
                                           class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
                                 </div>
                                 <th:block sec:authorize="isAuthenticated()">
-                                    <button class="product__wish-list"><img th:src="@{/img/icons/wishlist.svg}"
-                                                                            alt="add" class="icon"></button>
-                                    <button class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
-                                                                       alt="add" class="icon"></button>
+                                    <button th:name="${product.id}" class="product__wish-list"><img th:src="@{/img/icons/wishlist.svg}"
+                                                                            alt="addWishlist" class="icon"></button>
+                                    <button th:name="${product.id}" class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                                       alt="addCart" class="icon"></button>
                                 </th:block>
                             </div>
                         </div>

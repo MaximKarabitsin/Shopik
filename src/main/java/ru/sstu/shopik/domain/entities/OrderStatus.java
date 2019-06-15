@@ -1,6 +1,7 @@
 package ru.sstu.shopik.domain.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -8,7 +9,28 @@ import java.util.Set;
 public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderStatusId")
+    @Column(name = "statusId")
     private Long id;
 
+    @Column(name = "status")
+    private String status;
+
+    public OrderStatus() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

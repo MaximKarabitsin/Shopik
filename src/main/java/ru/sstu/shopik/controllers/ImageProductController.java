@@ -14,7 +14,7 @@ import ru.sstu.shopik.services.ImageProductService;
 public class ImageProductController {
 
     @Autowired
-    ImageProductService imageProductService;
+    private ImageProductService imageProductService;
 
     @GetMapping(value="main/{id}", produces= MediaType.IMAGE_PNG_VALUE)
     @ResponseBody

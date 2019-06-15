@@ -24,10 +24,10 @@ import java.util.Locale;
 public class ProfileController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    MessageSource messageSource;
+    private MessageSource messageSource;
 
     @ModelAttribute
     public void addCurrentPage(Model model, FullNameChangeForm fullNameChangeForm, PasswordChangeForm passwordChangeForm) {

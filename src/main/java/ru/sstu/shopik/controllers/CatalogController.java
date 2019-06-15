@@ -20,7 +20,7 @@ public class CatalogController {
 
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
     private ProductService productService;

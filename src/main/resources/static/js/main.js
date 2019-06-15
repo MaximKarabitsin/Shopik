@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+    var token = $("meta[name=_csrf]").attr("content");
+    var header = $("meta[name=_csrf_header]").attr("content");
+    $(document).ajaxSend(function (e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+
     $(".user-menu-icon").on("click", function () {
         $(".user-menu").toggleClass("user-menu--open");
     });
@@ -11,4 +17,23 @@ $(document).ready(function () {
         location.reload();
     });
 
+
+    /*ADD TO BASKET*/
+    $(".product__cart").on("click", function () {
+       var productId = $(this).attr("name");
+        $.ajax({
+            url: "basket/add",
+            data: "productId=" + productId,
+            type: "POST",
+            success: function (res) {
+                if (res) {
+                } else {
+                    $(location).attr('href', '/error');
+                }
+            },
+            error: function () {
+                $(location).attr('href', '/error');
+            }
+        });
+    });
 });

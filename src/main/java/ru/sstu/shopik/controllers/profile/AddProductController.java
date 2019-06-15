@@ -21,13 +21,13 @@ import java.util.List;
 public class AddProductController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    ProductAddFormValidator productValidators;
+    private ProductAddFormValidator productValidators;
 
     @InitBinder("productAddForm")
     private void initBinder(WebDataBinder binder) {

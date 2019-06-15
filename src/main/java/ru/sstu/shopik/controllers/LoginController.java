@@ -20,13 +20,13 @@ import java.util.Locale;
 public class LoginController {
 
     @Autowired
-    MessageSource messageSource;
+    private MessageSource messageSource;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    PasswordRecoveryFormValidator passwordRecoveryFormValidator;
+    private PasswordRecoveryFormValidator passwordRecoveryFormValidator;
 
     @InitBinder("passwordRecoveryForm")
     private void initBinder(WebDataBinder binder) {

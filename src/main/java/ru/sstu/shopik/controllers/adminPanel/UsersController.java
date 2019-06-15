@@ -33,13 +33,13 @@ public class UsersController {
     private static final int INITIAL_PAGE_SIZE = 18;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    MessageSource messageSource;
+    private MessageSource messageSource;
 
     @Autowired
-    UserChangeFormValidator userValidator;
+    private UserChangeFormValidator userValidator;
 
     @InitBinder("userChangeForm")
     private void initBinder(WebDataBinder binder) {

@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 public class RegistrationController {
 
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Autowired
-    MessageSource messageSource;
+    private MessageSource messageSource;
 
     @Autowired
-    UserRegistrationFormValidator userValidator;
+    private UserRegistrationFormValidator userValidator;
 
     @InitBinder("userRegistrationForm")
     private void initBinder(WebDataBinder binder) {

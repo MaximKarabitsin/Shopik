@@ -16,7 +16,7 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
 
     @Override

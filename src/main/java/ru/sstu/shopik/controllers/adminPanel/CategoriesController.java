@@ -29,10 +29,10 @@ public class CategoriesController {
 
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    CategoryAddFormValidator categoryValidator;
+    private CategoryAddFormValidator categoryValidator;
 
     @InitBinder("categoryAddForm")
     private void initBinder(WebDataBinder binder) {

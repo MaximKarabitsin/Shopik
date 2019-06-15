@@ -18,7 +18,7 @@ import ru.sstu.shopik.services.UserService;
 public class GlobalControllerAdvice {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @ModelAttribute
     public void addUser(Model model, Authentication authentication) {
