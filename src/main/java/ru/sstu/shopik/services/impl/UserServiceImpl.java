@@ -181,4 +181,16 @@ public class UserServiceImpl implements UserService {
             this.userRepository.deleteById(id);
         }
     }
+
+    @Override
+    public void balanceReplenishment(BalanceReplenishmentForm form, Authentication authentication) throws UserDoesNotExist {
+        Optional<User> optionalUser = this.getUserFromAuthentication(authentication);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setBalance(user.getBalance() + form.getReplenishment());
+            this.userRepository.save(user);
+        } else {
+            throw new UserDoesNotExist();
+        }
+    }
 }

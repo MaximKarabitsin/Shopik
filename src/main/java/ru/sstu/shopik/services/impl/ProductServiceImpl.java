@@ -1,43 +1,36 @@
 package ru.sstu.shopik.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import ru.sstu.shopik.dao.CategoryRepository;
-import ru.sstu.shopik.dao.ProductRepository;
-import ru.sstu.shopik.dao.UserRepository;
-import ru.sstu.shopik.domain.entities.Category;
-import ru.sstu.shopik.domain.entities.Product;
-import ru.sstu.shopik.services.ProductService;
-
-import java.util.Optional;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.sstu.shopik.dao.CategoryRepository;
 import ru.sstu.shopik.dao.ProductRepository;
+import ru.sstu.shopik.dao.UserRepository;
 import ru.sstu.shopik.domain.UserDetailsImpl;
+import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.forms.ProductAddForm;
 import ru.sstu.shopik.services.ImageProductService;
 import ru.sstu.shopik.services.ProductService;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.*;
 
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+
+
     @Autowired
 
     private ProductRepository productRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -109,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void createProductFromAddProductForm(ProductAddForm productAddForm) throws  IOException{
+    public void createProductFromAddProductForm(ProductAddForm productAddForm) throws IOException {
         Product product = new Product();
         BeanUtils.copyProperties(productAddForm, product);
         long id = this.productRepository.getMaxId();
@@ -122,5 +115,42 @@ public class ProductServiceImpl implements ProductService {
         this.imageProductService.saveImage(productAddForm.getFiles(), id);
         this.productRepository.save(product);
 
+    }
+
+    @Override
+    public Page<Product> getTenProductsForNovelties() {
+        return productRepository.findAllByDeleted(PageRequest.of(0, 10, Sort.Direction.DESC,
+                "id"), false);
+    }
+
+    @Override
+    public List<Product> getTenWithSale() {
+        return productRepository.findTenProductsWithSale();
+    }
+
+    @Override
+    public Set<Product> getTenWithRandomCategory() {
+        Optional<Category> randomCategory;
+        List<Product> productsWithCategoryFromDB;
+        while (true) {
+            randomCategory = categoryRepository.findRandomCategory();
+            productsWithCategoryFromDB = productRepository.productWithMotherCategory(randomCategory.get().getCategoryId(),
+                    PageRequest.of(0, 50)).getContent();
+            if (productsWithCategoryFromDB.size()>0) break;
+
+        }
+        Set<Product> productWithRandomCategory = new HashSet<>();
+        int size = productsWithCategoryFromDB.size();
+        if (size < 10) {
+            for (int i = 0; i < size; i++) {
+                productWithRandomCategory.add(productsWithCategoryFromDB.get(i));
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                int number = (int) (Math.random() * (size));
+                productWithRandomCategory.add(productsWithCategoryFromDB.get(number));
+            }
+        }
+                return productWithRandomCategory;
     }
 }

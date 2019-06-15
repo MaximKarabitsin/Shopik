@@ -101,8 +101,9 @@
                             </div>
                             <div class="product__name" th:title="${product.productName}"
                                  th:text="${product.productName}"></div>
-                            <div class="product__quantity" th:text="|Количество: ${product.quantity} шт|"></div>
-                            <a href="#" class="product__seller" th:text="|Продавец: ${product.seller.login}|"></a>
+                            <div class="product__quantity" th:text="#{catalog.product.quantity}
+                             +  ${product.quantity} + #{catalog.product.unit}"></div>
+                            <a href="#" class="product__seller" th:text="|#{catalog.product.seller} ${product.seller.login}|"></a>
                         </a>
                         <div class="product-option">
                             <div class="product__cost">

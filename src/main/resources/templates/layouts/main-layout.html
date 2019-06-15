@@ -30,7 +30,7 @@
                 <div sec:authorize="isAuthenticated()" class="top-text">
 
                     <span th:text="|#{header.greeting.userlogin}${user.login}#{header.greeting.balance}${user.balance}&#x20bd;|"></span>
-                    <a class="top-text__link" th:href="@{/registration}" th:text="#{header.greeting.replenish}"></a>
+                    <a class="top-text__link" th:href="@{/profile/replenishment}" th:text="#{header.greeting.replenish}"></a>
                 </div>
 
                 <div th:switch="__${#locale}__">
@@ -54,8 +54,9 @@
                 </a>
                 <div class="header-search">
                     <!-- EDIT -->
-                    <form action="">
-                        <input class="header-search__field" type="text" th:attr="placeholder=#{header.catalog.search}">
+                    <form th:action="@{/catalog}" method="get">
+                        <input class="header-search__field" type="text" th:attr="placeholder=#{header.catalog.search}"
+                        th:name="search">
                         <button class="header-search__btn" type="submit">
                             <svg class="header-search__icon">
                                 <use th:href="@{/img/icons/icons.svg#search}"></use>

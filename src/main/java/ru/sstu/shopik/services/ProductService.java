@@ -7,7 +7,9 @@ import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.forms.ProductAddForm;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ProductService {
     void delete(Product product);
@@ -23,6 +25,12 @@ public interface ProductService {
     Page<Product> getAllByMotherCategoryAndProductName(String categoryName, String productName, Pageable pageable);
 
     Page<Product> getAllByCategoryAndProductName(String categoryName, String productName, String motherCategoryName, Pageable pageable);
+
+    Page<Product> getTenProductsForNovelties();
+
+    List<Product> getTenWithSale();
+
+    Set<Product> getTenWithRandomCategory();
 
     void createProductFromAddProductForm(ProductAddForm productAddForm) throws IOException;
 }
