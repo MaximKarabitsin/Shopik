@@ -14,6 +14,7 @@ import ru.sstu.shopik.forms.validators.ProductAddFormValidator;
 import ru.sstu.shopik.services.ProductService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -73,7 +74,8 @@ public class ProductsController {
         try {
             this.productService.changeProduct(productChangeForm, id);
         } catch (ProductDoesNotExist e) {
-        } catch (Exception e) {
+        }  catch (IOException e) {
+            e.printStackTrace();
             return "redirect:/error";
         }
         return "redirect:/adminpanel/products/" + id;

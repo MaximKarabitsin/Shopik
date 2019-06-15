@@ -46,7 +46,7 @@
         </div>
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
-                <th:block th:text="#{settings.section.categories.main}"/>
+                <th:block th:text="Категория"/>
                 <select th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" size="1"
                         name="mainCategory">
                     <th:block
@@ -59,7 +59,7 @@
         </div>
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
-                <th:block th:text="#{settings.section.categories.main}"/>
+                <th:block th:text="Подкатегория"/>
                 <select th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" size="1"
                         name="motherCategory">
                     <th:block th:each="category : ${p.getCategory().getMotherCategory().getSubCategories()}">

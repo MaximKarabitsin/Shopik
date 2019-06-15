@@ -14,6 +14,7 @@ import ru.sstu.shopik.services.CategoryService;
 import ru.sstu.shopik.services.ProductService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -47,7 +48,8 @@ public class AddProductController {
         }
         try {
             this.productService.createProductFromAddProductForm(productAddForm);
-        } catch (Exception e) {
+        } catch (IOException e) {
+            e.printStackTrace();
             return "redirect:/error";
         }
         return "redirect:/profile/products/addProduct";
