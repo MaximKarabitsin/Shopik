@@ -12,7 +12,7 @@ import ru.sstu.shopik.forms.NewsAddForm;
 import ru.sstu.shopik.services.NewsService;
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 
 @Service
 public class NewsServiceImpl implements NewsService {
@@ -29,7 +29,7 @@ public class NewsServiceImpl implements NewsService {
     public void createNewsFromAddNewsForm(NewsAddForm newsAddForm) throws IOException {
         News news = new News();
         BeanUtils.copyProperties(newsAddForm, news);
-        news.setDate(new Date());
+        news.setDate(new Date(new java.util.Date().getTime()));
         this.newsRepository.save(news);
     }
 

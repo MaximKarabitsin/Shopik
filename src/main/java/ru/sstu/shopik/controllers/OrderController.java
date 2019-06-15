@@ -67,7 +67,6 @@ public class OrderController {
 
     @GetMapping("/basket/order")
     public String createOrder(Model model, Authentication authentication) {
-        System.out.println("ORDER--------------------------------------------------------");
         model.addAttribute("currentSection", "order");
         try {
             Order order = this.orderService.createOrder(authentication);

@@ -1,7 +1,7 @@
 package ru.sstu.shopik.domain.entities;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "news")
