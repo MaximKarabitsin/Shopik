@@ -39,4 +39,6 @@ public interface UserService {
     void changeUser(UserChangeForm userChangeForm, long id) throws InvalidLogin, UserDoesNotExist;
 
     void deleteUser(Long id);
+
+    void balanceReplenishment(BalanceReplenishmentForm form, Authentication authentication) throws UserDoesNotExist;
 }

@@ -4,14 +4,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import org.springframework.data.repository.query.Param;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    Page<Product> findByDeleted(boolean param, Pageable pageable);
+
+    int countById(Long id);
 
     @Query("SELECT coalesce(max(pr.id), 0) FROM Product pr")
     Long getMaxId();
@@ -36,5 +39,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAllByCategoryAndProductNameContainingIgnoreCaseAndDeleted(Category category, String productName,
                                                                                 boolean deleted, Pageable pageable);
+
+
+    @Query(nativeQuery = true, value = "SELECT * FROM product where discount <> 0 and deleted = false ORDER BY RAND() LIMIT 10")
+    List<Product> findTenProductsWithSale();
 
 }

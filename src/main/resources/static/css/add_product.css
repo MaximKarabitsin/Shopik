@@ -1,0 +1,67 @@
+
+.message {
+    /*transition: .3s;*/
+    transform: scale(0);
+    /*position: absolute;*/
+    /*width: 230px;*/
+    /*background: #f9f9f9;*/
+    /*padding: 2px 3px;*/
+    /*font-size: 13px;*/
+    /*top: 83px;*/
+    z-index: 1;
+}
+
+/*.message:after, .message:before {*/
+/*bottom: 100%;*/
+/*left: 50%;*/
+/*border: solid transparent;*/
+/*content: " ";*/
+/*height: 0;*/
+/*width: 0;*/
+/*position: absolute;*/
+/*pointer-events: none;*/
+/*}*/
+
+/*.message:after {*/
+/*border-color: rgba(136, 183, 213, 0);*/
+/*border-bottom-color: #f9f9f9;*/
+/*border-width: 4px;*/
+/*margin-left: -4px;*/
+/*}*/
+
+/*.message:before {*/
+/*border-color: rgba(194, 225, 245, 0);*/
+/*border-width: 5px;*/
+/*margin-left: -5px;*/
+/*}*/
+
+.message--error {
+    /*border: 1px solid red;*/
+    /*color: red;*/
+}
+
+/*.message--error:before {*/
+/*border-bottom-color: red;*/
+/*}*/
+
+.message--error.active {
+    transform: scale(1);
+}
+
+.message.message--error.active ~ .message--help {
+    display: none;
+}
+
+.message--help {
+
+    /*border: 1px solid #78c4cd;*/
+    /*color: #78c4cd;*/
+}
+
+/*.message--help:before {*/
+/*border-bottom-color: #78c4cd;*/
+/*}*/
+
+.message--help.active {
+    transform: scale(1);
+}

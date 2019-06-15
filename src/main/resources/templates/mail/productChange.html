@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+<span th:text="#{mail.productChange.text}"></span>
+<div class="settings-section__field" th:text="|#{settings.section.product.productName}${p.productName}|"></div>
+<div class="settings-section__field" th:text="|#{settings.section.product.cost}${p.cost}|"></div>
+<div class="settings-section__field" th:text="|#{settings.section.product.description}${p.description}|"></div>
+<div class="settings-section__field"
+     th:text="#{settings.section.product.category}+(__${#locale}__=='en'?(${p.category.enCategory}):(${p.category.ruCategory}))"></div>
+<div class="settings-section__field" th:text="|#{settings.section.product.quantity}${p.quantity}|"></div>
+<div class="settings-section__field" th:text="|#{settings.section.product.discount}${p.discount}|"></div>
+</body>
+
+</html>

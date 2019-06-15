@@ -54,7 +54,6 @@ public class CategoryServiceImpl implements CategoryService {
         return false;
     }
 
-
     @Override
     public List<Category> getSubCategories(String categoryName) throws CategoryDoesNotExist {
         Optional<Category> optionalCategory = this.categoryRepository.findByEnCategoryOrRuCategory(categoryName, categoryName);
@@ -63,7 +62,6 @@ public class CategoryServiceImpl implements CategoryService {
         } else {
             throw new CategoryDoesNotExist();
         }
-
     }
 
     @Override

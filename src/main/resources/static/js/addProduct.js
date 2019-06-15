@@ -12,7 +12,7 @@ $(document).ready(function () {
                     var selectSize = 0;
                     $.each(res, function (element, value) {
                         $($('select[name$=motherCategory]')).append($("<option></option>")
-                            .attr('value', value.enCategory).text(value.enCategory));
+                            .attr('value', value.enCategory).text(value[$.cookie('lang') + 'Category']));
                         selectSize = element + 1;
                     });
                     $($('select[name$=motherCategory]')).attr('size', selectSize);

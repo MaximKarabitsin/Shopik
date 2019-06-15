@@ -4,10 +4,11 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/main-layout}">
 <head>
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
     <link rel="stylesheet" th:href="@{/css/catalog.css}">
     <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title th:text="#{catalog.title}"></title>
 </head>
 <body>
@@ -25,7 +26,7 @@
                         <svg class="catalog-icon button-icon">
                             <use th:href="@{/img/icons/icons.svg#arrow-down}"></use>
                         </svg>
-                        <th:block th:text="#{catalog.button.catalog}"/>
+                        <th:block th:text="#{catalog.button.catalog}"></th:block>
                     </a>
 
                     <ul th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" class="list-categories">
@@ -107,7 +108,7 @@
             <div class="catalog-list">
                 <th:block th:each="product: ${products}">
                     <div class="product-wrapper">
-                        <div class="product">
+                        <div class="product ">
                             <div th:if="${product.discount != 0}" class="sale-ribbon-wrapper">
                                 <div class="sale-ribbon">sale</div>
                             </div>
@@ -118,9 +119,12 @@
                                         class="product__image">
                                 </div>
                                 <div class="product__name" th:title="${product.productName}"
-                                     th:text="${product.productName}"></div>
-                                <div class="product__quantity" th:text="|Количество: ${product.quantity} шт|"></div>
-                                <a href="#" class="product__seller" th:text="|Продавец: ${product.seller.login}|"></a>
+                                     th:text="${product.productName}">
+                                </div>
+                                <div class="product__quantity" th:text="#{catalog.product.quantity}
+                             +  ${product.quantity} + #{catalog.product.unit}"></div>
+                                <a href="#" class="product__seller"
+                                   th:text="|#{catalog.product.seller} ${product.seller.login}|"></a>
                             </a>
                             <div class="product-option">
                                 <div class="product__cost">
@@ -130,9 +134,9 @@
                                 </div>
                                 <th:block sec:authorize="isAuthenticated()">
                                     <button th:name="${product.id}" class="product__wish-list"><img th:src="@{/img/icons/wishlist.svg}"
-                                                                            alt="addWishlist" class="icon"></button>
+                                                                                                    alt="addWishlist" class="icon"></button>
                                     <button th:name="${product.id}" class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
-                                                                       alt="addCart" class="icon"></button>
+                                                                                               alt="addCart" class="icon"></button>
                                 </th:block>
                             </div>
                         </div>
