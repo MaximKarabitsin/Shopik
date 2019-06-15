@@ -42,6 +42,18 @@ body {
     color: #444;
 }
 
+input:focus {
+    -webkit-box-shadow: 0 0 5px #78c4cd;
+    -moz-box-shadow: 0 0 5px #78c4cd;
+    box-shadow: 0 0 5px #78c4cd;
+}
+
+input:invalid {
+    -webkit-box-shadow: 0 0 5px red;
+    -moz-box-shadow: 0 0 5px red;
+    box-shadow: 0 0 5px red;
+}
+
 /*PAGINATION*/
 .pagination {
     margin-top: 20px;

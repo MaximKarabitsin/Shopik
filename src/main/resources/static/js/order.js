@@ -14,15 +14,47 @@ $(document).ready(function () {
     function setSum() {
         var sum = 0;
         $(".row").each(function () {
-            sum += +this.children[1].innerHTML;
+            sum += +this.children[4].innerHTML;
         })
         $("#sum").text(sum);
     }
 
-    $("input[type=number]").on("change", function () {
-        var row = $(this).parents(".row")[0];
-        console.log(row);
-        setCost(row);
-        setSum();
-    })
+    function changeQuantityAJAX(input) {
+        var quantity = input.value;
+        var productId = $(input).attr("name");
+        $.ajax({
+            url: "/basket/changeQuantity",
+            data: {
+                quantity:quantity,
+                productId:productId
+            },
+            type: "POST",
+            success: function (res) {
+                if (res) {
+
+                } else {
+                    location.reload(true);
+                }
+            },
+            error: function (res) {
+                $(location).attr('href', '/error');
+            }
+        });
+    }
+
+    function changeQuantity(input) {
+        var timer;
+        return function () {
+            clearTimeout(timer);
+            timer = setTimeout(changeQuantityAJAX, 500, input);
+            var row = $(input).parents(".row")[0];
+            setCost(row);
+            setSum();
+        }
+    }
+
+    $("input[type=number]").each(function () {
+        $(this).on("change", changeQuantity(this));
+    });
+
 });

@@ -16,7 +16,7 @@ public class Product {
     @Column(name = "productName", nullable = false, length = 50)
     private String productName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sellerId", nullable = false)
     private User seller;
 

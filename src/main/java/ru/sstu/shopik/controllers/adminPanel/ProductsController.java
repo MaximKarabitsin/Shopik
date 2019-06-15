@@ -5,10 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.forms.ProductChangeForm;
+import ru.sstu.shopik.forms.validators.ProductAddFormValidator;
 import ru.sstu.shopik.services.ProductService;
 
 import javax.validation.Valid;
@@ -21,6 +23,13 @@ public class ProductsController {
 
     @Autowired
     ProductService productService;
+
+    private ProductAddFormValidator productValidators;
+
+    @InitBinder("productImagesAddForm")
+    private void initBinder(WebDataBinder binder) {
+        binder.addValidators(this.productValidators);
+    }
 
     @ModelAttribute
     public void addCurrentPage(Model model) {
@@ -64,6 +73,8 @@ public class ProductsController {
         try {
             this.productService.changeProduct(productChangeForm, id);
         } catch (ProductDoesNotExist e) {
+        } catch (Exception e) {
+            return "redirect:/error";
         }
         return "redirect:/adminpanel/products/" + id;
     }

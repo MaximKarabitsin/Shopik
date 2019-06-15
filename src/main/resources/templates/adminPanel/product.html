@@ -24,7 +24,7 @@
     <div class="settings-section__field" th:text="|#{settings.section.product.date}${p.date}|"></div>
 
 
-    <form th:action="@{/adminpanel/products/__${p.id}__}" method="post" th:object="${productChangeForm}"
+    <form th:action="@{/adminpanel/products/__${p.id}__}" enctype="multipart/form-data" method="post" th:object="${productChangeForm}"
           class="settings-section__form">
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
@@ -69,6 +69,12 @@
                     </th:block>
                 </select></label>
             <span class="settings-section__error" th:errors="*{motherCategory}"></span>
+        </div>
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="|Изображения товара|"/>
+                <input type="file" name="files" multiple accept="image/png, image/jpeg"></label>
+            <span class="settings-section__error" th:errors="*{files}"></span>
         </div>
         <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
     </form>

@@ -18,25 +18,25 @@
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
                     <th:block th:text="Название"/>
-                    <input type="text" name="productName"></label>
+                    <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="productName"></label>
                 <span class="settings-section__error" th:errors="*{productName}"></span>
             </div>
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
                     <th:block th:text="Стоимость"/>
-                    <input type="text" name="cost"></label>
+                    <input type="text" pattern="^[0-9]+$" maxlength="9" name="cost"></label>
                 <span class="settings-section__error" th:errors="*{cost}"></span>
             </div>
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
                     <th:block th:text="Колличество"/>
-                    <input type="text" name="quantity"></label>
+                    <input type="text" pattern="^[0-9]+$" maxlength="9" name="quantity"></label>
                 <span class="settings-section__error" th:errors="*{quantity}"></span>
             </div>
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
                     <th:block th:text="Описание"/>
-                    <input type="text" name="description"></label>
+                    <input type="text" pattern="^[a-zA-Zа-яА-Я0-9., ]+$" maxlength="200" name="description"></label>
                 <span class="settings-section__error" th:errors="*{description}"></span>
             </div>
             <div class="settings-section__input-wrapper">
@@ -57,7 +57,7 @@
             </div>
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
-                    <th:block th:text="Фотографии"/>
+                    <th:block th:text="|Изображения товара|"/>
                     <input type="file" name="files" multiple accept="image/png, image/jpeg"></label>
                 <span class="settings-section__error" th:errors="*{files}"></span>
             </div>

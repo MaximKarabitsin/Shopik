@@ -41,7 +41,10 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Autowired
-    MailService mailService;
+    private MailService mailService;
+
+    @Autowired
+    private ImageProductService imageProductService;
 
     @Override
     public void delete(Product product) {
@@ -63,9 +66,6 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
         }
     }
-
-    @Autowired
-    ImageProductService imageProductService;
 
     @Override
     public Optional<Product> getInfoAboutProductForBigPageById(Long id) {
@@ -141,7 +141,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist {
+    public void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist, IOException {
         Optional<Product> optionalProduct = this.getProductById(id);
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
@@ -150,6 +150,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCost(productChangeForm.getCost());
             product.setCategory(this.categoryRepository.findByEnCategoryOrRuCategory(productChangeForm.getMotherCategory(), productChangeForm.getMotherCategory()).orElse(null));
             this.productRepository.save(product);
+            this.imageProductService.saveImage(productChangeForm.getFiles(), id);
             this.mailService.sendProductChange(product);
         } else {
             throw new ProductDoesNotExist();

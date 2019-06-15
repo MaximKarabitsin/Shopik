@@ -19,7 +19,8 @@ public interface ProductService {
 
     void deleteProduct(Long id);
 
-    void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist;
+    void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist, IOException;
+
     void delete(Product product);
 
     Page<Product> getAllByNameForSearchInGeneralCategory(String productName, Pageable pageable);

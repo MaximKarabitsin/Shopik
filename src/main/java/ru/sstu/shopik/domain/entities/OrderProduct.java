@@ -14,7 +14,7 @@ public class OrderProduct {
     @JoinColumn(name = "orderId")
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "productId")
     private Product product;
 
@@ -66,5 +66,9 @@ public class OrderProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getFinalCost() {
+        return cost * quantity;
     }
 }

@@ -15,7 +15,7 @@
           class="settings-section__form">
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
-                <input type="text" name="replenishment"></label>
+                <input type="text" name="replenishment" pattern="^[0-9]+$"></label>
             <span class="settings-section__error" th:errors="*{replenishment}"></span>
         </div>
         <button class="button settings-section__button" th:text="#{settings.section.profile.button.adding}"></button>

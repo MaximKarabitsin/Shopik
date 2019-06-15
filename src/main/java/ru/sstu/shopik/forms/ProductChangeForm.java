@@ -1,5 +1,7 @@
 package ru.sstu.shopik.forms;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -19,6 +21,8 @@ public class ProductChangeForm {
 
     @NotBlank
     private String motherCategory;
+
+    private MultipartFile[] files;
 
     public String getProductName() {
         return productName;
@@ -50,5 +54,13 @@ public class ProductChangeForm {
 
     public void setMotherCategory(String motherCategory) {
         this.motherCategory = motherCategory;
+    }
+
+    public MultipartFile[] getFiles() {
+        return files;
+    }
+
+    public void setFiles(MultipartFile[] files) {
+        this.files = files;
     }
 }
