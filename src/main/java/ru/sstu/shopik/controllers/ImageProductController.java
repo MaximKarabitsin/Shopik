@@ -18,7 +18,13 @@ public class ImageProductController {
 
     @GetMapping(value="main/{id}", produces= MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public FileSystemResource mainImage(Model model, @PathVariable Long id) {
-        return this.imageProductService.getMainImage(id);
+    public FileSystemResource mainImage(Model model, @PathVariable String id) {
+        try {
+            Long imageId = Long.parseLong(id);
+            return this.imageProductService.getMainImage(imageId);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+
     }
 }

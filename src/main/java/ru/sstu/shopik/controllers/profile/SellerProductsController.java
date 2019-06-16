@@ -19,7 +19,6 @@ import ru.sstu.shopik.forms.ProductChangeFormFromProfile;
 import ru.sstu.shopik.services.ProductService;
 
 import javax.validation.Valid;
-import java.util.Locale;
 import java.util.Optional;
 
 @Controller

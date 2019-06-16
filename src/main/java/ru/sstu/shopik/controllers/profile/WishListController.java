@@ -47,10 +47,11 @@ public class WishListController {
     }
 
     @GetMapping("/{productId}")
-    public String deleteList(@PathVariable Long productId, @RequestParam String delete, Authentication authentication){
+    public String deleteList(@PathVariable String productId, @RequestParam String delete, Authentication authentication){
         try {
-            this.productService.deleteProductFromWishList(productId, authentication);
-        } catch (ProductDoesNotExist e) {
+            Long id = Long.parseLong(productId);
+            this.productService.deleteProductFromWishList(id, authentication);
+        } catch (ProductDoesNotExist | NumberFormatException e) {
         }
         return "redirect:/wishlist";
     }

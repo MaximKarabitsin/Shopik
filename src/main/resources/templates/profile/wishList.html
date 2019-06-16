@@ -19,7 +19,7 @@
             </tr>
             <th:block th:each="w : ${wishLists}">
                 <tr>
-                    <td th:text="${w.product.productName}"></td>
+                    <td ><a th:text="${w.product.productName}" th:href="@{/product/{productId}(productId=${w.product.id})}"></a></td>
                     <td th:text="${w.product.cost}"></td>
                     <td th:text="${w.product.discount}+'%'"></td>
                     <td th:text="${w.product.quantity}"></td>

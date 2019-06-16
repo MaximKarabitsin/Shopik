@@ -56,11 +56,12 @@ public class OrderController {
     }
 
     @GetMapping("/basket/{productId}")
-    public String deleteProductBasket(@PathVariable Long productId, @RequestParam String delete, Model model, Authentication authentication) {
+    public String deleteProductBasket(@PathVariable String  productId, @RequestParam String delete, Model model, Authentication authentication) {
         try {
-            this.orderService.deleteProduct(productId, authentication);
+            Long id = Long.parseLong(productId);
+            this.orderService.deleteProduct(id, authentication);
 
-        } catch (UserDoesNotExist | ProductDoesNotExist e) {
+        } catch (UserDoesNotExist | ProductDoesNotExist | NumberFormatException e) {
         }
         return "redirect:/basket";
     }
