@@ -31,19 +31,19 @@ public class ImageProductServiceImpl implements ImageProductService {
         }
         int i = 1;
         for (MultipartFile multipartFile : files) {
+            if (!multipartFile.isEmpty()) {
+                String orgName = multipartFile.getOriginalFilename();
+                String fullFilePath = pathDir + orgName;
 
-            String orgName = multipartFile.getOriginalFilename();
-            String fullFilePath = pathDir + orgName;
+                File dest = new File(fullFilePath);
+                multipartFile.transferTo(dest);
 
-            File dest = new File(fullFilePath);
-            multipartFile.transferTo(dest);
-
-            Thumbnails.of(dest).size(500, 500).toFile(new File(pathDir + i + BIG_POSTFIX));
-            Thumbnails.of(dest).size(290, 290).toFile(new File(pathDir + i + MEDIUM_POSTFIX));
-            Thumbnails.of(dest).size(100, 100).toFile(new File(pathDir + i + SMALL_POSTFIX));
-            i++;
+                Thumbnails.of(dest).size(500, 500).toFile(new File(pathDir + i + BIG_POSTFIX));
+                Thumbnails.of(dest).size(290, 290).toFile(new File(pathDir + i + MEDIUM_POSTFIX));
+                Thumbnails.of(dest).size(100, 100).toFile(new File(pathDir + i + SMALL_POSTFIX));
+                i++;
+            }
         }
-        return;
     }
 
 

@@ -89,7 +89,7 @@
                     <!-- /.current-categories -->
 
                     <form class="form-search" method="get">
-                        <input type="text" class="catalog-search__input"
+                        <input type="text" class="catalog-search__input" pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$"
                                th:attr="placeholder=#{header.catalog.search}" th:name="search">
                         <button class="catalog-search__btn button" type="submit">
                             <svg class="catalog-search__icon button-icon">

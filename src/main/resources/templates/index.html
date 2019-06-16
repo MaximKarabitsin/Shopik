@@ -188,78 +188,15 @@
         <div class="block">
             <div id="news" class="block__title">Новости</div>
             <div class="news-list">
+                <th:block th:each="news: ${listOfTenNews}">
                 <div class="news-wrapper">
                     <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
+                        <div class="news__date" th:text="${news.date}"></div>
+                        <div class="news__title" th:text="${news.newsTitle}"></div>
+                        <div class="news__description" th:text="${news.description}"></div>
                     </div>
                 </div>
-                <div class="news-wrapper">
-                    <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
-                    </div>
-                </div>
-                <div class="news-wrapper">
-                    <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
-                    </div>
-                </div>
-                <div class="news-wrapper">
-                    <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
-                    </div>
-                </div>
-                <div class="news-wrapper">
-                    <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
-                    </div>
-                </div>
-                <div class="news-wrapper">
-                    <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
-                    </div>
-                </div>
-                <div class="news-wrapper">
-                    <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
-                    </div>
-                </div>
-                <div class="news-wrapper">
-                    <div class="news">
-                        <div class="news__date">27 апреля 2019</div>
-                        <div class="news__title">СКОРО ОТКРЫТИЕ!</div>
-                        <div class="news__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Beatae eum fugit ipsam possimus rem.
-                        </div>
-                    </div>
-                </div>
+                </th:block>
             </div>
             <!-- /.catalog-list -->
         </div>

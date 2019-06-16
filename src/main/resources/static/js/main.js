@@ -13,7 +13,7 @@ $(document).ready(function () {
     $(".lang-switch").on("click", function () {
         var lang = $(this).attr("name");
         $.removeCookie('lang');
-        $.cookie("lang", lang, { expires: 1 }); //1 day
+        $.cookie("lang", lang,{ expires: 1 , path: "/"}); //1 day
         location.reload();
     });
 
@@ -36,4 +36,6 @@ $(document).ready(function () {
             }
         });
     });
+
+
 });

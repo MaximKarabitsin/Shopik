@@ -4,7 +4,6 @@ package ru.sstu.shopik.domain.entities;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -14,7 +13,7 @@ public class Order {
     @Column(name = "orderId")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "buyerId", nullable = false)
     private User buyer;
 

@@ -1,41 +1,32 @@
 package ru.sstu.shopik.forms.validators;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
-import ru.sstu.shopik.forms.ProductAddForm;
-import ru.sstu.shopik.forms.UserRegistrationForm;
-import ru.sstu.shopik.services.UserService;
+import ru.sstu.shopik.forms.ProductChangeForm;
 
 @Component
-public class ProductAddFormValidator implements Validator {
+public class ProductChangeFormValidator implements Validator {
 
-	@Autowired
-	private UserService userService;
-	
+
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return ProductAddForm.class.equals(clazz);
+		return ProductChangeForm.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-
-		ProductAddForm form = (ProductAddForm)target;
-
+		ProductChangeForm form = (ProductChangeForm)target;
 		MultipartFile[] files = form.getFiles();
-
 		if(files.length>10) {
 			errors.rejectValue("files", "settings.section.user.type.invalid", "Invalid type");
-
 		}
-
 		for (MultipartFile file : files) {
-			if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg") && !file.isEmpty()) {
+			if(!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png") && !file.isEmpty()) {
 				errors.rejectValue("files", "settings.section.user.type.invalid", "Invalid type");
 			}
 		}
 	}
+
 }

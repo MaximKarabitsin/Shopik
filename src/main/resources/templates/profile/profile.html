@@ -22,13 +22,13 @@
                 <div class="settings-section__input-wrapper">
                     <label class="settings-section__label">
                         <th:block th:text="#{settings.section.profile.firstName}"/>
-                        <input type="text" name="firstName" th:value="${user.firstName}"></label>
+                        <input type="text" name="firstName" pattern="^[a-zA-Zа-яА-Я]+$" maxlength="20" th:value="${user.firstName}"></label>
                     <span class="settings-section__error" th:errors="*{firstName}"></span>
                 </div>
                 <div class="settings-section__input-wrapper">
                     <label class="settings-section__label">
                         <th:block th:text="#{settings.section.profile.lastName}"/>
-                        <input type="text" name="lastName" th:value="${user.lastName}"></label>
+                        <input type="text" name="lastName" pattern="^[a-zA-Zа-яА-Я]+$" maxlength="20" th:value="${user.lastName}"></label>
                     <span class="settings-section__error" th:errors="*{lastName}"></span>
                 </div>
                 <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
@@ -39,14 +39,14 @@
                 <div class="settings-section__input-wrapper">
                     <label class="settings-section__label">
                         <th:block th:text="#{settings.section.profile.currentPassword}"/>
-                        <input type="password" name="currentPassword"></label>
+                        <input type="password" pattern="^[a-zA-Z0-9]+$" maxlength="40" name="currentPassword"></label>
                     <span class="settings-section__error" th:errors="*{currentPassword}"></span>
                     <span class="settings-section__error" th:text="${errorChangePassword}"></span>
                 </div>
                 <div class="settings-section__input-wrapper">
                     <label class="settings-section__label">
                         <th:block th:text="#{settings.section.profile.newPassword}"/>
-                        <input type="password" name="newPassword"></label>
+                        <input type="password" pattern="^[a-zA-Z0-9]+$" maxlength="40" name="newPassword"></label>
                     <span class="settings-section__error" th:errors="*{newPassword}"></span>
                 </div>
                 <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>

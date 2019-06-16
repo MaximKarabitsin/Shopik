@@ -44,6 +44,15 @@
     border: none;
     border-bottom: 2px solid #e9eaea;
     padding: 7px 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.auth-input:focus, .auth-input:invalid {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .auth-label {

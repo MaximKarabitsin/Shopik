@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminPanel-layout}">
+<head>
+    <title th:text="#{settings.title.news}"></title>
+</head>
+<body>
+<th:block layout:fragment="section">
+    <h2 class="settings-section__title" th:text="#{settings.section.news.title}"></h2>
+    <a class="button settings-section__button" th:href="@{/adminpanel/addNews}" th:text="#{settings.section.news.add}"></a>
+    <table class="settings-section__table">
+        <tr>
+            <th th:text="#{settings.section.news.table.id}"></th>
+            <th th:text="#{settings.section.news.table.newsTitle}"></th>
+            <th th:text="#{settings.section.news.table.description}"></th>
+            <th th:text="#{settings.section.news.table.date}"></th>
+        </tr>
+        <th:block th:each="n : ${news}">
+            <tr>
+                <td th:text="${n.newsId}"></td>
+                <td th:text="${n.newsTitle}"></td>
+                <td th:text="${n.description}"></td>
+                <td th:text="${n.getDate()}"></td>
+            </tr>
+
+        </th:block>
+    </table>
+
+</th:block>
+</body>
+</html>

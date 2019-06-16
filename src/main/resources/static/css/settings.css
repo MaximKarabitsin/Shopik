@@ -65,6 +65,9 @@ margin: 25px 0;
 }
 
 .settings-section__button {
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px 5px 5px 0;
     font-size: 16px;
     padding: 5px;
 }
