@@ -1,6 +1,7 @@
 package ru.sstu.shopik.controllers.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.exceptions.CategoryDoesNotExist;
+import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.ProductAddForm;
 import ru.sstu.shopik.forms.validators.ProductAddFormValidator;
 import ru.sstu.shopik.services.CategoryService;
@@ -41,16 +43,18 @@ public class AddProductController {
     }
 
     @PostMapping
-    public String newProduct(Model model, @Valid @ModelAttribute("productAddForm") ProductAddForm productAddForm, BindingResult binding) {
+    public String newProduct(Model model, Authentication authentication, @Valid @ModelAttribute("productAddForm") ProductAddForm productAddForm, BindingResult binding) {
         if (binding.hasErrors()) {
             model.addAttribute("catalog", categoryService.getCatalog().orElse(null));
             return "profile/addProduct";
         }
         try {
-            this.productService.createProductFromAddProductForm(productAddForm);
+            this.productService.createProductFromAddProductForm(productAddForm, authentication);
         } catch (IOException e) {
             e.printStackTrace();
             return "redirect:/error";
+        } catch (UserDoesNotExist e){
+
         }
         return "redirect:/profile/products/addProduct";
     }

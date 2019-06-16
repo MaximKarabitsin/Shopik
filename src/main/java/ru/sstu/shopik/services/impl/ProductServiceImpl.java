@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.sstu.shopik.dao.CategoryRepository;
@@ -15,6 +16,7 @@ import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.exceptions.ProductDoesNotExist;
+import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.ProductAddForm;
 import ru.sstu.shopik.forms.ProductChangeForm;
 import ru.sstu.shopik.services.ImageProductService;
@@ -25,16 +27,15 @@ import java.io.IOException;
 import java.util.*;
 
 
-
 @Service
 public class ProductServiceImpl implements ProductService {
 
 
-
     @Autowired
-
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserServiceImpl userService;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -109,16 +110,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void createProductFromAddProductForm(ProductAddForm productAddForm) throws IOException {
+    public void createProductFromAddProductForm(ProductAddForm productAddForm, Authentication authentication) throws IOException, UserDoesNotExist {
         Product product = new Product();
-        BeanUtils.copyProperties(productAddForm, product);
         long id = this.productRepository.getMaxId();
         product.setId(++id);
-        product.setCategory(this.categoryRepository.findByEnCategoryOrRuCategory(productAddForm.getMotherCategory(), productAddForm.getMotherCategory()).orElse(null));
-        product.setDate(new Date());
+        product.setProductName(productAddForm.getProductName());
+        product.setSeller(this.userService.getUserFromAuthentication(authentication).orElseThrow(UserDoesNotExist::new));
+        product.setCost(Integer.parseInt(productAddForm.getCost()));
+        product.setQuantity(Integer.parseInt(productAddForm.getQuantity()));
         product.setDiscount(0);
-        product.setSeller(((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser());
+        product.setDescription(productAddForm.getDescription());
         product.setDeleted(false);
+        product.setDate(new Date());
+        product.setCategory(this.categoryRepository.findByEnCategoryOrRuCategory(productAddForm.getMotherCategory(), productAddForm.getMotherCategory()).orElse(null));
         this.imageProductService.saveImage(productAddForm.getFiles(), id);
         this.productRepository.save(product);
     }
@@ -129,8 +133,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductById(long id) {
-        return productRepository.findById(id);
+    public Optional<Product> getProductById(long id) throws ProductDoesNotExist {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (!optionalProduct.isPresent()) {
+            throw new ProductDoesNotExist();
+        }
+        return optionalProduct;
     }
 
     @Override
@@ -147,7 +155,7 @@ public class ProductServiceImpl implements ProductService {
             Product product = optionalProduct.get();
             product.setProductName(productChangeForm.getProductName());
             product.setDescription(productChangeForm.getDescription());
-            product.setCost(productChangeForm.getCost());
+            product.setCost(Integer.parseInt(productChangeForm.getCost()));
             product.setCategory(this.categoryRepository.findByEnCategoryOrRuCategory(productChangeForm.getMotherCategory(), productChangeForm.getMotherCategory()).orElse(null));
             this.productRepository.save(product);
             this.imageProductService.saveImage(productChangeForm.getFiles(), id);
@@ -176,7 +184,7 @@ public class ProductServiceImpl implements ProductService {
             randomCategory = categoryRepository.findRandomCategory();
             productsWithCategoryFromDB = productRepository.productWithMotherCategory(randomCategory.get().getCategoryId(),
                     PageRequest.of(0, 50)).getContent();
-            if (productsWithCategoryFromDB.size()>0) break;
+            if (productsWithCategoryFromDB.size() > 0) break;
 
         }
         Set<Product> productWithRandomCategory = new HashSet<>();
@@ -191,6 +199,6 @@ public class ProductServiceImpl implements ProductService {
                 productWithRandomCategory.add(productsWithCategoryFromDB.get(number));
             }
         }
-                return productWithRandomCategory;
+        return productWithRandomCategory;
     }
 }

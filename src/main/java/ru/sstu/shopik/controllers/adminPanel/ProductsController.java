@@ -11,6 +11,7 @@ import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.forms.ProductChangeForm;
 import ru.sstu.shopik.forms.validators.ProductAddFormValidator;
+import ru.sstu.shopik.forms.validators.ProductChangeFormValidator;
 import ru.sstu.shopik.services.ProductService;
 
 import javax.validation.Valid;
@@ -23,13 +24,14 @@ import java.util.Optional;
 public class ProductsController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
-    private ProductAddFormValidator productValidators;
+    @Autowired
+    private ProductChangeFormValidator productValidator;
 
-    @InitBinder("productImagesAddForm")
+    @InitBinder("productChangeForm")
     private void initBinder(WebDataBinder binder) {
-        binder.addValidators(this.productValidators);
+        binder.addValidators(this.productValidator);
     }
 
     @ModelAttribute
@@ -51,33 +53,39 @@ public class ProductsController {
     }
 
     @GetMapping("/{id}")
-    public String getProduct(@PathVariable Long id, @RequestParam(required = false) String delete, Model model, ProductChangeForm productChangeForm) {
-        if (delete != null) {
-            this.productService.deleteProduct(id);
+    public String getProduct(@PathVariable("id") String string, @RequestParam(required = false) String delete, Model model, ProductChangeForm productChangeForm) {
+        try {
+            long id = Long.parseLong(string);
+            if (delete != null) {
+                this.productService.deleteProduct(id);
+                return "redirect:/adminpanel/products";
+            }
+            Optional<Product> optionalProduct;
+            optionalProduct = this.productService.getProductById(id);
+            model.addAttribute("p", optionalProduct.orElse(null));
+            model.addAttribute("productChangeForm", productChangeForm);
+            return "adminPanel/product";
+        } catch (NumberFormatException | ProductDoesNotExist e) {
             return "redirect:/adminpanel/products";
         }
-        Optional<Product> optionalProduct = this.productService.getProductById(id);
-        model.addAttribute("p", optionalProduct.orElse(null));
-        model.addAttribute("productChangeForm", productChangeForm);
-        return "adminPanel/product";
     }
 
     @PostMapping("/{id}")
-    public String changeProduct(@PathVariable Long id, Model model, Locale locale, @Valid @ModelAttribute("productChangeForm") ProductChangeForm productChangeForm,
+    public String changeProduct(@PathVariable Long id, Model model, @Valid @ModelAttribute("productChangeForm") ProductChangeForm productChangeForm,
                                 BindingResult binding) {
-        Optional<Product> optionalProduct = this.productService.getProductById(id);
-        model.addAttribute("p", optionalProduct.orElse(null));
-        if (binding.hasErrors()) {
-            return "adminPanel/product";
-        }
-
         try {
+            Optional<Product> optionalProduct = this.productService.getProductById(id);
+            model.addAttribute("p", optionalProduct.orElse(null));
+            if (binding.hasErrors()) {
+                return "adminPanel/product";
+            }
             this.productService.changeProduct(productChangeForm, id);
+            return "redirect:/adminpanel/products/" + id;
         } catch (ProductDoesNotExist e) {
-        }  catch (IOException e) {
+            return "redirect:/adminpanel/products";
+        } catch (IOException e) {
             e.printStackTrace();
             return "redirect:/error";
         }
-        return "redirect:/adminpanel/products/" + id;
     }
 }

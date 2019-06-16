@@ -79,8 +79,7 @@ input:invalid {
     transition: .3s;
 }
 
-.pagination__item:first-child,
-.pagination__item:last-child {
+.pagination__item--arrow {
     line-height: 28px;
     font-size: 20px;
 }

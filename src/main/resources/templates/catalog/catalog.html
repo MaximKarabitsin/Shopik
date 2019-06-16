@@ -150,7 +150,7 @@
 
             <nav class="pagination" th:if="${products.totalPages > 1}">
                 <div class="pagination-list">
-                    <a th:if="${products.hasPrevious()}" class="pagination__item"
+                    <a th:if="${products.hasPrevious()}" class="pagination__item pagination__item--arrow"
                        th:href="@{/catalog(page = ${products.number - 1}, search = ${search})}">&#8592;</a>
 
                     <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
@@ -161,7 +161,7 @@
                            th:href="@{/catalog(page = ${i} - 1, search = ${search})}" th:text="${i}"></a>
                     </th:block>
                     </a>
-                    <a th:if="${products.hasNext()}" class="pagination__item"
+                    <a th:if="${products.hasNext()}" class="pagination__item pagination__item--arrow"
                        th:href="@{/catalog(page = ${products.number + 1}, search = ${search})}">&#8594;</a>
                 </div>
             </nav>

@@ -12,8 +12,9 @@ public class ProductChangeForm {
     @Pattern(regexp = "[a-zA-Zа-яА-Я0-9_ ]{1,50}")
     private String productName;
 
-    @Min(1)
-    private int cost;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{1,9}")
+    private String cost;
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Zа-яА-Я0-9 .,]{1,200}")
@@ -32,11 +33,11 @@ public class ProductChangeForm {
         this.productName = productName;
     }
 
-    public int getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 

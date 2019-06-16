@@ -2,7 +2,6 @@ package ru.sstu.shopik.forms;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -12,11 +11,13 @@ public class ProductAddForm {
     @Pattern(regexp = "[a-zA-Zа-яА-Я0-9 ]{1,50}")
     private String productName;
 
-    @Min(1)
-    private int cost;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{1,9}")
+    private String cost;
 
-    @Min(1)
-    private int quantity;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{1,9}")
+    private String quantity;
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Zа-яА-Я0-9., ]{1,200}")
@@ -35,19 +36,19 @@ public class ProductAddForm {
         this.productName = productName;
     }
 
-    public int getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 

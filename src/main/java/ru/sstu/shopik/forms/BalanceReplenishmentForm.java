@@ -1,18 +1,18 @@
 package ru.sstu.shopik.forms;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 public class BalanceReplenishmentForm {
-    @NotNull
-    @Min(1)
-    private int replenishment;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{1,9}")
+    private String replenishment;
 
-    public int getReplenishment() {
+    public String getReplenishment() {
         return replenishment;
     }
 
-    public void setReplenishment(int replenishment) {
+    public void setReplenishment(String replenishment) {
         this.replenishment = replenishment;
     }
 }

@@ -12,22 +12,31 @@ import ru.sstu.shopik.services.UserService;
 @Component
 public class CategoryAddFormValidator implements Validator {
 
-	@Autowired
-	private CategoryService categoryService;
-	
-	@Override
-	public boolean supports(Class<?> clazz) {
-		return CategoryAddForm.class.equals(clazz);
-	}
+    @Autowired
+    private CategoryService categoryService;
 
-	@Override
-	public void validate(Object target, Errors errors) {
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return CategoryAddForm.class.equals(clazz);
+    }
 
-		CategoryAddForm form = (CategoryAddForm)target;
-		if(!this.categoryService.checkMotherCategory(form.getMotherId())) {
-			errors.rejectValue("motherId", "settings.section.categories.mainCategory", "Main category does not exist");
-		}
+    @Override
+    public void validate(Object target, Errors errors) {
 
-	}
+        CategoryAddForm form = (CategoryAddForm) target;
+
+        try {
+            if (Integer.parseInt(form.getMotherId()) < 2) {
+                throw new NumberFormatException();
+            }
+            if (!this.categoryService.checkMotherCategory(Integer.parseInt(form.getMotherId()))) {
+                errors.rejectValue("motherId", "settings.section.categories.mainCategory", "Main category does not exist");
+            }
+        } catch (NumberFormatException e) {
+            errors.rejectValue("motherId", "settings.section.categories.mainCategory", "Main category does not exist");
+        }
+
+
+    }
 
 }

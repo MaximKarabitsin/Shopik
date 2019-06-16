@@ -10,23 +10,32 @@ import ru.sstu.shopik.forms.ProductChangeForm;
 public class ProductChangeFormValidator implements Validator {
 
 
-	@Override
-	public boolean supports(Class<?> clazz) {
-		return ProductChangeForm.class.equals(clazz);
-	}
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return ProductChangeForm.class.equals(clazz);
+    }
 
-	@Override
-	public void validate(Object target, Errors errors) {
-		ProductChangeForm form = (ProductChangeForm)target;
-		MultipartFile[] files = form.getFiles();
-		if(files.length>10) {
-			errors.rejectValue("files", "settings.section.user.type.invalid", "Invalid type");
-		}
-		for (MultipartFile file : files) {
-			if(!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png") && !file.isEmpty()) {
-				errors.rejectValue("files", "settings.section.user.type.invalid", "Invalid type");
-			}
-		}
-	}
+    @Override
+    public void validate(Object target, Errors errors) {
+        ProductChangeForm form = (ProductChangeForm) target;
+
+        try {
+            if (Integer.parseInt(form.getCost()) <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            errors.rejectValue("cost", "input.number", "Invalid type");
+        }
+
+        MultipartFile[] files = form.getFiles();
+        if (files.length > 10) {
+            errors.rejectValue("files", "settings.section.user.type.invalid", "Invalid type");
+        }
+        for (MultipartFile file : files) {
+            if (!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png") && !file.isEmpty()) {
+                errors.rejectValue("files", "settings.section.user.type.invalid", "Invalid type");
+            }
+        }
+    }
 
 }

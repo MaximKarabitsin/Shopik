@@ -5,11 +5,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.BalanceReplenishmentForm;
+import ru.sstu.shopik.forms.validators.BalanceReplenishmentFormValidator;
+import ru.sstu.shopik.forms.validators.ProductAddFormValidator;
 import ru.sstu.shopik.services.UserService;
 
 import javax.validation.Valid;
@@ -19,6 +23,14 @@ public class BalanceReplenishmentController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private BalanceReplenishmentFormValidator balanceValidator;
+
+    @InitBinder("balanceReplenishmentForm")
+    private void initBinder(WebDataBinder binder) {
+        binder.addValidators(this.balanceValidator);
+    }
 
     @GetMapping("/profile/replenishment")
     public String balanceReplenishment() {return "profile/replenishment";}

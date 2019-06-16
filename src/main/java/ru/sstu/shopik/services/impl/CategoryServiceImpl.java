@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void addCategory(CategoryAddForm categoryAddForm) {
         Category category = new Category();
-        category.setMotherCategory(this.categoryRepository.findById(categoryAddForm.getMotherId()).orElse(null));
+        category.setMotherCategory(this.categoryRepository.findById(Integer.parseInt(categoryAddForm.getMotherId())).orElse(null));
         category.setEnCategory(categoryAddForm.getEnCategory());
         category.setRuCategory(categoryAddForm.getRuCategory());
         this.categoryRepository.save(category);

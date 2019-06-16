@@ -1,7 +1,5 @@
 package ru.sstu.shopik.forms;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -21,8 +19,9 @@ public class UserChangeForm {
     @Pattern(regexp = "[a-zA-Z]{0,20}")
     private String role;
 
-    @Min(0)
-    private Integer balance;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{1,9}")
+    private String balance;
 
     public String getLogin() {
         return login;
@@ -56,11 +55,11 @@ public class UserChangeForm {
         this.role = role;
     }
 
-    public Integer getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 }

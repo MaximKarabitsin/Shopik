@@ -13,8 +13,9 @@ public class CategoryAddForm {
     @Pattern(regexp = "[a-zA-Zа-яА-Я0-9 ]{1,50}")
     private String ruCategory;
 
-    @Min(2)
-    private Integer motherId;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{1,9}")
+    private String motherId;
 
     public String getEnCategory() {
         return enCategory;
@@ -32,11 +33,11 @@ public class CategoryAddForm {
         this.ruCategory = ruCategory;
     }
 
-    public Integer getMotherId() {
+    public String getMotherId() {
         return motherId;
     }
 
-    public void setMotherId(Integer motherId) {
+    public void setMotherId(String motherId) {
         this.motherId = motherId;
     }
 }

@@ -41,17 +41,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserWithLoginExist(String login) {
-        return this.userRepository.countByLogin(login) != 0 ? true : false;
+        return this.userRepository.countByLogin(login) != 0;
     }
 
     @Override
     public boolean isUserWithEmailExist(String email) {
-        return this.userRepository.countByEmail(email) != 0 ? true : false;
+        return this.userRepository.countByEmail(email) != 0;
     }
 
     @Override
     public boolean isUserWithEmailExistAndEnabled(String email) {
-        return this.userRepository.countByEnabledAndEmail(true, email) != 0 ? true : false;
+        return this.userRepository.countByEnabledAndEmail(true, email) != 0;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
             user.setLogin(userChangeForm.getLogin());
             user.setFirstName(userChangeForm.getFirstName());
             user.setLastName(userChangeForm.getLastName());
-            user.setBalance(userChangeForm.getBalance());
+            user.setBalance(Integer.parseInt(userChangeForm.getBalance()));
             Set<Role> roles = new HashSet<>();
             roles.add(this.roleRepository.findByRole("USER"));
             switch (userChangeForm.getRole()) {
@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = this.getUserFromAuthentication(authentication);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setBalance(user.getBalance() + form.getReplenishment());
+            user.setBalance(user.getBalance() + Integer.parseInt(form.getReplenishment()));
             this.userRepository.save(user);
         } else {
             throw new UserDoesNotExist();
