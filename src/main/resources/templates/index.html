@@ -36,7 +36,7 @@
         <!-- /.main-slider -->
 
         <div class="block">
-            <div id="new" class="block__title">Новинки</div>
+            <div id="new" class="block__title" th:text="#{header.navbar.new}"></div>
             <div class="products-slider">
                 <th:block th:each="product: ${listOfTenForNovelties}">
                     <div class="products-slider__item">
@@ -86,7 +86,7 @@
         </div>
 
         <div class="block">
-            <div id="sales" class="block__title">Скидки</div>
+            <div id="sales" class="block__title" th:text="#{header.navbar.sales}"></div>
             <div class="products-slider">
                 <th:block th:each="product: ${listOfTenForSales}">
                     <div class="products-slider__item">
@@ -136,7 +136,7 @@
 
         <div class="block" th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'">
             <div class="block__title"
-                 th:text="#{index.carousel.random.category} + ${motherCategory['__${langCategory}__']}">
+                 th:text="#{index.carousel.random.category} + ${category['__${langCategory}__']}">
             </div>
             <div class="products-slider">
                 <th:block th:each="product: ${listFromRandomCategory}">

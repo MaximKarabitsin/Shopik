@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sstu.shopik.dao.CategoryRepository;
 import ru.sstu.shopik.dao.ProductRepository;
 import ru.sstu.shopik.dao.UserRepository;
@@ -69,13 +70,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAllByProductNameContainingIgnoreCaseAndDeleted(productName, pageable, false);
     }
 
-    @Override
-    public void editProduct(Product product) {
-        Optional<Product> productFromDB = productRepository.findByProductName(product.getProductName());
-        if (productFromDB.isPresent()) {
-            productRepository.save(product);
-        }
-    }
 
     @Override
     public Optional<Product> getInfoAboutProductForBigPageById(Long id) {
@@ -139,22 +133,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductById(long id) {
-        return productRepository.findById(id);
+    public Optional<Product> getProductById(long id) throws ProductDoesNotExist {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (!optionalProduct.isPresent()) {
+            throw new ProductDoesNotExist();
+        }
+        return optionalProduct;
     }
 
     @Override
-    public void deleteProduct(Long id) {
-        Product product = productRepository.findById(id).get();
-        if (this.productRepository.countById(id) != 0) {
-            if (wishListRepository.countByProduct(product) != 0) {
-                List<WishList> wishLists = wishListRepository.findAllByProduct(product);
-                for (WishList wl: wishLists) {
-                    this.wishListRepository.deleteById(wl.getWithListId());
-                }
-            }
-            this.productRepository.deleteById(id);
-        }
+    public void deleteProduct(Long id) throws ProductDoesNotExist{
+        Optional<Product> optionalProduct = this.getProductById(id);
+        this.wishListRepository.deleteAllByProduct(optionalProduct.get());
+    }
+
+    @Override
+    public void deleteProductFromWishList(Long id, Authentication authentication) throws ProductDoesNotExist {
+        Product product = this.getProductById(id).get();
+        User user = userService.getUserFromAuthentication(authentication).get();
+        this.wishListRepository.deleteByProductAndUser(product, user);
     }
 
     @Override
@@ -200,29 +197,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Set<Product> getTenWithRandomCategory() {
-        Optional<Category> randomCategory;
-        List<Product> productsWithCategoryFromDB;
+    public List<Product> getTenWithRandomCategory() {
+        List<Product> productsWithCategory;
         while (true) {
-            randomCategory = categoryRepository.findRandomCategory();
-            productsWithCategoryFromDB = productRepository.productWithMotherCategory(randomCategory.get().getCategoryId(),
-                    PageRequest.of(0, 50)).getContent();
-            if (productsWithCategoryFromDB.size() > 0) break;
+            Optional<Category> randomCategory = categoryRepository.findRandomCategory();
+            productsWithCategory = productRepository.findTenProductsWithRandomCategory(randomCategory.get().getCategoryId());
+            if (productsWithCategory.size() != 0) {
+              break;
+            }
+        }
+        return productsWithCategory;
 
-        }
-        Set<Product> productWithRandomCategory = new HashSet<>();
-        int size = productsWithCategoryFromDB.size();
-        if (size < 10) {
-            for (int i = 0; i < size; i++) {
-                productWithRandomCategory.add(productsWithCategoryFromDB.get(i));
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                int number = (int) (Math.random() * (size));
-                productWithRandomCategory.add(productsWithCategoryFromDB.get(number));
-            }
-        }
-        return productWithRandomCategory;
     }
 
     @Override
@@ -246,7 +231,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void addProductToWishList(Authentication authentication, long id) {
+    public void addProductToWishList(Authentication authentication, long id) throws ProductDoesNotExist{
         Optional<Product> product = this.getProductById(id);
         Optional<User> user = userService.getUserFromAuthentication(authentication);
         if (product.isPresent() && user.isPresent()) {

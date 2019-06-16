@@ -14,6 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     Optional<Category> findByEnCategoryOrRuCategory(String enCategory, String ruCategory);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM category where mother_id = 2 ORDER BY RAND() LIMIT 1")
+    @Query(nativeQuery = true, value = "SELECT * FROM category where mother_id <> 2 and mother_id <> 1 ORDER BY RAND() LIMIT 1")
     Optional<Category> findRandomCategory();
 }

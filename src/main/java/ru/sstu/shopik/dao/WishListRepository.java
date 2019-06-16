@@ -3,6 +3,7 @@ package ru.sstu.shopik.dao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.domain.entities.WishList;
@@ -15,8 +16,8 @@ public interface WishListRepository extends JpaRepository<WishList, Long> {
 
     int countByProductAndUser(Product product, User user);
 
-    int countByProduct(Product product);
+    @Transactional
+    void deleteByProductAndUser(Product product, User user);
 
-    List<WishList> findAllByProduct(Product product);
-
+    void deleteAllByProduct(Product product);
 }

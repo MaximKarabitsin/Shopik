@@ -48,8 +48,8 @@ public class WishListController {
     }
 
     @GetMapping("/{productId}")
-    public String deleteList(@PathVariable Long productId){
-       this.productService.deleteProduct(productId);
+    public String deleteList(@PathVariable Long productId, Authentication authentication){
+       this.productService.deleteProductFromWishList(productId, authentication);
        return "redirect:/wishlist";
     }
 
