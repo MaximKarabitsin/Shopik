@@ -77,23 +77,30 @@ public class UsersController {
 
 
     @PostMapping("/{id}")
-    public String changeUser(@PathVariable Long id, Model model, Locale locale, @Valid @ModelAttribute("userChangeForm") UserChangeForm userChangeForm,
+    public String changeUser(@PathVariable String id, Model model, Locale locale, @Valid @ModelAttribute("userChangeForm") UserChangeForm userChangeForm,
                              BindingResult binding) {
-        Optional<User> optionalUser = this.userService.getUserById(id);
-        model.addAttribute("u", optionalUser.orElse(null));
-        if (binding.hasErrors()) {
+        long userId;
+        try {
+            userId = Long.parseLong(id);
+            Optional<User> optionalUser = this.userService.getUserById(userId);
+            model.addAttribute("u", optionalUser.orElse(null));
+            if (binding.hasErrors()) {
+                return "adminPanel/user";
+            }
+        } catch (NumberFormatException e) {
             return "adminPanel/user";
         }
 
+
         try {
-            this.userService.changeUser(userChangeForm, id);
+            this.userService.changeUser(userChangeForm, userId);
         } catch (UserDoesNotExist e) {
 
         } catch (InvalidLogin e) {
             model.addAttribute("errorLogin", messageSource.getMessage("enter.login.exist", null, locale));
             return "adminPanel/user";
         }
-        return "redirect:/adminpanel/users/" + id;
+        return "redirect:/adminpanel/users/" + userId;
     }
 
     private Pageable isCorrectPage(Pageable pageable) {
