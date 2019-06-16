@@ -10,7 +10,7 @@ public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "statusId")
-    private Long id;
+    private Integer id;
 
     @Column(name = "status")
     private String status;
@@ -18,11 +18,11 @@ public class OrderStatus {
     public OrderStatus() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

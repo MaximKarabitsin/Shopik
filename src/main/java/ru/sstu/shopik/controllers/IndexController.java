@@ -1,13 +1,13 @@
 package ru.sstu.shopik.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.services.NewsService;
 import ru.sstu.shopik.services.ProductService;
 
@@ -30,6 +30,7 @@ public class IndexController {
 
     @GetMapping()
     public String getProductsForNovelties(Model model) {
+
         model.addAttribute("listOfTenForNovelties", productService.getTenProductsForNovelties());
         model.addAttribute("listOfTenForSales", productService.getTenWithSale());
         Set<Product> listWithRandomCategory = productService.getTenWithRandomCategory();
@@ -39,5 +40,4 @@ public class IndexController {
         model.addAttribute("listOfTenNews", newsService.getTenNewsForNews());
         return "index";
     }
-
-}
+    }

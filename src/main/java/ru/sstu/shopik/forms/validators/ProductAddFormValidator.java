@@ -21,11 +21,18 @@ public class ProductAddFormValidator implements Validator {
         ProductAddForm form = (ProductAddForm) target;
 
         try {
-            if (Integer.parseInt(form.getCost()) <= 0 || Integer.parseInt(form.getQuantity()) <= 0) {
+            if (Integer.parseInt(form.getCost()) <= 0) {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
             errors.rejectValue("cost", "input.number", "Invalid type");
+        }
+        try {
+            if (Integer.parseInt(form.getQuantity()) <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            errors.rejectValue("quantity", "input.number", "Invalid type");
         }
 
         MultipartFile[] files = form.getFiles();

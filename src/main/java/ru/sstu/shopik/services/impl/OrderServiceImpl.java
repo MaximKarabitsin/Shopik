@@ -1,6 +1,5 @@
 package ru.sstu.shopik.services.impl;
 
-import org.hibernate.collection.internal.PersistentBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,7 @@ import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
 
     @Autowired
     private UserService userService;
@@ -199,5 +199,16 @@ public class OrderServiceImpl implements OrderService {
         OrderStatus status = this.orderStatusRepository.findByStatus("basket");
         Optional<OrderProduct> optionalOrderProduct = this.orderProductRepository.findByStatusAndBuyerAndProduct(status, buyer, product);
         return optionalOrderProduct.orElseThrow(ProductDoesNotExist::new);
+    }
+
+    @Override
+    public void deleteProductFromBasket(Product product) {
+        int status = this.orderStatusRepository.findByStatus("basket").getId();
+        this.orderProductRepository.deleteByProductAndStatus(status, product.getId());
+    }
+
+    @Override
+    public boolean hasOrderWithProduct(Product product) {
+        return this.orderProductRepository.countByProduct(product) != 0;
     }
 }

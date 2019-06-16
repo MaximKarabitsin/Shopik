@@ -30,7 +30,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/adminpanel/users")
 public class UsersController {
-    private static final int INITIAL_PAGE_SIZE = 18;
+    private static final int INITIAL_PAGE_SIZE = 10;
 
     @Autowired
     private UserService userService;

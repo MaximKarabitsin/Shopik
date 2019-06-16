@@ -9,19 +9,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sstu.shopik.dao.CategoryRepository;
 import ru.sstu.shopik.dao.ProductRepository;
 import ru.sstu.shopik.dao.UserRepository;
+import ru.sstu.shopik.dao.WishListRepository;
 import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.domain.entities.User;
+import ru.sstu.shopik.domain.entities.WishList;
 import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.ProductAddForm;
 import ru.sstu.shopik.forms.ProductChangeForm;
-import ru.sstu.shopik.services.ImageProductService;
-import ru.sstu.shopik.services.MailService;
-import ru.sstu.shopik.services.ProductService;
+import ru.sstu.shopik.forms.ProductChangeFormFromProfile;
+import ru.sstu.shopik.services.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -35,11 +38,10 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private UserServiceImpl userService;
-
-    @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private MailService mailService;
@@ -47,9 +49,15 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ImageProductService imageProductService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private WishListRepository wishListRepository;
+
     @Override
     public void delete(Product product) {
-        Optional<Product> productFromDB = productRepository.findByProductName(product.getProductName());
+        Optional<Product> productFromDB = productRepository.findByProductNameAndDeleted(product.getProductName(), false);
         if (productFromDB.isPresent()) {
             productRepository.delete(product);
         }
@@ -62,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void editProduct(Product product) {
-        Optional<Product> productFromDB = productRepository.findByProductName(product.getProductName());
+        Optional<Product> productFromDB = productRepository.findByProductNameAndDeleted(product.getProductName(), false);
         if (productFromDB.isPresent()) {
             productRepository.save(product);
         }
@@ -128,13 +136,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getPageProduct(int page) {
-        return this.productRepository.findByDeleted(false, PageRequest.of(page, 5));
+    public Page<Product> getPageProduct(Pageable pageable) {
+        return this.productRepository.findByDeleted(false, pageable);
     }
 
     @Override
     public Optional<Product> getProductById(long id) throws ProductDoesNotExist {
-        Optional<Product> optionalProduct = productRepository.findById(id);
+        Optional<Product> optionalProduct = productRepository.findByIdAndDeleted(id, false);
         if (!optionalProduct.isPresent()) {
             throw new ProductDoesNotExist();
         }
@@ -142,9 +150,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
-        if (this.productRepository.countById(id) != 0) {
-            this.productRepository.deleteById(id);
+    public void deleteProduct(Long id) throws ProductDoesNotExist{
+        Product product = this.getProductById(id).get();
+        this.wishListRepository.deleteAllByProduct(product);
+        this.orderService.deleteProductFromBasket(product);
+        if (this.orderService.hasOrderWithProduct(product)){
+            product.setDeleted(true);
+            this.productRepository.save(product);
+        } else {
+            this.productRepository.delete(product);
         }
     }
 
@@ -160,6 +174,20 @@ public class ProductServiceImpl implements ProductService {
             this.productRepository.save(product);
             this.imageProductService.saveImage(productChangeForm.getFiles(), id);
             this.mailService.sendProductChange(product);
+        } else {
+            throw new ProductDoesNotExist();
+        }
+    }
+
+    @Override
+    public void changeProductFromSeller(ProductChangeFormFromProfile productChangeFormFromProfile, long id) throws ProductDoesNotExist {
+        Optional<Product> optionalProduct = this.getProductById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setQuantity(Integer.parseInt(productChangeFormFromProfile.getQuantity()));
+            product.setDescription(productChangeFormFromProfile.getDescription());
+            product.setDiscount(Integer.parseInt(productChangeFormFromProfile.getDiscount()));
+            this.productRepository.save(product);
         } else {
             throw new ProductDoesNotExist();
         }
@@ -200,5 +228,37 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return productWithRandomCategory;
+    }
+
+    @Override
+    public Page<Product> getAllProductsForTheSeller(Pageable pageable, Authentication authentication) throws UserDoesNotExist {
+        Optional<User> currentUser = userService.getUserFromAuthentication(authentication);
+        if (currentUser.isPresent()) {
+            return productRepository.findAllBySeller(currentUser.get(), pageable);
+        } else {
+            throw new UserDoesNotExist();
+        }
+    }
+
+    @Override
+    public Page<WishList> getWishLists(Pageable pageable, Authentication authentication) throws UserDoesNotExist {
+        Optional<User> user = userService.getUserFromAuthentication(authentication);
+        if (user.isPresent()) {
+            return wishListRepository.findAllByUser(user.get(), pageable);
+        } else {
+            throw new UserDoesNotExist();
+        }
+    }
+
+    @Override
+    public void addProductToWishList(Authentication authentication, long id) throws ProductDoesNotExist, UserDoesNotExist {
+        Product product = this.getProductById(id).get();
+        User user = this.userService.getUserFromAuthentication(authentication).orElseThrow(UserDoesNotExist::new);
+        if (wishListRepository.countByProductAndUser(product, user) == 0) {
+            WishList wishList = new WishList();
+            wishList.setProduct(product);
+            wishList.setUser(user);
+            wishListRepository.save(wishList);
+        }
     }
 }

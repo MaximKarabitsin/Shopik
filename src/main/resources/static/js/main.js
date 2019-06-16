@@ -37,5 +37,24 @@ $(document).ready(function () {
         });
     });
 
+    /*ADD TO WISHLIST*/
+    $(".product__wish-list").on("click", function () {
+        var productId = $(this).attr("name");
+        $.ajax({
+            url: "wishlist/add",
+            data: "productId=" + productId,
+            type: "POST",
+            success: function (res) {
+                if (res) {
+                } else {
+                    $(location).attr('href', '/error');
+                }
+            },
+            error: function () {
+                $(location).attr('href', '/error');
+            }
+        });
+    });
+
 
 });

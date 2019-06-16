@@ -49,7 +49,7 @@
                    th:href="@{/adminpanel/users(page = ${users.number - 1})}">&#8592;</a>
 
                 <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-                    <a th:if="${users.number == i - 1 }" class="pagination__item pagination__item--active"
+                    <a th:if="${users.number == i - 1 }" class="pagination__item  pagination__item--active"
                        th:text="${i}"
                        th:href="@{/adminpanel/users(page = ${i} - 1)}"></a>
                     <a th:unless="${users.number == i - 1}" class="pagination__item"
