@@ -1,20 +1,15 @@
 package ru.sstu.shopik.services.impl;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.sstu.shopik.dao.CategoryRepository;
 import ru.sstu.shopik.dao.ProductRepository;
-import ru.sstu.shopik.dao.UserRepository;
 import ru.sstu.shopik.dao.WishListRepository;
-import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.domain.entities.User;
@@ -27,7 +22,9 @@ import ru.sstu.shopik.forms.ProductChangeFormFromProfile;
 import ru.sstu.shopik.services.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -66,14 +63,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getAllByNameForSearchInGeneralCategory(String productName, Pageable pageable) {
         return productRepository.findAllByProductNameContainingIgnoreCaseAndDeleted(productName, pageable, false);
-    }
-
-    @Override
-    public void editProduct(Product product) {
-        Optional<Product> productFromDB = productRepository.findByProductNameAndDeleted(product.getProductName(), false);
-        if (productFromDB.isPresent()) {
-            productRepository.save(product);
-        }
     }
 
     @Override
@@ -143,6 +132,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> getProductById(long id) throws ProductDoesNotExist {
         Optional<Product> optionalProduct = productRepository.findByIdAndDeleted(id, false);
+
         if (!optionalProduct.isPresent()) {
             throw new ProductDoesNotExist();
         }
@@ -160,6 +150,13 @@ public class ProductServiceImpl implements ProductService {
         } else {
             this.productRepository.delete(product);
         }
+    }
+
+    @Override
+    public void deleteProductFromWishList(Long id, Authentication authentication) throws ProductDoesNotExist {
+        Product product = this.getProductById(id).get();
+        User user = userService.getUserFromAuthentication(authentication).get();
+        this.wishListRepository.deleteByProductAndUser(product, user);
     }
 
     @Override
@@ -205,29 +202,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Set<Product> getTenWithRandomCategory() {
-        Optional<Category> randomCategory;
-        List<Product> productsWithCategoryFromDB;
+    public List<Product> getTenWithRandomCategory() {
+        List<Product> productsWithCategory;
         while (true) {
-            randomCategory = categoryRepository.findRandomCategory();
-            productsWithCategoryFromDB = productRepository.productWithMotherCategory(randomCategory.get().getCategoryId(),
-                    PageRequest.of(0, 50)).getContent();
-            if (productsWithCategoryFromDB.size() > 0) break;
+            Optional<Category> randomCategory = categoryRepository.findRandomCategory();
+            productsWithCategory = productRepository.findTenProductsWithRandomCategory(randomCategory.get().getCategoryId());
+            if (productsWithCategory.size() != 0) {
+              break;
+            }
+        }
+        return productsWithCategory;
 
-        }
-        Set<Product> productWithRandomCategory = new HashSet<>();
-        int size = productsWithCategoryFromDB.size();
-        if (size < 10) {
-            for (int i = 0; i < size; i++) {
-                productWithRandomCategory.add(productsWithCategoryFromDB.get(i));
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                int number = (int) (Math.random() * (size));
-                productWithRandomCategory.add(productsWithCategoryFromDB.get(number));
-            }
-        }
-        return productWithRandomCategory;
     }
 
     @Override
@@ -259,6 +244,7 @@ public class ProductServiceImpl implements ProductService {
             wishList.setProduct(product);
             wishList.setUser(user);
             wishListRepository.save(wishList);
+
         }
     }
 }

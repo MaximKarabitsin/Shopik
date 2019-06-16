@@ -14,7 +14,6 @@ import ru.sstu.shopik.forms.ProductChangeFormFromProfile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface ProductService {
     Page<Product> getPageProduct(Pageable pageable);
@@ -23,13 +22,13 @@ public interface ProductService {
 
     void deleteProduct(Long id) throws ProductDoesNotExist;
 
+    void deleteProductFromWishList(Long id, Authentication authentication) throws ProductDoesNotExist;
+
     void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist, IOException;
 
     void delete(Product product);
 
     Page<Product> getAllByNameForSearchInGeneralCategory(String productName, Pageable pageable);
-
-    void editProduct(Product product);
 
     Optional<Product> getInfoAboutProductForBigPageById(Long id);
 
@@ -43,7 +42,7 @@ public interface ProductService {
 
     List<Product> getTenWithSale();
 
-    Set<Product> getTenWithRandomCategory();
+    List<Product> getTenWithRandomCategory();
 
     void createProductFromAddProductForm(ProductAddForm productAddForm, Authentication authentication) throws IOException, UserDoesNotExist;
 
@@ -55,4 +54,5 @@ public interface ProductService {
     Page<WishList> getWishLists(Pageable pageable, Authentication authentication) throws UserDoesNotExist;
 
     void addProductToWishList(Authentication authentication, long id) throws ProductDoesNotExist, UserDoesNotExist;
+
 }

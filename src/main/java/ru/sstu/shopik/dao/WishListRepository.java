@@ -8,17 +8,14 @@ import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.domain.entities.WishList;
 
-import java.util.List;
-
 
 public interface WishListRepository extends JpaRepository<WishList, Long> {
     Page<WishList> findAllByUser(User user, Pageable pageable);
 
     int countByProductAndUser(Product product, User user);
 
-    int countByProduct(Product product);
-
-    List<WishList> findAllByProduct(Product product);
+    @Transactional
+    void deleteByProductAndUser(Product product, User user);
 
     @Transactional
     void deleteAllByProduct(Product product);

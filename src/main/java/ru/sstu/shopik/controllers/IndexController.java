@@ -11,6 +11,7 @@ import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.services.NewsService;
 import ru.sstu.shopik.services.ProductService;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -33,10 +34,9 @@ public class IndexController {
 
         model.addAttribute("listOfTenForNovelties", productService.getTenProductsForNovelties());
         model.addAttribute("listOfTenForSales", productService.getTenWithSale());
-        Set<Product> listWithRandomCategory = productService.getTenWithRandomCategory();
-        Category randomMotherCategory = listWithRandomCategory.iterator().next().getCategory().getMotherCategory();
+        List<Product> listWithRandomCategory = productService.getTenWithRandomCategory();
         model.addAttribute("listFromRandomCategory", listWithRandomCategory);
-        model.addAttribute("motherCategory", randomMotherCategory);
+        model.addAttribute("category", listWithRandomCategory.get(0).getCategory());
         model.addAttribute("listOfTenNews", newsService.getTenNewsForNews());
         return "index";
     }

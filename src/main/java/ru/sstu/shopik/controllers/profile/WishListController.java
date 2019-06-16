@@ -47,9 +47,9 @@ public class WishListController {
     }
 
     @GetMapping("/{productId}")
-    public String deleteList(@PathVariable Long productId, @RequestParam String delete){
+    public String deleteList(@PathVariable Long productId, @RequestParam String delete, Authentication authentication){
         try {
-            this.productService.deleteProduct(productId);
+            this.productService.deleteProductFromWishList(productId, authentication);
         } catch (ProductDoesNotExist e) {
         }
         return "redirect:/wishlist";

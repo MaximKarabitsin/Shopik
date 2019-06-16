@@ -35,6 +35,7 @@
             </div>
             <!-- /.main-slider -->
 
+
             <div class="block">
                 <div id="new" class="block__title">Новинки</div>
                 <div class="products-slider">
@@ -134,7 +135,7 @@
 
             <div class="block" th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'">
                 <div class="block__title"
-                     th:text="#{index.carousel.random.category} + ${motherCategory['__${langCategory}__']}">
+                     th:text="#{index.carousel.random.category} + ${category['__${langCategory}__']}">
                 </div>
                 <div class="products-slider">
                     <th:block th:each="product: ${listFromRandomCategory}">
@@ -166,7 +167,6 @@
                                                   class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
                                         </div>
                                         <th:block sec:authorize="isAuthenticated()">
-                                            <a th:href="@{/{productId}(productId = ${product.id})}">
                                                 <button th:name="${product.id}" class="product__wish-list">
                                                     <img th:src="@{/img/icons/wishlist.svg}"
                                                          alt="addWishlist" class="icon"></button>

@@ -1,7 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/adminPanel-layout}">
 <head>
     <title th:text="#{settings.title.categories}"></title>
@@ -27,11 +26,11 @@
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
                     <th:block th:text="#{settings.section.categories.enCategory}"/>
-                    <input type="text" name="enCategory"></label>
+                    <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="enCategory"></label>
                 <span class="settings-section__error" th:errors="*{enCategory}"></span>
                 <label class="settings-section__label">
                     <th:block th:text="#{settings.section.categories.ruCategory}"/>
-                    <input type="text" name="ruCategory"></label>
+                    <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="ruCategory"></label>
                 <span class="settings-section__error" th:errors="*{ruCategory}"></span>
             </div>
             <button class="button settings-section__button" th:text="#{settings.section.categories.button.add}"></button>
