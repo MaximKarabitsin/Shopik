@@ -15,11 +15,6 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
-.product-slider-wrapper {
-    width: 290px;
-    margin: 0 auto;
-}
-
 .news-list {
     display: flex;
     flex-direction: column;

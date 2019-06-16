@@ -22,7 +22,7 @@ $(document).ready(function () {
     $(".product__cart").on("click", function () {
        var productId = $(this).attr("name");
         $.ajax({
-            url: "basket/add",
+            url: "/basket/add",
             data: "productId=" + productId,
             type: "POST",
             success: function (res) {
@@ -41,7 +41,7 @@ $(document).ready(function () {
     $(".product__wish-list").on("click", function () {
         var productId = $(this).attr("name");
         $.ajax({
-            url: "wishlist/add",
+            url: "/wishlist/add",
             data: "productId=" + productId,
             type: "POST",
             success: function (res) {

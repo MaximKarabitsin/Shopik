@@ -40,7 +40,7 @@ public class ImageProductServiceImpl implements ImageProductService {
 
                 Thumbnails.of(dest).size(500, 500).toFile(new File(pathDir + i + BIG_POSTFIX));
                 Thumbnails.of(dest).size(290, 290).toFile(new File(pathDir + i + MEDIUM_POSTFIX));
-                Thumbnails.of(dest).size(100, 100).toFile(new File(pathDir + i + SMALL_POSTFIX));
+                Thumbnails.of(dest).size(130, 130).toFile(new File(pathDir + i + SMALL_POSTFIX));
                 i++;
             }
         }
@@ -80,5 +80,26 @@ public class ImageProductServiceImpl implements ImageProductService {
         }
 
         return null;
+    }
+
+    @Override
+    public int getNumberImages(long id) {
+        try {
+            int number = new File(getImageDir(id)).listFiles().length;
+            return number / 4;
+        } catch (NullPointerException e) {
+            return 0;
+        }
+
+    }
+
+    @Override
+    public FileSystemResource getSmallImage(Long id, int number) {
+        return this.getImage(id, number, SMALL_POSTFIX);
+    }
+
+    @Override
+    public FileSystemResource getBigImage(Long id, int number) {
+        return this.getImage(id, number, BIG_POSTFIX);
     }
 }

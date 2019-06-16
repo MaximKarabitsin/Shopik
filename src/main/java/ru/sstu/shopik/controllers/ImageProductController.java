@@ -21,4 +21,16 @@ public class ImageProductController {
     public FileSystemResource mainImage(Model model, @PathVariable Long id) {
         return this.imageProductService.getMainImage(id);
     }
+
+    @GetMapping(value="small/{id}/{number}", produces= MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public FileSystemResource smallImage(Model model, @PathVariable Long id, @PathVariable int number) {
+        return this.imageProductService.getSmallImage(id, number);
+    }
+
+    @GetMapping(value="big/{id}/{number}", produces= MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public FileSystemResource bigImage(Model model, @PathVariable Long id, @PathVariable int number) {
+        return this.imageProductService.getBigImage(id, number);
+    }
 }

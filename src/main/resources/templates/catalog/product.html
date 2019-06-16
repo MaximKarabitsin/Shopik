@@ -1,177 +1,89 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main-layout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/bootstrap-grid.css">
-    <link rel="stylesheet" href="../css/header-footer.css">
-    <link rel="stylesheet" href="../css/product.css">
-    <title>Shopik - товар</title>
+
+    <link rel="stylesheet" th:href="@{/css/slick.css}"/>
+    <link rel="stylesheet" th:href="@{/css/slider.css}"/>
+    <link rel="stylesheet" th:href="@{/css/product.css}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title th:text="|${product.productName}#{product.title}|"></title>
 </head>
 <body>
-    <header>
-        <div class="header">
-            <div class="container header-wrapper">
-                <a href="#">
-                    <img class="logo" src="../img/icons/logo.svg" alt="Shopik">
-                </a>
-                <div class="header-search">
-                    <form action="">
-                        <input class="header-search__field" type="text" pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$"
-                               placeholder="Поиск по каталогу...">
-                        <button class="header-search__btn" type="submit">
-                            <!--<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:svg="http://www.w3.org/2000/svg">
-                                <path fill="#444444" id="svg_4"
-                                      d="m15.605239,14.193336l-4.751073,-4.745817c0.687721,-0.965713 1.096271,-2.143641 1.096271,-3.419114c0.000026,-3.263504 -2.648702,-5.909485 -5.915732,-5.909485c-3.267056,0 -5.915784,2.645981 -5.915784,5.909485c0,3.263504 2.648728,5.909485 5.915784,5.909485c1.276766,0 2.45586,-0.4082 3.422753,-1.095183l4.751073,4.745766c0.192868,0.192554 0.445747,0.289074 0.698625,0.289074c0.25293,0 0.505757,-0.09652 0.698135,-0.289074c0.385711,-0.385082 0.385711,-1.010055 -0.000052,-1.395137zm-6.357561,-5.8878l-0.387747,0.544634l-0.545403,0.387565c-0.672358,0.477685 -1.46074,0.730327 -2.279824,0.730327c-2.174729,0 -3.943847,-1.767444 -3.943847,-3.939657c0,-2.172239 1.769118,-3.939657 3.943847,-3.939657s3.943873,1.767418 3.943873,3.939657c0.000438,0.817963 -0.252414,1.605408 -0.730899,2.277131l0,0z"/>
-                            </svg>-->
-                            <img class="header-search__icon" src="../img/icons/search-hover.svg" alt="Search">
-                        </button>
-                    </form>
-                </div>
-                <nav class="user-menu">
-                    <a class="user-menu__item" href="#">Профиль</a>
-                    <a class="user-menu__item" href="#">Список желаемого</a>
-                    <a class="user-menu__item" href="#">Админ-панель</a>
-                    <a class="user-menu__item" href="#">Выход</a>
-                    <a class="user-menu__cart" href="#">
-                        <!--<svg class="cart-icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                             xmlns:svg="http://www.w3.org/2000/svg">
-                            <path stroke="#444444" fill="#444444" stroke-width="0" id="svg_2"
-                                  d="m4.603552,10.498284l9.34297,0c1.059404,0 1.923655,-0.803962 1.923655,-1.789464l0,-3.65673c0,-0.003242 0,-0.009725 0,-0.012967c0,-0.009725 0,-0.016209 0,-0.025934c0,-0.006484 0,-0.012967 -0.003485,-0.019451c0,-0.006484 -0.003485,-0.016209 -0.003485,-0.022692s-0.003485,-0.012967 -0.003485,-0.019451c-0.003485,-0.006484 -0.003485,-0.012967 -0.00697,-0.022692c-0.003485,-0.006484 -0.003485,-0.012967 -0.00697,-0.019451c-0.003485,-0.006484 -0.003485,-0.012967 -0.00697,-0.019451c-0.003485,-0.006484 -0.00697,-0.012967 -0.010455,-0.022692c-0.003485,-0.006484 -0.00697,-0.012967 -0.010455,-0.016209c-0.003485,-0.006484 -0.00697,-0.012967 -0.010455,-0.019451c-0.003485,-0.006484 -0.00697,-0.009725 -0.010455,-0.016209c-0.003485,-0.006484 -0.010455,-0.012967 -0.01394,-0.019451c-0.003485,-0.006484 -0.00697,-0.009725 -0.01394,-0.016209c-0.003485,-0.006484 -0.010455,-0.009725 -0.01394,-0.016209s-0.010455,-0.009725 -0.01394,-0.016209s-0.010455,-0.009725 -0.01394,-0.012967c-0.00697,-0.006484 -0.010455,-0.009725 -0.017424,-0.016209c-0.00697,-0.003242 -0.010455,-0.009725 -0.017424,-0.012967c-0.00697,-0.003242 -0.01394,-0.009725 -0.020909,-0.012967c-0.00697,-0.003242 -0.010455,-0.006484 -0.017424,-0.009725s-0.01394,-0.006484 -0.020909,-0.012967c-0.00697,-0.003242 -0.01394,-0.006484 -0.020909,-0.009725s-0.01394,-0.006484 -0.020909,-0.009725s-0.01394,-0.006484 -0.020909,-0.009725s-0.01394,-0.003242 -0.020909,-0.006484c-0.00697,-0.003242 -0.017424,-0.006484 -0.024394,-0.006484s-0.01394,-0.003242 -0.017424,-0.003242c-0.010455,-0.003242 -0.017424,-0.003242 -0.027879,-0.003242c-0.003485,0 -0.00697,-0.003242 -0.01394,-0.003242l-11.841631,-1.520396l0,-1.536605c0,-0.016209 0,-0.032418 -0.003485,-0.045385c0,-0.003242 0,-0.006484 -0.003485,-0.012967c0,-0.009725 -0.003485,-0.019451 -0.003485,-0.029176c-0.003485,-0.009725 -0.003485,-0.016209 -0.00697,-0.025934c0,-0.006484 -0.003485,-0.009725 -0.003485,-0.016209c-0.003485,-0.009725 -0.00697,-0.019451 -0.010455,-0.029176c0,-0.003242 -0.003485,-0.009725 -0.003485,-0.012967c-0.003485,-0.009725 -0.00697,-0.016209 -0.01394,-0.025934c-0.003485,-0.003242 -0.003485,-0.009725 -0.00697,-0.012967c-0.003485,-0.006484 -0.00697,-0.012967 -0.01394,-0.019451c-0.003485,-0.006484 -0.00697,-0.009725 -0.010455,-0.016209s-0.00697,-0.009725 -0.010455,-0.016209s-0.010455,-0.012967 -0.01394,-0.019451c-0.003485,-0.003242 -0.00697,-0.006484 -0.010455,-0.009725c-0.00697,-0.006484 -0.01394,-0.012967 -0.020909,-0.019451c-0.003485,-0.003242 -0.00697,-0.006484 -0.010455,-0.009725c-0.00697,-0.006484 -0.01394,-0.012967 -0.024394,-0.019451c-0.003485,-0.003242 -0.010455,-0.006484 -0.01394,-0.009725c-0.00697,-0.006484 -0.01394,-0.009725 -0.020909,-0.016209c-0.010455,-0.006484 -0.020909,-0.012967 -0.027879,-0.016209c-0.003485,-0.003242 -0.00697,-0.003242 -0.010455,-0.006484c-0.01394,-0.006484 -0.031364,-0.012967 -0.045303,-0.019451l-2.568358,-1.004952c-0.240457,-0.094012 -0.515763,0.009725 -0.616824,0.233408s0.010455,0.479784 0.250912,0.573795l2.279113,0.894732l0,1.983971l0,0.314453l0,2.411886l0,2.155785l0,2.723097c0,0.907699 0.731825,1.659792 1.676229,1.773255c-0.170759,0.265826 -0.271821,0.577037 -0.271821,0.907699c0,0.975776 0.853796,1.766771 1.899261,1.766771s1.899261,-0.794237 1.899261,-1.766771c0,-0.324178 -0.094092,-0.632147 -0.261366,-0.89149l4.230647,0c-0.167274,0.262584 -0.261366,0.567312 -0.261366,0.89149c0,0.975776 0.853796,1.766771 1.899261,1.766771s1.899261,-0.794237 1.899261,-1.766771s-0.853796,-1.766771 -1.899261,-1.766771l-8.886451,0c-0.543642,0 -0.982737,-0.411706 -0.982737,-0.914183l0,-1.186492c0.28576,0.155606 0.623794,0.246375 0.982737,0.246375zm2.341841,3.617829c0,0.492751 -0.432125,0.89149 -0.958343,0.89149s-0.958343,-0.401981 -0.958343,-0.89149s0.432125,-0.89149 0.958343,-0.89149s0.958343,0.398739 0.958343,0.89149zm7.506437,0c0,0.492751 -0.432125,0.89149 -0.958343,0.89149s-0.958343,-0.401981 -0.958343,-0.89149s0.432125,-0.89149 0.958343,-0.89149s0.958343,0.398739 0.958343,0.89149zm-0.505308,-4.49311l-9.34297,0c-0.543642,0 -0.982737,-0.411706 -0.982737,-0.914183l0,-2.155785l0,-2.411886l0,-0.162089l11.308444,1.449077l0,3.277442c0,0.50896 -0.44258,0.917424 -0.982737,0.917424z"/>
-                        </svg>-->
-                        <img class="cart-icon" src="../img/icons/shopping-cart.svg" alt="">
-                        Корзина</a>
-                </nav>
-            </div>
-        </div>
-        <div class="navigation">
-            <div class="container">
-                <nav class="nav-menu">
-                    <a class="nav-menu__item" href="#">Главная</a>
-                    <a class="nav-menu__item nav-menu__item--active" >Каталог</a>
-                    <a class="nav-menu__item" href="#">Новости</a>
-                    <a class="nav-menu__item" href="#">Скидки</a>
-                </nav>
-            </div>
-        </div>
-    </header>
 
-<main>
-    <div class="product-fluid">
-        <div class="content-wrapper">
-            <div class="item-product">
-                <div class="product">
-                    <div class="col col-md-auto">
-                        <div class="product__image-wrapper"><img src="../img/Samsung%20Galaxy%20S8+.jpg"
-                                                                 alt="Samsung Galaxy S8+"
-                                                                 class="product__image">
-                        </div>
-                    </div>
 
-                    <div class="col-md-7">
-                        <div class="current-categories">
-                            <a href="#" class="current-category">Каталог</a>
-                            <a href="#" class="current-category">Бытовая электроника</a>
-                            <a href="#" class="current-category">Смартфоны</a>
-                            <a href="#" class="current-category">Смартфон Samsung Galaxy S8+</a>
-                        </div>
-                        <div class="product__name" th:text="${product.productName}"></div>
-                        <div class="product mx-auto my-3">
-                            <div class="col-md-8 p-0">
-                                <div class="product__seller" >
-                                    <th:block th:text="|Продавец: |"/>
-                                        <a href="/user" class="product__seller-id" th:text="${product.seller.login}"></a>
-                                   </div>
-                                <div class="product__quantity" >
-                                    <th:block th:text="|Имеется в продаже: |"/>
-                                    <span class="product__quantity-value" th:text="${product.quantity}"></span></div>
-                                <div class="product__desc" >
-                                    <th:block th:text="|Описание: |" />
-                                    <span class="product__desc-text" th:text="${product.description}"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="product__cost">
-                                    <div class="col-md-4">
-                                        <span class="cost-sign"><span class="cost" th:text="${product.getCostWithDiscount()}"></span></span>
-                                        <span class="cost--sale-sign" th:if="${product.discount} != 0"><span
-                                                class="cost--sale" th:text="${product.cost}"></span></span>
-                                    </div>
-                                </div>
-                                <div class="product-option">
-                                    <button class="product__cart"><img src="../img/icons/add-to-shopping-cart.svg"
-                                                                       alt="add" class="icon"><span
-                                            class="product__cart-text">Добавить в корзину</span>
-                                    </button>
-                                    <button class="product__wish-list"><img src="../img/icons/wishlist.svg"
-                                                                            alt="add"
-                                                                            class="icon"><span
-                                            class="product__wish-list-text">Добавить в желаемое</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
+    <th:block layout:fragment="main">
 
-    <footer class="footer">
         <div class="container">
-            <div class="footer-blocks">
-                <div class="footer-block">
-                    <div class="footer-block__title">Контакты</div>
-                    <a class="footer-block__item" href=""><img class="footer-icon" src="../img/icons/geolocation.svg"
-                                                               alt="Адресс:">г. Саратов</a>
-                    <a class="footer-block__item" href=""><img class="footer-icon" src="../img/icons/phone.svg"
-                                                               alt="Тел.:">+7 (999) 123 4567</a>
-                    <a class="footer-block__item" href="mailto:mail@shopik.com"><img class="footer-icon"
-                                                                                     src="../img/icons/email.svg"
-                                                                                     alt="email:">mail@shopik.com</a>
+            <div class="product-wrapper">
+                <div class="product-images-slider-wrapper">
+                    <div class="product-images-slider" >
+                        <div class="product-images-slider__item" th:each="i : ${#numbers.sequence( 1, numberImages)}">
+                            <img class="product-images-slider__item__img" th:src="@{/image/product/big/__${product.id}__/__${i}__}" alt=""></div>
+                    </div>
+                    <div class="product-images-slider-nav">
+                        <div class="product-images-slider__item-nav" th:each="i : ${#numbers.sequence( 1, numberImages)}"><img class="product-images-slider__item-nav__img"
+                                                                          th:src="@{/image/product/small/__${product.id}__/__${i}__}" alt=""></div>
+                    </div>
                 </div>
-                <div class="footer-block">
-                    <div class="footer-block__title">Shopik</div>
-                    <a class="footer-block__item" href="">Главная</a>
-                    <a class="footer-block__item" href="">Новости</a>
-                    <a class="footer-block__item" href="">Скидки</a>
-                </div>
-                <div class="footer-block">
-                    <div class="footer-block__title">Помощь</div>
-                    <a class="footer-block__item" href="">Помощь</a>
-                    <a class="footer-block__item" href="">FAQ</a>
-                </div>
-                <div class="footer-block">
-                    <div class="footer-block__title">Профиль</div>
-                    <a class="footer-block__item" href="">Профиль</a>
-                    <a class="footer-block__item" href="">Список желаемого</a>
-                    <a class="footer-block__item" href="">Админ-панель</a>
-                    <a class="footer-block__item" href="">Выход</a>
+                <div class="product-info-wrapper">
+                    <div th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'"
+                         class="current-categories">
+                        <a th:href="@{/catalog}"
+                           th:text="${product.category.motherCategory.motherCategory[langCategory]}"
+                           class="current-category"></a>
+                        <a th:href="@{/catalog/__${product.category.motherCategory.enCategory}__}"
+                           th:text="${product.category.motherCategory[langCategory]}" class="current-category"></a>
+                        <a th:href="@{/catalog/__${product.category.motherCategory.enCategory}__/__${product.category.enCategory}__}"
+                           th:text="${product.category[langCategory]}" class="current-category"></a>
+                        <a class="current-category" th:text="${product.productName}"></a>
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product__name" th:text="${product.productName}"></div>
+
+                            <div class="product__seller">
+                                <th:block th:text="|Продавец: |"/>
+                                <span class="product__seller-id" th:text="${product.seller.login}"></span>
+                            </div>
+                            <div class="product__quantity">
+                                <th:block th:text="|Имеется в продаже: |"/>
+                                <span class="product__quantity-value" th:text="${product.quantity}"></span></div>
+                            <div class="product__desc">
+                                <th:block th:text="|Описание: |"/>
+                                <span class="product__desc-text" th:text="${product.description}"></span>
+                            </div>
+                        </div>
+
+                        <div class="product-option">
+                            <div class="product__cost">
+                                <span class="cost" th:text="|&#x20bd; ${product.getCostWithDiscount()}|"></span>
+                                <span th:if="${product.discount != 0}"
+                                      class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
+                            </div>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <button th:name="${product.id}" class="product__cart"><img
+                                        th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                        alt="add" class="icon">Добавить в корзину
+                                </button>
+                                <button th:name="${product.id}" class="product__wish-list"><img
+                                        th:src="@{/img/icons/wishlist.svg}"
+                                        alt="add" class="icon">Добавить в желаемое
+                                </button>
+                            </th:block>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </th:block>
+    <th:block layout:fragment="jsscript">
+        <script th:src="@{/js/slick.min.js}"></script>
+        <script th:src="@{/js/product.js}"></script>
+    </th:block>
 
-<!-- Optional JavaScript
-&lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<script src="../js/index.js"></script>-->
 </body>
 </html>

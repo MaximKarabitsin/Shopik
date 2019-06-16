@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.services.ImageProductService;
 import ru.sstu.shopik.services.impl.ProductServiceImpl;
 
 @Controller
@@ -17,10 +18,14 @@ public class ProductController {
     @Autowired
     private ProductServiceImpl productService;
 
+    @Autowired
+    private ImageProductService imageProductService;
+
     @GetMapping("/{productId}")
     public String getInfoAboutProduct(@PathVariable Long productId, Model model) {
         Product product = productService.getInfoAboutProductForBigPageById(productId).get();
         model.addAttribute("product", product);
+        model.addAttribute("numberImages", this.imageProductService.getNumberImages(productId));
         return "catalog/product";
     }
 }
