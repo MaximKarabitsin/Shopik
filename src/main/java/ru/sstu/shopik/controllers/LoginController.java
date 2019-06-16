@@ -54,7 +54,6 @@ public class LoginController {
     @PostMapping("/passwordRecovery")
     public String recoverPassword(Locale locale, Model model, @Valid @ModelAttribute("passwordRecoveryForm") PasswordRecoveryForm passwordRecoveryForm,
                                   BindingResult binding) {
-
         if (binding.hasErrors()) {
             return "authorization/passwordRecovery";
         }

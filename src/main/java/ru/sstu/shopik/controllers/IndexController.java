@@ -31,7 +31,6 @@ public class IndexController {
 
     @GetMapping()
     public String getProductsForNovelties(Model model) {
-
         model.addAttribute("listOfTenForNovelties", productService.getTenProductsForNovelties());
         model.addAttribute("listOfTenForSales", productService.getTenWithSale());
         List<Product> listWithRandomCategory = productService.getTenWithRandomCategory();
@@ -40,4 +39,4 @@ public class IndexController {
         model.addAttribute("listOfTenNews", newsService.getTenNewsForNews());
         return "index";
     }
-    }
+}

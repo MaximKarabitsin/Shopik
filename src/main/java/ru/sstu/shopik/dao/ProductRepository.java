@@ -42,10 +42,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByCategoryAndProductNameContainingIgnoreCaseAndDeleted(Category category, String productName,
                                                                                 boolean deleted, Pageable pageable);
 
-
     @Query(nativeQuery = true, value = "SELECT * FROM product where discount <> 0 and deleted = false ORDER BY RAND() LIMIT 10")
     List<Product> findTenProductsWithSale();
 
-    Page<Product> findAllBySeller(User seller, Pageable pageable);
+    Page<Product> findAllBySellerAndDeleted(User seller, Pageable pageable, boolean deleted);
 
 }

@@ -211,7 +211,7 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> getAllProductsForTheSeller(Pageable pageable, Authentication authentication) throws UserDoesNotExist {
         Optional<User> currentUser = userService.getUserFromAuthentication(authentication);
         if (currentUser.isPresent()) {
-            return productRepository.findAllBySeller(currentUser.get(), pageable);
+            return productRepository.findAllBySellerAndDeleted(currentUser.get(), pageable, false);
         } else {
             throw new UserDoesNotExist();
         }

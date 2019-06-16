@@ -43,7 +43,6 @@ public class CatalogController {
         } else {
             products = productService.getAll(pageable);
         }
-
         addInModel(model, products);
         return "catalog/catalog";
     }
@@ -61,7 +60,6 @@ public class CatalogController {
         } else {
             products = productService.getAllByMotherCategoryAndProductName(category, "", pageable);
         }
-
         addInModel(model, products);
         return "catalog/catalog";
     }

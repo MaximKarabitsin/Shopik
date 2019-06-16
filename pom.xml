@@ -11,6 +11,7 @@
     <groupId>ru.sstu</groupId>
     <artifactId>Shopik</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>Shopik</name>
     <description>Shopik Online store</description>
 

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorController {
 
-/*    @GetMapping("/error")
+    @GetMapping("/error")
     public String getError(Model model) {
         return "error";
-    }*/
+    }
 
     @GetMapping("/access-denied")
     public  String getAccessDenied(Model model){

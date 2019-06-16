@@ -47,25 +47,24 @@ public class WishListController {
     }
 
     @GetMapping("/{productId}")
-    public String deleteList(@PathVariable Long productId, @RequestParam String delete, Authentication authentication){
+    public String deleteList(@PathVariable String productId, @RequestParam String delete, Authentication authentication){
         try {
-            this.productService.deleteProductFromWishList(productId, authentication);
-        } catch (ProductDoesNotExist e) {
+            Long id = Long.parseLong(productId);
+            this.productService.deleteProductFromWishList(id, authentication);
+        } catch (ProductDoesNotExist | NumberFormatException e) {
         }
         return "redirect:/wishlist";
     }
 
     @RequestMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public Boolean addInBasket(Long productId, Authentication authentication) {
-        boolean response = true;
+    public Boolean addInBasket(String productId, Authentication authentication) {
         try {
-            productService.addProductToWishList(authentication, productId);
-
-        } catch (UserDoesNotExist | ProductDoesNotExist e) {
-            response = false;
+            productService.addProductToWishList(authentication, Long.parseLong(productId));
+            return true;
+        } catch (UserDoesNotExist | ProductDoesNotExist | NumberFormatException e) {
+            return false;
         }
-        return response;
 
     }
 

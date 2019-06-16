@@ -24,13 +24,8 @@ public class NewsController {
     }
 
     @GetMapping
-    public String getNews(@RequestParam(required = false) Integer page, Model model) {
-
-        if (page == null) {
-            page = 0;
-        } else {
-            page -= 1;
-        }
+    public String getNews(Model model) {
+        int page =0;
         Page<News> newsPage = this.newsService.getPageProduct(page);
         model.addAttribute("news", newsPage);
         return "adminPanel/news";

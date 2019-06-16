@@ -52,7 +52,7 @@ public class UsersController {
     }
 
     @GetMapping
-    public String getUsers(@PageableDefault(size = INITIAL_PAGE_SIZE)Pageable pageable, Model model) {
+    public String getUsers(@PageableDefault(size = INITIAL_PAGE_SIZE) Pageable pageable, Model model) {
         pageable = isCorrectPage(pageable);
         Page<User> userPage = this.userService.getPageUser(pageable);
         Pager pager = new Pager(userPage.getTotalPages(), userPage.getNumber());
@@ -64,36 +64,43 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public String getUser(@PathVariable Long id, @RequestParam(required = false) String delete, Model model, UserChangeForm userChangeForm) {
-        if (delete != null) {
-            this.userService.deleteUser(id);
-            return "redirect:/adminpanel/users";
+    public String getUser(@PathVariable String id, @RequestParam(required = false) String delete, Model model, UserChangeForm userChangeForm) {
+        try {
+            long userId = Long.parseLong(id);
+            if (delete != null) {
+                this.userService.deleteUser(userId);
+                return "redirect:/adminpanel/users";
+            }
+            Optional<User> optionalUser = this.userService.getUserById(userId);
+            model.addAttribute("u", optionalUser.orElse(null));
+            model.addAttribute("userChangeForm", userChangeForm);
+            return "adminPanel/user";
+        } catch (NumberFormatException e) {
+            return "redirect:/adminpanel/users/";
         }
-        Optional<User> optionalUser = this.userService.getUserById(id);
-        model.addAttribute("u", optionalUser.orElse(null));
-        model.addAttribute("userChangeForm", userChangeForm);
-        return "adminPanel/user";
     }
 
 
     @PostMapping("/{id}")
-    public String changeUser(@PathVariable Long id, Model model, Locale locale, @Valid @ModelAttribute("userChangeForm") UserChangeForm userChangeForm,
+    public String changeUser(@PathVariable String id, Model model, Locale locale, @Valid @ModelAttribute("userChangeForm") UserChangeForm userChangeForm,
                              BindingResult binding) {
-        Optional<User> optionalUser = this.userService.getUserById(id);
-        model.addAttribute("u", optionalUser.orElse(null));
-        if (binding.hasErrors()) {
-            return "adminPanel/user";
-        }
-
         try {
-            this.userService.changeUser(userChangeForm, id);
-        } catch (UserDoesNotExist e) {
+            long userId = Long.parseLong(id);
+            Optional<User> optionalUser = this.userService.getUserById(userId);
+            model.addAttribute("u", optionalUser.orElse(null));
+            if (binding.hasErrors()) {
+                return "adminPanel/user";
+            }
+            this.userService.changeUser(userChangeForm, userId);
+            return "redirect:/adminpanel/users/" + userId;
 
+        } catch (NumberFormatException | UserDoesNotExist e) {
+            return "redirect:/adminpanel/users/";
         } catch (InvalidLogin e) {
             model.addAttribute("errorLogin", messageSource.getMessage("enter.login.exist", null, locale));
             return "adminPanel/user";
         }
-        return "redirect:/adminpanel/users/" + id;
+
     }
 
     private Pageable isCorrectPage(Pageable pageable) {

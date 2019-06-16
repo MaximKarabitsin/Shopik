@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.services.ImageProductService;
+import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.services.impl.ProductServiceImpl;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -22,10 +25,18 @@ public class ProductController {
     private ImageProductService imageProductService;
 
     @GetMapping("/{productId}")
-    public String getInfoAboutProduct(@PathVariable Long productId, Model model) {
-        Product product = productService.getInfoAboutProductForBigPageById(productId).get();
-        model.addAttribute("product", product);
-        model.addAttribute("numberImages", this.imageProductService.getNumberImages(productId));
-        return "catalog/product";
+    public String getInfoAboutProduct(@PathVariable String  productId, Model model) {
+        try {
+            long id = Long.parseLong(productId);
+            Optional<Product> product = productService.getInfoAboutProductForBigPageById(id);
+            if (product.isPresent()) {
+                model.addAttribute("product", product.get());
+                return "catalog/product";
+            } else {
+                throw new ProductDoesNotExist();
+            }
+        } catch (NumberFormatException | ProductDoesNotExist e) {
+            return "redirect:/";
+        }
     }
 }

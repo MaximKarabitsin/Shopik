@@ -49,10 +49,27 @@
 /* MAIN */
 .main-slider__item {
     display: none;
+    position: relative;
 }
 
 .main-slider__item:first-child {
     display: block;
+}
+
+.main-slider__item-text{
+    line-height: 70px;
+    height: 70px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0.85;
+    transform: translate(-50%, -25px);
+    background-color: #fff;
+    font-size: 45px;
+    color: #444;
+    text-transform: uppercase;
+    padding: 0 25px;
+    box-sizing: border-box;
 }
 
 .main-slider__img {

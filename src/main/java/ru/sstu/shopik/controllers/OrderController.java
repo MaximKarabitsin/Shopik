@@ -19,64 +19,63 @@ public class OrderController {
 
     @GetMapping("basket")
     public String getBasket(Model model, Authentication authentication) {
-        model.addAttribute("currentSection", "basket");
         try {
+            model.addAttribute("currentSection", "basket");
             model.addAttribute("order", this.orderService.getBasket(authentication));
+            return "order/basket";
         } catch (UserDoesNotExist e) {
+            return "redirect:/error";
         }
-        return "order/basket";
     }
 
     @RequestMapping(value = "basket/add", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public Boolean addInBasket(Long productId, Authentication authentication) {
-        boolean response = true;
+    public Boolean addInBasket(String productId, Authentication authentication) {
         try {
-            this.orderService.addInBasket(productId, authentication);
-
-        } catch (UserDoesNotExist | ProductDoesNotExist e) {
-            response = false;
+            this.orderService.addInBasket(Long.parseLong(productId), authentication);
+            return true;
+        } catch (UserDoesNotExist | ProductDoesNotExist | NumberFormatException e) {
+            return false;
         }
-        return response;
-
     }
 
     @RequestMapping(value = "/basket/changeQuantity", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public Boolean changeQuantity(Integer quantity, Long productId, Authentication authentication) {
-        boolean response = true;
+    public Boolean changeQuantity(String quantity, String productId, Authentication authentication) {
         try {
-            this.orderService.changeQuantity(quantity, productId, authentication);
-
-        } catch (UserDoesNotExist | ProductDoesNotExist e) {
-            response = false;
+            this.orderService.changeQuantity(Integer.parseInt(quantity), Long.parseLong(productId), authentication);
+            return true;
+        } catch (UserDoesNotExist | ProductDoesNotExist | NumberFormatException e) {
+            return false;
         }
-        return response;
-
     }
 
     @GetMapping("/basket/{productId}")
-    public String deleteProductBasket(@PathVariable Long productId, @RequestParam String delete, Model model, Authentication authentication) {
+    public String deleteProductBasket(@PathVariable String productId, @RequestParam String delete, Model model, Authentication authentication) {
         try {
-            this.orderService.deleteProduct(productId, authentication);
-
-        } catch (UserDoesNotExist | ProductDoesNotExist e) {
+            Long id = Long.parseLong(productId);
+            this.orderService.deleteProduct(id, authentication);
+        } catch (UserDoesNotExist e) {
+            return "redirect:/error";
+        } catch (ProductDoesNotExist | NumberFormatException e) {
         }
         return "redirect:/basket";
     }
 
     @GetMapping("/basket/order")
     public String createOrder(Model model, Authentication authentication) {
-        model.addAttribute("currentSection", "order");
         try {
+            model.addAttribute("currentSection", "order");
             Order order = this.orderService.createOrder(authentication);
             if (order != null) {
                 model.addAttribute("message", "Заказ подтвержден!");
             } else {
                 model.addAttribute("message", "Заказ не подтвержден! Проверьте товары их их колличество");
             }
+            return "order/order";
         } catch (UserDoesNotExist e) {
+            return "redirect:/error";
+
         }
-        return "order/order";
     }
 }

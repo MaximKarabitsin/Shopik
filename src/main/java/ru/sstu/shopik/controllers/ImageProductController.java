@@ -16,21 +16,38 @@ public class ImageProductController {
     @Autowired
     private ImageProductService imageProductService;
 
-    @GetMapping(value="main/{id}", produces= MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "main/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public FileSystemResource mainImage(Model model, @PathVariable Long id) {
-        return this.imageProductService.getMainImage(id);
+    public FileSystemResource mainImage(Model model, @PathVariable String id) {
+        try {
+            Long imageId = Long.parseLong(id);
+            return this.imageProductService.getMainImage(imageId);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 
-    @GetMapping(value="small/{id}/{number}", produces= MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "small/{id}/{number}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public FileSystemResource smallImage(Model model, @PathVariable Long id, @PathVariable int number) {
-        return this.imageProductService.getSmallImage(id, number);
+    public FileSystemResource smallImage(Model model, @PathVariable String id, @PathVariable String number) {
+        try {
+            Long imageId = Long.parseLong(id);
+            int numberId = Integer.parseInt(number);
+            return this.imageProductService.getSmallImage(imageId, numberId);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 
-    @GetMapping(value="big/{id}/{number}", produces= MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "big/{id}/{number}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public FileSystemResource bigImage(Model model, @PathVariable Long id, @PathVariable int number) {
-        return this.imageProductService.getBigImage(id, number);
+    public FileSystemResource bigImage(Model model, @PathVariable String id, @PathVariable String number) {
+        try {
+            Long imageId = Long.parseLong(id);
+            int numberId = Integer.parseInt(number);
+            return this.imageProductService.getBigImage(imageId, numberId);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 }

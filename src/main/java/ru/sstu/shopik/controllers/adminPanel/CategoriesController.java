@@ -27,7 +27,6 @@ import java.util.Locale;
 @RequestMapping("/adminpanel/categories")
 public class CategoriesController {
 
-
     @Autowired
     private CategoryService categoryService;
 
