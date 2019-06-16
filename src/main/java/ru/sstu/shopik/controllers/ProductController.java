@@ -28,9 +28,10 @@ public class ProductController {
     public String getInfoAboutProduct(@PathVariable String  productId, Model model) {
         try {
             long id = Long.parseLong(productId);
-            Optional<Product> product = productService.getInfoAboutProductForBigPageById(id);
+            Optional<Product> product = this.productService.getInfoAboutProductForBigPageById(id);
             if (product.isPresent()) {
                 model.addAttribute("product", product.get());
+                model.addAttribute("numberImages", this.imageProductService.getNumberImages(id));
                 return "catalog/product";
             } else {
                 throw new ProductDoesNotExist();

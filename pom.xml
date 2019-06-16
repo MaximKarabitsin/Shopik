@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.sstu</groupId>
     <artifactId>Shopik</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>Shopik</name>
     <description>Shopik Online store</description>
