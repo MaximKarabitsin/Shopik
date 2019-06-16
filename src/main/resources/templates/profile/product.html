@@ -29,19 +29,21 @@
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
                 <th:block th:text="#{settings.section.product.description}"/>
-                <input type="text" name="description" th:value="${p.description}"></label>
+                <input type="text" name="description" pattern="^[a-zA-Zа-яА-Я0-9., ]+$" maxlength="200"
+                       th:value="${p.description}"></label>
             <span class="settings-section__error" th:errors="*{description}"></span>
         </div>
         <div class="settings-section__input-wrapper">
         <label class="settings-section__label">
             <th:block th:text="#{settings.section.product.discount}"/>
-            <input type="text" name="discount" th:value="${p.discount}"></label>
+            <input type="text" name="discount" pattern="^[0-9]+$" maxlength="3" max="100"
+                   th:value="${p.discount}"></label>
         <span class="settings-section__error" th:errors="*{discount}"></span>
         </div>
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
                 <th:block th:text="#{settings.section.product.quantity}"/>
-                <input type="text" name="quantity" th:value="${p.quantity}"></label>
+                <input type="text" name="quantity" pattern="^[0-9]+$" maxlength="9" th:value="${p.quantity}"></label>
             <span class="settings-section__error" th:errors="*{quantity}"></span>
         </div>
         <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
