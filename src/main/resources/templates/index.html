@@ -10,8 +10,8 @@
     <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
     <link rel="stylesheet" th:href="@{/css/slick.css}"/>
     <link rel="stylesheet" th:href="@{/css/slider.css}"/>
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title th:text="#{index.title}"></title>
 </head>
 <body>
@@ -66,10 +66,14 @@
                                               class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
                                     </div>
                                     <th:block sec:authorize="isAuthenticated()">
-                                        <button th:name="${product.id}" class="product__wish-list"><img th:src="@{/img/icons/wishlist.svg}"
-                                                                                                        alt="addWishlist" class="icon"></button>
-                                        <button th:name="${product.id}" class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
-                                                                                                   alt="addCart" class="icon"></button>
+                                        <a th:href="@{/{productId}(productId = ${product.id})}">
+                                            <button th:name="${product.id}" class="product__wish-list"
+                                            ><img
+                                                    th:src="@{/img/icons/wishlist.svg}"
+                                                    alt="addWishlist" class="icon"></button></a>
+                                            <button th:name="${product.id}" class="product__cart"><img
+                                                    th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                    alt="addCart" class="icon"></button>
                                     </th:block>
                                 </div>
                             </div>
@@ -112,10 +116,14 @@
                                               class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
                                     </div>
                                     <th:block sec:authorize="isAuthenticated()">
-                                        <button th:name="${product.id}" class="product__wish-list"><img th:src="@{/img/icons/wishlist.svg}"
-                                                                                                        alt="addWishlist" class="icon"></button>
-                                        <button th:name="${product.id}" class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
-                                                                                                   alt="addCart" class="icon"></button>
+                                        <a th:href="@{/{productId}(productId = ${product.id})}">
+                                            <button th:name="${product.id}" class="product__wish-list"
+                                            ><img th:src="@{/img/icons/wishlist.svg}"
+                                                  alt="addWishlist" class="icon"></button>
+                                        </a>
+                                        <button th:name="${product.id}" class="product__cart"><img
+                                                th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                alt="addCart" class="icon"></button>
                                     </th:block>
                                 </div>
                             </div>
@@ -159,10 +167,14 @@
                                               class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
                                     </div>
                                     <th:block sec:authorize="isAuthenticated()">
-                                        <button th:name="${product.id}" class="product__wish-list"><img th:src="@{/img/icons/wishlist.svg}"
-                                                                                                        alt="addWishlist" class="icon"></button>
-                                        <button th:name="${product.id}" class="product__cart"><img th:src="@{/img/icons/add-to-shopping-cart.svg}"
-                                                                                                   alt="addCart" class="icon"></button>
+                                        <a th:href="@{/{productId}(productId = ${product.id})}">
+                                            <button th:name="${product.id}" class="product__wish-list"
+                                            ><img th:src="@{/img/icons/wishlist.svg}"
+                                                  alt="addWishlist" class="icon"></button>
+                                        </a>
+                                        <button th:name="${product.id}" class="product__cart"><img
+                                                th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                alt="addCart" class="icon"></button>
                                     </th:block>
                                 </div>
                             </div>

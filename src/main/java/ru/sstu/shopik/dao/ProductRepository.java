@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.domain.entities.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,5 +44,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM product where discount <> 0 and deleted = false ORDER BY RAND() LIMIT 10")
     List<Product> findTenProductsWithSale();
+
+    Page<Product> findAllBySeller(User seller, Pageable pageable);
 
 }

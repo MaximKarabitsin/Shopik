@@ -6,33 +6,37 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.sstu.shopik.dao.CategoryRepository;
 import ru.sstu.shopik.dao.ProductRepository;
 import ru.sstu.shopik.dao.UserRepository;
+import ru.sstu.shopik.dao.WishListRepository;
 import ru.sstu.shopik.domain.UserDetailsImpl;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.domain.entities.User;
+import ru.sstu.shopik.domain.entities.WishList;
 import ru.sstu.shopik.exceptions.ProductDoesNotExist;
+import ru.sstu.shopik.exceptions.UserDoesNotExist;
 import ru.sstu.shopik.forms.ProductAddForm;
 import ru.sstu.shopik.forms.ProductChangeForm;
+import ru.sstu.shopik.forms.ProductChangeFormFromProfile;
 import ru.sstu.shopik.services.ImageProductService;
 import ru.sstu.shopik.services.MailService;
 import ru.sstu.shopik.services.ProductService;
+import ru.sstu.shopik.services.UserService;
 
 import java.io.IOException;
 import java.util.*;
-
 
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
 
-
     @Autowired
-
     private ProductRepository productRepository;
 
 
@@ -42,6 +46,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     MailService mailService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private WishListRepository wishListRepository;
 
     @Override
     public void delete(Product product) {
@@ -124,8 +134,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getPageProduct(int page) {
-        return this.productRepository.findByDeleted(false, PageRequest.of(page, 5));
+    public Page<Product> getPageProduct(Pageable pageable) {
+        return this.productRepository.findByDeleted(false, pageable);
     }
 
     @Override
@@ -135,7 +145,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id).get();
         if (this.productRepository.countById(id) != 0) {
+            if (wishListRepository.countByProduct(product) != 0) {
+                List<WishList> wishLists = wishListRepository.findAllByProduct(product);
+                for (WishList wl: wishLists) {
+                    this.wishListRepository.deleteById(wl.getWithListId());
+                }
+            }
             this.productRepository.deleteById(id);
         }
     }
@@ -151,6 +168,20 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(this.categoryRepository.findByEnCategoryOrRuCategory(productChangeForm.getMotherCategory(), productChangeForm.getMotherCategory()).orElse(null));
             this.productRepository.save(product);
             this.mailService.sendProductChange(product);
+        } else {
+            throw new ProductDoesNotExist();
+        }
+    }
+
+    @Override
+    public void changeProductFromSeller(ProductChangeFormFromProfile productChangeFormFromProfile, long id) throws ProductDoesNotExist {
+        Optional<Product> optionalProduct = this.getProductById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setQuantity(productChangeFormFromProfile.getQuantity());
+            product.setDescription(productChangeFormFromProfile.getDescription());
+            product.setDiscount(productChangeFormFromProfile.getDiscount());
+            this.productRepository.save(product);
         } else {
             throw new ProductDoesNotExist();
         }
@@ -175,7 +206,7 @@ public class ProductServiceImpl implements ProductService {
             randomCategory = categoryRepository.findRandomCategory();
             productsWithCategoryFromDB = productRepository.productWithMotherCategory(randomCategory.get().getCategoryId(),
                     PageRequest.of(0, 50)).getContent();
-            if (productsWithCategoryFromDB.size()>0) break;
+            if (productsWithCategoryFromDB.size() > 0) break;
 
         }
         Set<Product> productWithRandomCategory = new HashSet<>();
@@ -190,6 +221,41 @@ public class ProductServiceImpl implements ProductService {
                 productWithRandomCategory.add(productsWithCategoryFromDB.get(number));
             }
         }
-                return productWithRandomCategory;
+        return productWithRandomCategory;
+    }
+
+    @Override
+    public Page<Product> getAllProductsForTheSeller(Pageable pageable, Authentication authentication) throws UserDoesNotExist {
+        Optional<User> currentUser = userService.getUserFromAuthentication(authentication);
+        if (currentUser.isPresent()) {
+            return productRepository.findAllBySeller(currentUser.get(), pageable);
+        } else {
+            throw new UserDoesNotExist();
+        }
+    }
+
+    @Override
+    public Page<WishList> getWishLists(Pageable pageable, Authentication authentication) throws UserDoesNotExist {
+        Optional<User> user = userService.getUserFromAuthentication(authentication);
+        if (user.isPresent()) {
+            return wishListRepository.findAllByUser(user.get(), pageable);
+        } else {
+            throw new UserDoesNotExist();
+        }
+    }
+
+    @Override
+    public void addProductToWishList(Authentication authentication, long id) {
+        Optional<Product> product = this.getProductById(id);
+        Optional<User> user = userService.getUserFromAuthentication(authentication);
+        if (product.isPresent() && user.isPresent()) {
+            if (wishListRepository.countByProductAndUser(product.get(), user.get()) == 0) {
+                WishList wishList = new WishList();
+                wishList.setProduct(product.get());
+                wishList.setUser(user.get());
+                wishListRepository.save(wishList);
+            }
+        }
+
     }
 }

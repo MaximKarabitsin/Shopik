@@ -1,11 +1,10 @@
 package ru.sstu.shopik.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.sstu.shopik.domain.entities.Category;
 import ru.sstu.shopik.domain.entities.Product;
 import ru.sstu.shopik.services.CategoryService;
@@ -29,6 +28,7 @@ public class IndexController {
 
     @GetMapping()
     public String getProductsForNovelties(Model model) {
+
         model.addAttribute("listOfTenForNovelties", productService.getTenProductsForNovelties());
         model.addAttribute("listOfTenForSales", productService.getTenWithSale());
         Set<Product> listWithRandomCategory = productService.getTenWithRandomCategory();
@@ -36,6 +36,12 @@ public class IndexController {
         model.addAttribute("listFromRandomCategory", listWithRandomCategory);
         model.addAttribute("motherCategory", randomMotherCategory);
         return "index";
+    }
+
+    @GetMapping("/{productId}")
+    public String addProductToWishList(@PathVariable long productId, Authentication authentication) {
+        productService.addProductToWishList(authentication, productId);
+        return "redirect:/";
     }
 
 }

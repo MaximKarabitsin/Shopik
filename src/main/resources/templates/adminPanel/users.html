@@ -45,18 +45,18 @@
         </table>
         <nav class="pagination" th:if="${users.totalPages > 1}">
             <div class="pagination-list">
-                <a th:if="${users.hasPrevious()}" class="pagination__item"
+                <a th:if="${users.hasPrevious()}" class="pagination__item pagination__item--arrow"
                    th:href="@{/adminpanel/users(page = ${users.number - 1})}">&#8592;</a>
 
                 <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
                     <a th:if="${users.number == i - 1 }" class="pagination__item pagination__item--active"
                        th:text="${i}"
                        th:href="@{/adminpanel/users(page = ${i} - 1)}"></a>
-                    <a th:unless="${users.number == i - 1}" class="pagination__item"
+                    <a th:unless="${users.number == i - 1}" class="pagination__item "
                        th:href="@{/adminpanel/users(page = ${i} - 1)}" th:text="${i}"></a>
                 </th:block>
                 </a>
-                <a th:if="${users.hasNext()}" class="pagination__item"
+                <a th:if="${users.hasNext()}" class="pagination__item pagination__item--arrow"
                    th:href="@{/adminpanel/users(page = ${users.number + 1})}">&#8594;</a>
             </div>
         </nav>
