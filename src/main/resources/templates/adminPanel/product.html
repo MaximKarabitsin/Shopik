@@ -29,19 +29,21 @@
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
                 <th:block th:text="#{settings.section.product.productName}"/>
-                <input type="text" name="productName" th:value="${p.productName}"></label>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="productName"
+                       th:value="${p.productName}"></label>
             <span class="settings-section__error" th:errors="*{productName}"></span>
         </div>
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
                 <th:block th:text="#{settings.section.product.cost}"/>
-                <input type="text" name="cost" th:value="${p.cost}"></label>
+                <input type="text" pattern="^[0-9]+$" maxlength="9" name="cost" th:value="${p.cost}"></label>
             <span class="settings-section__error" th:errors="*{cost}"></span>
         </div>
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
                 <th:block th:text="#{settings.section.product.description}"/>
-                <input type="text" name="description" th:value="${p.description}"></label>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9., ]+$" maxlength="200" name="description"
+                       th:value="${p.description}"></label>
             <span class="settings-section__error" th:errors="*{description}"></span>
         </div>
         <div class="settings-section__input-wrapper">

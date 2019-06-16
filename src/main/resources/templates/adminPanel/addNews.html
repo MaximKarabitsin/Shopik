@@ -18,13 +18,13 @@
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
                 <th:block th:text="Название"/>
-                <input type="text" name="newsTitle"></label>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="newsTitle"></label>
             <span class="settings-section__error" th:errors="*{newsTitle}"></span>
         </div>
         <div class="settings-section__input-wrapper">
             <label class="settings-section__label">
                 <th:block th:text="Описание"/>
-                <input type="text" name="description"></label>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9., ]+$" maxlength="200" name="description"></label>
             <span class="settings-section__error" th:errors="*{description}"></span>
         </div>
         <button class="button settings-section__button" type="submit">Добавить</button>

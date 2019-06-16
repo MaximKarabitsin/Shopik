@@ -1,7 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/order-layout}">
 <head>
     <title th:text="#{settings.title.basket}"></title>
@@ -37,7 +36,8 @@
                             <td th:text="${p.getProduct().productName}"></td>
                             <td th:text="${p.cost}"></td>
                             <td><input class="input-number" type="number" th:name="${p.getProduct().id}"
-                                       th:value="${p.quantity}" th:max="${p.getProduct().quantity}" min="1" size="1">
+                                       th:value="${p.quantity}" th:max="${p.getProduct().quantity}" pattern="^[0-9]+$"
+                                       maxlength="9" min="1" size="1">
                             </td>
                             <td th:text="${p.getProduct().quantity}"></td>
                             <td></td>
