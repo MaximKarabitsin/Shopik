@@ -20,22 +20,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private PermissionEvaluator permissionEvaluator;
-
-/*    @Bean
-    public MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
-        DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
-        handler.setPermissionEvaluator(permissionEvaluator);
-        return handler;
-    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

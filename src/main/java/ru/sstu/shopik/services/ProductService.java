@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import ru.sstu.shopik.domain.entities.Product;
+import ru.sstu.shopik.domain.entities.User;
 import ru.sstu.shopik.domain.entities.WishList;
 import ru.sstu.shopik.exceptions.ProductDoesNotExist;
 import ru.sstu.shopik.exceptions.UserDoesNotExist;
@@ -26,8 +27,6 @@ public interface ProductService {
 
     void changeProduct(ProductChangeForm productChangeForm, long id) throws ProductDoesNotExist, IOException;
 
-    void delete(Product product);
-
     Page<Product> getAllByNameForSearchInGeneralCategory(String productName, Pageable pageable);
 
     Optional<Product> getInfoAboutProductForBigPageById(Long id);
@@ -46,7 +45,6 @@ public interface ProductService {
 
     void createProductFromAddProductForm(ProductAddForm productAddForm, Authentication authentication) throws IOException, UserDoesNotExist;
 
-
     Page<Product> getAllProductsForTheSeller(Pageable pageable, Authentication authentication) throws UserDoesNotExist;
 
     void changeProductFromSeller(ProductChangeFormFromProfile productChangeFormFromProfile, long id) throws ProductDoesNotExist;
@@ -54,5 +52,7 @@ public interface ProductService {
     Page<WishList> getWishLists(Pageable pageable, Authentication authentication) throws UserDoesNotExist;
 
     void addProductToWishList(Authentication authentication, long id) throws ProductDoesNotExist, UserDoesNotExist;
+
+    Product getProductByIdAndSeller(long id, User seller) throws ProductDoesNotExist;
 
 }

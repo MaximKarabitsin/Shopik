@@ -53,14 +53,6 @@ public class ProductServiceImpl implements ProductService {
     private WishListRepository wishListRepository;
 
     @Override
-    public void delete(Product product) {
-        Optional<Product> productFromDB = productRepository.findByProductNameAndDeleted(product.getProductName(), false);
-        if (productFromDB.isPresent()) {
-            productRepository.delete(product);
-        }
-    }
-
-    @Override
     public Page<Product> getAllByNameForSearchInGeneralCategory(String productName, Pageable pageable) {
         return productRepository.findAllByProductNameContainingIgnoreCaseAndDeleted(productName, pageable, false);
     }
@@ -140,11 +132,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) throws ProductDoesNotExist{
+    public void deleteProduct(Long id) throws ProductDoesNotExist {
         Product product = this.getProductById(id).get();
         this.wishListRepository.deleteAllByProduct(product);
         this.orderService.deleteProductFromBasket(product);
-        if (this.orderService.hasOrderWithProduct(product)){
+        if (this.orderService.hasOrderWithProduct(product)) {
             product.setDeleted(true);
             this.productRepository.save(product);
         } else {
@@ -208,7 +200,7 @@ public class ProductServiceImpl implements ProductService {
             Optional<Category> randomCategory = categoryRepository.findRandomCategory();
             productsWithCategory = productRepository.findTenProductsWithRandomCategory(randomCategory.get().getCategoryId());
             if (productsWithCategory.size() != 0) {
-              break;
+                break;
             }
         }
         return productsWithCategory;
@@ -246,5 +238,10 @@ public class ProductServiceImpl implements ProductService {
             wishListRepository.save(wishList);
 
         }
+    }
+
+    @Override
+    public Product getProductByIdAndSeller(long id, User seller) throws ProductDoesNotExist {
+        return this.productRepository.findByIdAndSellerAndDeleted(id, seller,false).orElseThrow(ProductDoesNotExist::new);
     }
 }

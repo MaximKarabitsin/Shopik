@@ -18,9 +18,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT coalesce(max(pr.id), 0) FROM Product pr")
     Long getMaxId();
 
-    Optional<Product> findByProductNameAndDeleted(String productName, boolean deleted);
-
     Optional<Product> findByIdAndDeleted(Long id, boolean deleted);
+
+    Optional<Product> findByIdAndSellerAndDeleted(Long id, User user, boolean deleted);
 
     Page<Product> findAllByProductNameContainingIgnoreCaseAndDeleted(String productName, Pageable pageable, boolean deleted);
 

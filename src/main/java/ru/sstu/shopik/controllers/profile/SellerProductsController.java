@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +53,7 @@ public class SellerProductsController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasPermission(#string, 'Product', 'WRITE')")
     public String getProduct(@PathVariable("id") String string, @RequestParam(required = false) String delete, Model model, ProductChangeFormFromProfile productChangeFormFromProfile) {
         try {
             long id = Long.parseLong(string);
@@ -70,6 +72,7 @@ public class SellerProductsController {
     }
 
     @PostMapping("/{id}")
+    @PreAuthorize("hasPermission(#string, 'Product', 'WRITE')")
     public String editProduct(@PathVariable("id") String string, Model model, @Valid @ModelAttribute("productChangeFormFromProfile") ProductChangeFormFromProfile productChangeFormFromProfile,
                               BindingResult binding) {
         try {
@@ -86,6 +89,8 @@ public class SellerProductsController {
             return "redirect:/profile/products";
         }
     }
+
+
 
     private Pageable isCorrectPage(Pageable pageable) {
         if (pageable.getPageSize() != INITIAL_PAGE_SIZE) {
