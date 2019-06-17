@@ -52,7 +52,12 @@
             <div class="settings-section__input-wrapper">
                 <label class="settings-section__label">
                     <th:block th:text="Подкатегория"/>
-                    <select name="motherCategory"></select></label>
+                    <select name="motherCategory"  th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'"
+                            th:size="${catalog.subCategories.get(0).subCategories.size()}">>
+                        <option th:each="category : ${catalog.subCategories.get(0).subCategories}"
+                                th:text="${category['__${langCategory}__']}"
+                                th:value="${category.getEnCategory()}"></option>
+                    </select></label>
                 <span class="settings-section__error" th:errors="*{motherCategory}"></span>
             </div>
             <div class="settings-section__input-wrapper">

@@ -27,7 +27,7 @@
 
 
             <div class="block">
-                <div id="new" class="block__title">Новинки</div>
+                <div id="new" class="block__title" th:text="#{header.navbar.new}"></div>
                 <div class="products-slider">
                     <th:block th:each="product: ${listOfTenForNovelties}">
                         <div class="products-slider__item">
@@ -76,7 +76,7 @@
             </div>
 
             <div class="block">
-                <div id="sales" class="block__title">Скидки</div>
+                <div id="sales" class="block__title" th:text="#{header.navbar.sales}"></div>
                 <div class="products-slider">
                     <th:block th:each="product: ${listOfTenForSales}">
                         <div class="products-slider__item">
@@ -174,7 +174,7 @@
             </div>
 
             <div class="block">
-                <div id="news" class="block__title">Новости</div>
+                <div id="news" class="block__title" th:text="#{header.navbar.news}"></div>
                 <div class="news-list">
                     <th:block th:each="news: ${listOfTenNews}">
                         <div class="news-wrapper">

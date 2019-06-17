@@ -26,7 +26,7 @@
                         <svg class="catalog-icon button-icon">
                             <use th:href="@{/img/icons/icons.svg#arrow-down}"></use>
                         </svg>
-                        <th:block th:text="#{catalog.button.catalog}"></th:block>
+                        <th:block th:text="#{catalog.button.catalog}"/>
                     </a>
 
                     <ul th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" class="list-categories">
@@ -49,13 +49,6 @@
                                         </li>
                                     </th:block>
                                 </ul>
-
-                            </li>
-
-                            <li class="category" th:if="${#lists.isEmpty(category.subCategories)}">
-                                <a class="category__link" href="#"
-                                   th:text="${category['__${langCategory}__']}"></a>
-
 
                             </li>
                         </th:block>
