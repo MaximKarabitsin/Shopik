@@ -56,7 +56,7 @@
                     </ul>
                 </div>
                 <!-- /.catalog-list-categories -->
-                <div class="catalog-info">
+                <div class="catalog-info" th:if="${currentCategory!=null}">
                     <div th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'"
                          class="current-categories">
                         <th:block th:if="${currentCategory.categoryId != 2}">
@@ -144,18 +144,18 @@
             <nav class="pagination" th:if="${products.totalPages > 1}">
                 <div class="pagination-list">
                     <a th:if="${products.hasPrevious()}" class="pagination__item pagination__item--arrow"
-                       th:href="@{/catalog(page = ${products.number - 1}, search = ${search})}">&#8592;</a>
+                       th:href="@{''(page = ${products.number - 1}, search = ${search})}">&#8592;</a>
 
                     <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
                         <a th:if="${products.number == i - 1 }" class="pagination__item pagination__item--active"
                            th:text="${i}"
-                           th:href="@{/catalog(page = ${i} - 1, search = ${search})}"></a>
+                           th:href="@{''(page = ${i} - 1, search = ${search})}"></a>
                         <a th:unless="${products.number == i - 1}" class="pagination__item"
-                           th:href="@{/catalog(page = ${i} - 1, search = ${search})}" th:text="${i}"></a>
+                           th:href="@{''(page = ${i} - 1, search = ${search})}" th:text="${i}"></a>
                     </th:block>
                     </a>
                     <a th:if="${products.hasNext()}" class="pagination__item pagination__item--arrow"
-                       th:href="@{/catalog(page = ${products.number + 1}, search = ${search})}">&#8594;</a>
+                       th:href="@{''(page = ${products.number + 1}, search = ${search})}">&#8594;</a>
                 </div>
             </nav>
             <!-- /.pagination -->
