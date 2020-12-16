@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/profile-layout}">
+<head>
+    <title th:text="#{settings.title.wishlist}"></title>
+</head>
+<body>
+    <th:block layout:fragment="section">
+        <h2 class="settings-section__title" th:text="#{wish.list.title}"></h2>
+        <table class="settings-section__table">
+            <tr>
+                <th th:text="#{settings.section.products.table.productName}"></th>
+                <th th:text="#{settings.section.products.table.cost}"></th>
+                <th th:text="#{settings.section.product.discount}"></th>
+                <th th:text="#{settings.section.products.table.quantity}"></th>
+                <th th:text="#{settings.section.products.table.seller}"></th>
+                <th></th>
+            </tr>
+            <th:block th:each="w : ${wishLists}">
+                <tr>
+                    <td ><a th:text="${w.product.productName}" th:href="@{/product/{productId}(productId=${w.product.id})}"></a></td>
+                    <td th:text="${w.product.cost}"></td>
+                    <td th:text="${w.product.discount}+'%'"></td>
+                    <td th:text="${w.product.quantity}"></td>
+                    <td th:text="${w.product.seller.login}"></td>
+                    <td><a th:href="@{/wishlist/__${w.product.id}__(delete='')}"
+                           th:text="#{settings.section.products.table.delete}"></a></td>
+                </tr>
+            </th:block>
+        </table>
+        <nav class="pagination" th:if="${wishLists.totalPages > 1}">
+            <div class="pagination-list">
+                <a th:if="${wishLists.hasPrevious()}" class="pagination__item pagination__item--arrow"
+                   th:href="@{/wishlist(page = ${wishLists.number - 1})}">&#8592;</a>
+
+                <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                    <a th:if="${wishLists.number == i - 1 }" class="pagination__item  pagination__item--active"
+                       th:text="${i}"
+                       th:href="@{/wishlist(page = ${i} - 1)}"></a>
+                    <a th:unless="${wishLists.number == i - 1}" class="pagination__item"
+                       th:href="@{/wishlist(page = ${i} - 1)}" th:text="${i}"></a>
+                </th:block>
+                </a>
+                <a th:if="${wishLists.hasNext()}" class="pagination__item pagination__item--arrow"
+                   th:href="@{/wishlist(page = ${wishLists.number + 1})}">&#8594;</a>
+            </div>
+        </nav>
+    </th:block>
+</body>
+</html>

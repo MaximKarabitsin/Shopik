@@ -1,0 +1,200 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main-layout}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/index_media.css}">
+    <link rel="stylesheet" th:href="@{/css/catalog.css}">
+    <link rel="stylesheet" th:href="@{/css/catalog_media.css}">
+    <link rel="stylesheet" th:href="@{/css/slick.css}"/>
+    <link rel="stylesheet" th:href="@{/css/slider.css}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title th:text="#{index.title}"></title>
+</head>
+<body>
+    <th:block layout:fragment="main">
+        <div class="container">
+            <div class="main-slider">
+                <div class="main-slider__item"><span class="main-slider__item-text">СКОРО ОТКРЫТИЕ!</span><img class="main-slider__img" th:src="@{/img/main-slider-1.jpg}" alt=""></div>
+                <div class="main-slider__item"><img class="main-slider__img" th:src="@{/img/main-slider-2.jpg}" alt=""></div>
+                <div class="main-slider__item"><img class="main-slider__img" th:src="@{/img/main-slider-3.jpg}" alt=""></div>
+
+            </div>
+            <!-- /.main-slider -->
+
+
+            <div class="block">
+                <div id="new" class="block__title" th:text="#{header.navbar.new}"></div>
+                <div class="products-slider">
+                    <th:block th:each="product: ${listOfTenForNovelties}">
+                        <div class="products-slider__item">
+                            <div class="product-slider-wrapper">
+                                <div class="product ">
+                                    <div th:if="${product.discount != 0}" class="sale-ribbon-wrapper">
+                                        <div class="sale-ribbon">sale</div>
+                                    </div>
+                                    <a th:href="@{/product/{productId}(productId=${product.id})}" class="product-info">
+                                        <div class="product__image-wrapper"><img
+                                                th:src="@{/image/product/main/__${product.id}__}"
+                                                th:alt="${product.productName}"
+                                                class="product__image">
+                                        </div>
+                                        <div class="product__name" th:title="${product.productName}"
+                                             th:text="${product.productName}">
+                                        </div>
+                                        <div class="product__quantity" th:text="#{catalog.product.quantity}
+                             +  ${product.quantity} + #{catalog.product.unit}"></div>
+                                        <a href="#" class="product__seller"
+                                           th:text="|#{catalog.product.seller} ${product.seller.login}|"></a>
+                                    </a>
+                                    <div class="product-option">
+                                        <div class="product__cost">
+                                            <span class="cost"
+                                                  th:text="|&#x20bd; ${product.getCostWithDiscount()}|"></span>
+                                            <span th:if="${product.discount != 0}"
+                                                  class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
+                                        </div>
+                                        <th:block sec:authorize="isAuthenticated()">
+                                            <button th:name="${product.id}" class="product__wish-list">
+                                                <img th:src="@{/img/icons/wishlist.svg}"
+                                                     alt="addWishlist" class="icon"></button>
+                                            <button th:name="${product.id}" class="product__cart"><img
+                                                    th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                    alt="addCart" class="icon"></button>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+
+                </div>
+                <!-- /.products-slider -->
+            </div>
+
+            <div class="block">
+                <div id="sales" class="block__title" th:text="#{header.navbar.sales}"></div>
+                <div class="products-slider">
+                    <th:block th:each="product: ${listOfTenForSales}">
+                        <div class="products-slider__item">
+                            <div class="product-slider-wrapper">
+                                <div class="product ">
+                                    <div th:if="${product.discount != 0}" class="sale-ribbon-wrapper">
+                                        <div class="sale-ribbon">sale</div>
+                                    </div>
+                                    <a th:href="@{/product/{productId}(productId=${product.id})}" class="product-info">
+                                        <div class="product__image-wrapper"><img
+                                                th:src="@{/image/product/main/__${product.id}__}"
+                                                th:alt="${product.productName}"
+                                                class="product__image">
+                                        </div>
+                                        <div class="product__name" th:title="${product.productName}"
+                                             th:text="${product.productName}">
+                                        </div>
+                                        <div class="product__quantity" th:text="#{catalog.product.quantity}
+                             +  ${product.quantity} + #{catalog.product.unit}"></div>
+                                        <a href="#" class="product__seller"
+                                           th:text="|#{catalog.product.seller} ${product.seller.login}|"></a>
+                                    </a>
+                                    <div class="product-option">
+                                        <div class="product__cost">
+                                            <span class="cost"
+                                                  th:text="|&#x20bd; ${product.getCostWithDiscount()}|"></span>
+                                            <span th:if="${product.discount != 0}"
+                                                  class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
+                                        </div>
+                                        <th:block sec:authorize="isAuthenticated()">
+                                            <button th:name="${product.id}" class="product__wish-list">
+                                                <img th:src="@{/img/icons/wishlist.svg}"
+                                                     alt="addWishlist" class="icon"></button>
+                                            <button th:name="${product.id}" class="product__cart"><img
+                                                    th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                    alt="addCart" class="icon"></button>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+                <!-- /.products-slider -->
+            </div>
+
+            <div class="block" th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'">
+                <div class="block__title"
+                     th:text="#{index.carousel.random.category} + ${category['__${langCategory}__']}">
+                </div>
+                <div class="products-slider">
+                    <th:block th:each="product: ${listFromRandomCategory}">
+                        <div class="products-slider__item">
+                            <div class="product-slider-wrapper">
+                                <div class="product ">
+                                    <div th:if="${product.discount != 0}" class="sale-ribbon-wrapper">
+                                        <div class="sale-ribbon">sale</div>
+                                    </div>
+                                    <a th:href="@{/product/{productId}(productId=${product.id})}" class="product-info">
+                                        <div class="product__image-wrapper"><img
+                                                th:src="@{/image/product/main/__${product.id}__}"
+                                                th:alt="${product.productName}"
+                                                class="product__image">
+                                        </div>
+                                        <div class="product__name" th:title="${product.productName}"
+                                             th:text="${product.productName}">
+                                        </div>
+                                        <div class="product__quantity" th:text="#{catalog.product.quantity}
+                             +  ${product.quantity} + #{catalog.product.unit}"></div>
+                                        <a href="#" class="product__seller"
+                                           th:text="|#{catalog.product.seller} ${product.seller.login}|"></a>
+                                    </a>
+                                    <div class="product-option">
+                                        <div class="product__cost">
+                                            <span class="cost"
+                                                  th:text="|&#x20bd; ${product.getCostWithDiscount()}|"></span>
+                                            <span th:if="${product.discount != 0}"
+                                                  class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
+                                        </div>
+                                        <th:block sec:authorize="isAuthenticated()">
+                                                <button th:name="${product.id}" class="product__wish-list">
+                                                    <img th:src="@{/img/icons/wishlist.svg}"
+                                                         alt="addWishlist" class="icon"></button>
+                                                <button th:name="${product.id}" class="product__cart">
+                                                    <img th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                                         alt="addCart" class="icon"></button>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+                <!-- /.products-slider -->
+            </div>
+
+            <div class="block">
+                <div id="news" class="block__title" th:text="#{header.navbar.news}"></div>
+                <div class="news-list">
+                    <th:block th:each="news: ${listOfTenNews}">
+                        <div class="news-wrapper">
+                            <div class="news">
+                                <div class="news__date" th:text="${news.date}"></div>
+                                <div class="news__title" th:text="${news.newsTitle}"></div>
+                                <div class="news__description" th:text="${news.description}"></div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+                <!-- /.catalog-list -->
+            </div>
+        </div>
+        <!-- /.container -->
+    </th:block>
+
+    <th:block layout:fragment="jsscript">
+        <script th:src="@{/js/slick.min.js}"></script>
+        <script th:src="@{/js/index.js}"></script>
+    </th:block>
+</body>
+</html>

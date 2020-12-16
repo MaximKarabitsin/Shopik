@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+    <span><th:block th:text="#{mail.confirm.toConfirm}"/>
+        <a th:href="@{http://localhost:8080/registration/confirm/__${token}__}" th:text="#{mail.confirm.link}"></a>.
+    </span>
+</body>
+
+</html>

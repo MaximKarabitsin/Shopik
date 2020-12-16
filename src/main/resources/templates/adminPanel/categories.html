@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminPanel-layout}">
+<head>
+    <title th:text="#{settings.title.categories}"></title>
+</head>
+<body>
+
+    <th:block layout:fragment="section">
+        <h2 class="settings-section__title" th:text="#{settings.section.categories.title}"></h2>
+
+        <form th:action="@{/adminpanel/categories}" method="post" th:object="${categoryAddForm}"
+              class="settings-section__form">
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.categories.main}"/>
+                    <select th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" size="1" name="motherId">
+                        <option selected th:value="${catalog.categoryId}" th:text="${catalog['__${langCategory}__']}"></option>
+                        <th:block th:each="category : ${catalog.subCategories}">
+                            <option th:value="${category.categoryId}" th:text="${category['__${langCategory}__']}"></option>
+                        </th:block>
+                    </select></label>
+                <span class="settings-section__error" th:errors="*{motherId}"></span>
+            </div>
+            <div class="settings-section__input-wrapper">
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.categories.enCategory}"/>
+                    <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="enCategory"></label>
+                <span class="settings-section__error" th:errors="*{enCategory}"></span>
+                <label class="settings-section__label">
+                    <th:block th:text="#{settings.section.categories.ruCategory}"/>
+                    <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="ruCategory"></label>
+                <span class="settings-section__error" th:errors="*{ruCategory}"></span>
+            </div>
+            <button class="button settings-section__button" th:text="#{settings.section.categories.button.add}"></button>
+        </form>
+
+    </th:block>
+
+</body>
+</html>

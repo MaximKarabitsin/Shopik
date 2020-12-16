@@ -1,0 +1,28 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/profile-layout}">
+<head>
+    <title th:text="#{settings.title.profile}"></title>
+</head>
+<body>
+
+<th:block layout:fragment="section">
+    <h2 class="settings-section__title" th:text="#{settings.section.profile.title.replenishment}"></h2>
+    <div class="settings-section__field" th:text="|#{settings.section.profile.replenishment.amount}|"></div>
+    <form th:action="@{/profile/replenishment}" method="post" th:object="${balanceReplenishmentForm}"
+          class="settings-section__form">
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <input type="text" name="replenishment" pattern="^[0-9]+$"></label>
+            <span class="settings-section__error" th:errors="*{replenishment}"></span>
+        </div>
+        <button class="button settings-section__button" th:text="#{settings.section.profile.button.adding}"></button>
+    </form>
+
+
+</th:block>
+
+</body>
+</html>

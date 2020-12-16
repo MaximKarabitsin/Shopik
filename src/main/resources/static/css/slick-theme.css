@@ -1,0 +1,55 @@
+
+/* Arrows */
+.product-slider__prev,
+.product-slider__next {
+    font-size: 0;
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    height: 40px;
+    width: 40px;
+
+    background-color: #78c4cd;
+    opacity: 0.8;
+    border: none;
+    display: block;
+    padding: 0;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+
+    cursor: pointer;
+transition: opacity .3s;
+    outline: none;
+}
+
+.product-slider__prev:hover,
+.product-slider__next:hover {
+    opacity: 1;
+}
+
+
+.product-slider__prev:before,
+.product-slider__next:before {
+    font-family: 'Rubik', sans-serif;;
+    line-height: 1;
+    color: #f5f7f9;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+.product-slider__prevprev {
+    left: 0px;
+}
+
+.product-slider__prev:before {
+    content: '<';
+}
+
+.product-slider__next {
+    right: 0px;
+}
+
+.product-slider__next:before {
+    content: '>';
+}

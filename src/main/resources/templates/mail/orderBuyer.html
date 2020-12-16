@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+    <table>
+        <tr>
+            <th th:text="#{settings.section.basket.table.name}"></th>
+            <th th:text="#{settings.section.basket.table.priceForOnePc}"></th>
+            <th th:text="#{settings.section.basket.table.quantity}"></th>
+            <th th:text="#{settings.section.basket.table.cost}"></th>
+
+        </tr>
+
+
+        <th:block th:each="p : ${order.getOrderProducts()}">
+            <tr class="row">
+                <td th:text="${p.getProduct().productName}"></td>
+                <td th:text="${p.cost}"></td>
+                <td th:text="${p.quantity}"></td>
+                <td th:text="${p.quantity*p.cost}"></td>
+            </tr>
+
+        </th:block>
+    </table>
+    <div th:text="|Итог: ${cost} &#x20bd;|"></div>
+</body>
+
+</html>

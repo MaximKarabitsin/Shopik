@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main_media.css}">
+    <link rel="stylesheet" th:href="@{/css/authorization.css}">
+    <title th:text="#{authorization.title}"></title>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth">
+            <div class="auth-title" th:text="#{authorization.form.title}"></div>
+            <form th:action="@{/login}" method="post" class="auth-form">
+                <div class="auth-input-wrapper">
+                    <input class="auth-input" type="text" name="username" th:value="${username}" required value="user">
+                    <label class="auth-label" th:text="#{enter.login}"></label>
+                </div>
+                <div class="auth-input-wrapper">
+                    <input class="auth-input" type="password" name="password" required>
+                    <label class="auth-label" th:text="#{enter.password}"></label>
+                </div>
+                <a th:href="@{/login/passwordRecovery}" class="auth-link auth-link--password" th:text="#{authorization.password.forgot}"></a>
+                <div class="login-error" th:text="${error}"></div>
+                <button type="submit" class="button auth-button" th:text="#{authorization.button.submit}"></button>
+                <a th:href="@{/registration}" class="auth-link" th:text="#{header.usermenu.signin}">Регистрация</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

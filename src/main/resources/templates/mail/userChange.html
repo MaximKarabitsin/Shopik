@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+    <span th:text="#{mail.userChange.text}"></span>
+    <div class="settings-section__field" th:text="|#{settings.section.user.login}${u.login}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.user.email}${u.email}|"></div>
+    <div class="settings-section__field"
+         th:text="#{settings.section.user.type}+(${u.hasRole('ADMIN')}? #{account.type.admin}: (${u.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer}))"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.user.firstName}${u.firstName}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.user.lastName}${u.lastName}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.user.balance}${u.balance}|"></div>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/profile-layout}">
+<head>
+    <title th:text="#{settings.title.products}"></title>
+</head>
+<body>
+<th:block layout:fragment="section">
+    <h2 class="settings-section__title" th:text="#{settings.section.products.title}"></h2>
+    <a th:href="@{/profile/products/addProduct}" class="button settings-section__button" th:text="|Добавить товар|"></a>
+    <table class="settings-section__table">
+        <tr>
+            <th th:text="#{settings.section.products.table.id}"></th>
+            <th th:text="#{settings.section.products.table.productName}"></th>
+            <th th:text="#{settings.section.products.table.description}"></th>
+            <th th:text="#{settings.section.products.table.cost}"></th>
+            <th th:text="#{settings.section.products.table.quantity}"></th>
+            <th th:text="#{settings.section.products.table.discount}"></th>
+            <th th:text="#{settings.section.products.table.seller}"></th>
+            <th th:text="#{settings.section.products.table.category}"></th>
+            <th th:text="#{settings.section.products.table.date}"></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <th:block th:each="p : ${products}">
+            <tr>
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.productName}"></td>
+                <td th:text="${p.description}"></td>
+                <td th:text="${p.cost}"></td>
+                <td th:text="${p.quantity}"></td>
+                <td th:text="${p.discount}"></td>
+                <td th:text="${p.seller.login}"></td>
+                <td th:text="__${#locale}__=='en'?(${p.category.enCategory}):(${p.category.ruCategory})"></td>
+                <td th:text="${p.getDate()}"></td>
+                <td><a th:href="@{/profile/products/__${p.id}__}" th:text="#{settings.section.users.table.edit}"></a>
+                </td>
+                <td><a th:href="@{/profile/products/__${p.id}__(delete='')}"
+                       th:text="#{settings.section.products.table.delete}"></a></td>
+            </tr>
+        </th:block>
+    </table>
+    <nav class="pagination" th:if="${products.totalPages > 1}">
+        <div class="pagination-list">
+            <a th:if="${products.hasPrevious()}" class="pagination__item pagination__item--arrow"
+               th:href="@{/profile/products(page = ${products.number - 1})}">&#8592;</a>
+
+            <th:block th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                <a th:if="${products.number == i - 1 }" class="pagination__item pagination__item--active"
+                   th:text="${i}"
+                   th:href="@{/profile/products(page = ${i} - 1)}"></a>
+                <a th:unless="${products.number == i - 1}" class="pagination__item"
+                   th:href="@{/profile/products(page = ${i} - 1)}" th:text="${i}"></a>
+            </th:block>
+            </a>
+            <a th:if="${products.hasNext()}" class="pagination__item pagination__item--arrow"
+               th:href="@{/profile/products(page = ${products.number + 1})}">&#8594;</a>
+        </div>
+    </nav>
+</th:block>
+</body>
+</html>

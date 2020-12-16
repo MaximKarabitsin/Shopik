@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/order-layout}">
+<head>
+    <title th:text="#{settings.title.basket}"></title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+    <th:block layout:fragment="section">
+        <div class="container">
+            <h2 class="settings-section__title" th:text="#{settings.section.basket.title}"></h2>
+            <span class="settings-section__error" th:text="${error}"></span>
+
+            <th:block th:if="${order.getOrderProducts().isEmpty()}">
+            <div>Empty</div>
+            </th:block>
+
+            <th:block th:unless="${order.getOrderProducts().isEmpty()}">
+                <a th:href="@{/basket/order}" class="button settings-section__button" th:text="|Купить|">Купить</a>
+                <span>Итог: </span><span id="sum"></span><span> &#x20bd;</span>
+                <table class="settings-section__table">
+                    <tr>
+                        <th th:text="#{settings.section.basket.table.name}"></th>
+                        <th th:text="#{settings.section.basket.table.priceForOnePc}"></th>
+                        <th th:text="#{settings.section.basket.table.quantity}"></th>
+                        <th th:text="#{settings.section.basket.table.availableQuantity}"></th>
+                        <th th:text="#{settings.section.basket.table.cost}"></th>
+                        <th></th>
+                    </tr>
+
+
+                    <th:block th:each="p : ${order.getOrderProducts()}">
+                        <tr class="row">
+                            <td th:text="${p.getProduct().productName}"></td>
+                            <td th:text="${p.cost}"></td>
+                            <td><input class="input-number" type="number" th:name="${p.getProduct().id}"
+                                       th:value="${p.quantity}" th:max="${p.getProduct().quantity}" pattern="^[0-9]+$"
+                                       maxlength="9" min="1" size="1">
+                            </td>
+                            <td th:text="${p.getProduct().quantity}"></td>
+                            <td></td>
+                            <td><a th:href="@{/basket/__${p.getProduct().id}__(delete='')}"
+                                   th:text="#{settings.section.users.table.delete}"></a></td>
+                        </tr>
+
+                    </th:block>
+                </table>
+            </th:block>
+        </div>
+        <!-- /.container -->
+    </th:block>
+
+    <th:block layout:fragment="jsscript">
+        <script th:src="@{/js/order.js}"></script>
+    </th:block>
+</body>
+</html>

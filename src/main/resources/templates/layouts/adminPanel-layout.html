@@ -1,0 +1,22 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/settings-layout}">
+<head>
+    <title>Admin Panel-layout</title>
+</head>
+<body>
+
+    <th:block layout:fragment="menu">
+                <nav class="settings-menu">
+                    <a th:href="@{/adminpanel/users}" class="settings-menu__item" th:classappend="${currentSection == 'users'}? 'settings-menu__item--active' : _">Пользователи</a>
+                    <a th:href="@{/adminpanel/categories}" class="settings-menu__item" th:classappend="${currentSection == 'categories'}? 'settings-menu__item--active' : _">Категории</a>
+                    <a th:href="@{/adminpanel/products}" class="settings-menu__item" th:classappend="${currentSection == 'products'}? 'settings-menu__item--active' : _">Товары</a>
+                    <a th:href="@{/adminpanel/news}" class="settings-menu__item"  th:classappend="${currentSection == 'news'}? 'settings-menu__item--active' : _">Новости</a>
+                </nav>
+                <!-- /.settings-menu -->
+    </th:block>
+
+</body>
+</html>

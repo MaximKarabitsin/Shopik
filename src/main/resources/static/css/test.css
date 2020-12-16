@@ -1,0 +1,143 @@
+
+.catalog-list-categories {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.list-categories {
+    display: none;
+}
+
+.labelBtn {
+    width: 100%;
+    height: 54px;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.checkboxBtn {
+    display: none;
+}
+
+.checkboxBtn:checked ~ .list-categories {
+    display: block;
+}
+
+.list-categories {
+}
+
+.category {
+    list-style: none;
+    position: relative;
+    background-color: #f5f7f9;
+}
+
+.category__link {
+    color: #777777;
+    position: relative;
+    padding: 10px 40px 10px 10px;
+    display: block;
+    border: 1px solid #e0e0e0;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+.category__link--main:after {
+    content: '';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-25%);
+    border: 8px solid transparent;
+    border-top: 8px solid #777;
+}
+
+.catalog-list-categories > .list-categories > .category:last-child > .category__link {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+
+.labelCategory {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.checkboxCategory {
+    display: none;
+}
+
+.checkboxCategory:checked ~ .list-categories {
+    display: block;
+}
+
+.checkboxCategory:checked ~ .category__link {
+    border-left: 1px solid #78c4cd;
+    border-right: 1px solid #78c4cd;
+    color: #fff;
+    background-color: #78c4cd;
+}
+
+.checkboxCategory:checked ~ .category__link:after {
+    border: 8px solid transparent;
+    border-top: 8px solid #fff;
+}
+
+@media (min-width: 768px) {
+    .list-categories {
+    }
+    .labelBtn, .labelCategory {
+        display: none;
+    }
+
+    .list-categories {
+        width: 100%;
+        position: absolute;
+        transition: .3s;
+        display: none;
+    }
+
+    .category__link--main:after {
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 8px solid transparent;
+        border-left: 8px solid #777;
+    }
+
+    .category:last-child > .category__link {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .category {
+        list-style: none;
+
+        background-color: #f5f7f9;
+
+    }
+
+    .category:hover > .category__link {
+        color: #fff;
+        background-color: #78c4cd;
+    }
+
+    .category:hover > .category__link:after {
+        border: 8px solid transparent;
+        border-left: 8px solid #fff;
+    }
+
+    .category .list-categories {
+        top: 0px;
+        right: 0px;
+        transform: translateX(100%);
+    }
+
+    .catalog__btn:hover + .list-categories,
+    .list-categories:hover,
+    .category:hover > .list-categories {
+        display: block;
+    }
+}

@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/profile-layout}">
+<head>
+    <title th:text="#{settings.title.profile}"></title>
+</head>
+<body>
+
+    <th:block layout:fragment="section">
+            <h2 class="settings-section__title" th:text="#{settings.section.profile.title}"></h2>
+            <div class="settings-section__field" th:text="|#{settings.section.profile.login}${user.login}|"></div>
+            <div class="settings-section__field" th:text="|#{settings.section.profile.email}${user.email}|"></div>
+            <div class="settings-section__field" th:text="|#{settings.section.profile.firstName}${user.firstName}|"></div>
+            <div class="settings-section__field" th:text="|#{settings.section.profile.lastName}${user.lastName}|"></div>
+            <div class="settings-section__field"
+                 th:text="#{settings.section.profile.type} + (${user.hasRole('ADMIN')}? #{account.type.admin}: (${user.hasRole('SELLER')}? #{account.type.seller}: #{account.type.buyer}))"></div>
+
+            <form th:action="@{/profile/fullNameChange}" method="post" th:object="${fullNameChangeForm}"
+                  class="settings-section__form">
+                <div class="settings-section__input-wrapper">
+                    <label class="settings-section__label">
+                        <th:block th:text="#{settings.section.profile.firstName}"/>
+                        <input type="text" name="firstName" pattern="^[a-zA-Zа-яА-Я]+$" maxlength="20" th:value="${user.firstName}"></label>
+                    <span class="settings-section__error" th:errors="*{firstName}"></span>
+                </div>
+                <div class="settings-section__input-wrapper">
+                    <label class="settings-section__label">
+                        <th:block th:text="#{settings.section.profile.lastName}"/>
+                        <input type="text" name="lastName" pattern="^[a-zA-Zа-яА-Я]+$" maxlength="20" th:value="${user.lastName}"></label>
+                    <span class="settings-section__error" th:errors="*{lastName}"></span>
+                </div>
+                <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
+            </form>
+
+            <form th:action="@{/profile/passwordChange}" method="post" th:object="${passwordChangeForm}"
+                  class="settings-section__form">
+                <div class="settings-section__input-wrapper">
+                    <label class="settings-section__label">
+                        <th:block th:text="#{settings.section.profile.currentPassword}"/>
+                        <input type="password" pattern="^[a-zA-Z0-9]+$" maxlength="40" name="currentPassword"></label>
+                    <span class="settings-section__error" th:errors="*{currentPassword}"></span>
+                    <span class="settings-section__error" th:text="${errorChangePassword}"></span>
+                </div>
+                <div class="settings-section__input-wrapper">
+                    <label class="settings-section__label">
+                        <th:block th:text="#{settings.section.profile.newPassword}"/>
+                        <input type="password" pattern="^[a-zA-Z0-9]+$" maxlength="40" name="newPassword"></label>
+                    <span class="settings-section__error" th:errors="*{newPassword}"></span>
+                </div>
+                <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
+            </form>
+    </th:block>
+
+</body>
+</html>

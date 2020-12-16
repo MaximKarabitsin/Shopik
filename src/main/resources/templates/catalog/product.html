@@ -1,0 +1,89 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main-layout}">
+<head>
+
+    <link rel="stylesheet" th:href="@{/css/slick.css}"/>
+    <link rel="stylesheet" th:href="@{/css/slider.css}"/>
+    <link rel="stylesheet" th:href="@{/css/product.css}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title th:text="|${product.productName}#{product.title}|"></title>
+</head>
+<body>
+
+
+    <th:block layout:fragment="main">
+
+        <div class="container">
+            <div class="product-wrapper">
+                <div class="product-images-slider-wrapper">
+                    <div class="product-images-slider" >
+                        <div class="product-images-slider__item" th:each="i : ${#numbers.sequence( 1, numberImages)}">
+                            <img class="product-images-slider__item__img" th:src="@{/image/product/big/__${product.id}__/__${i}__}" alt=""></div>
+                    </div>
+                    <div class="product-images-slider-nav">
+                        <div class="product-images-slider__item-nav" th:each="i : ${#numbers.sequence( 1, numberImages)}"><img class="product-images-slider__item-nav__img"
+                                                                          th:src="@{/image/product/small/__${product.id}__/__${i}__}" alt=""></div>
+                    </div>
+                </div>
+                <div class="product-info-wrapper">
+                    <div th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'"
+                         class="current-categories">
+                        <a th:href="@{/catalog}"
+                           th:text="${product.category.motherCategory.motherCategory[langCategory]}"
+                           class="current-category"></a>
+                        <a th:href="@{/catalog/__${product.category.motherCategory.enCategory}__}"
+                           th:text="${product.category.motherCategory[langCategory]}" class="current-category"></a>
+                        <a th:href="@{/catalog/__${product.category.motherCategory.enCategory}__/__${product.category.enCategory}__}"
+                           th:text="${product.category[langCategory]}" class="current-category"></a>
+                        <a class="current-category" th:text="${product.productName}"></a>
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product__name" th:text="${product.productName}"></div>
+
+                            <div class="product__seller">
+                                <th:block th:text="|Продавец: |"/>
+                                <span class="product__seller-id" th:text="${product.seller.login}"></span>
+                            </div>
+                            <div class="product__quantity">
+                                <th:block th:text="|Имеется в продаже: |"/>
+                                <span class="product__quantity-value" th:text="${product.quantity}"></span></div>
+                            <div class="product__desc">
+                                <th:block th:text="|Описание: |"/>
+                                <span class="product__desc-text" th:text="${product.description}"></span>
+                            </div>
+                        </div>
+
+                        <div class="product-option">
+                            <div class="product__cost">
+                                <span class="cost" th:text="|&#x20bd; ${product.getCostWithDiscount()}|"></span>
+                                <span th:if="${product.discount != 0}"
+                                      class="cost--sale" th:text="|&#x20bd; ${product.cost}|"></span>
+                            </div>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <button th:name="${product.id}" class="product__cart"><img
+                                        th:src="@{/img/icons/add-to-shopping-cart.svg}"
+                                        alt="add" class="icon">Добавить в корзину
+                                </button>
+                                <button th:name="${product.id}" class="product__wish-list"><img
+                                        th:src="@{/img/icons/wishlist.svg}"
+                                        alt="add" class="icon">Добавить в желаемое
+                                </button>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <th:block layout:fragment="jsscript">
+        <script th:src="@{/js/slick.min.js}"></script>
+        <script th:src="@{/js/product.js}"></script>
+    </th:block>
+
+</body>
+</html>

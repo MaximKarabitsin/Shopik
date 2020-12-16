@@ -1,0 +1,96 @@
+* {
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+body {
+    font-family: 'Rubik', sans-serif;;
+}
+
+.container {
+    box-sizing: border-box;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.button {
+    border: 1px solid #78c4cd;
+    color: #fff;
+    background-color: #78c4cd;
+    transition: .3s;
+}
+
+.button-icon {
+    fill: #fff;
+    transition: .3s;
+}
+
+.button:hover {
+    border: 1px solid #e0e0e0;
+    background-color: #f5f7f9;
+    color: #444;
+    fill: #444;
+}
+
+.button:hover > .button-icon {
+    fill: #444;
+}
+
+.tex-message {
+    margin-top: 30px;
+    color: #444;
+}
+
+input:focus {
+    -webkit-box-shadow: 0 0 5px #78c4cd;
+    -moz-box-shadow: 0 0 5px #78c4cd;
+    box-shadow: 0 0 5px #78c4cd;
+}
+
+input:invalid {
+    -webkit-box-shadow: 0 0 5px red;
+    -moz-box-shadow: 0 0 5px red;
+    box-shadow: 0 0 5px red;
+}
+
+/*PAGINATION*/
+.pagination {
+    margin-top: 20px;
+
+}
+
+.pagination-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.pagination__item {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    line-height: 32px;
+    margin: 0 2px;
+    color: #777777;
+    height: 32px;
+    width: 32px;
+    transition: .3s;
+}
+
+.pagination__item--arrow {
+    line-height: 28px;
+    font-size: 20px;
+}
+
+.pagination__item:hover {
+    background-color: #78c4cd;
+    color: #fff;
+
+}
+
+.pagination__item--active {
+    background-color: #78c4cd;
+    color: #fff;
+}

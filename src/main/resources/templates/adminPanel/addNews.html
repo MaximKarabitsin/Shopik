@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminPanel-layout}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title th:text="#{settings.title.addNews}"></title>
+</head>
+<body>
+
+<th:block layout:fragment="section">
+    <h2 class="settings-section__title" th:text="#{settings.section.addNews.title}"></h2>
+
+
+    <form th:action="@{/adminpanel/addNews}" enctype="multipart/form-data" method="post" th:object="${newsAddForm}"
+          class="settings-section__form">
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="Название"/>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="newsTitle"></label>
+            <span class="settings-section__error" th:errors="*{newsTitle}"></span>
+        </div>
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="Описание"/>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9., ]+$" maxlength="200" name="description"></label>
+            <span class="settings-section__error" th:errors="*{description}"></span>
+        </div>
+        <button class="button settings-section__button" type="submit">Добавить</button>
+    </form>
+
+</th:block>
+</body>
+</html>

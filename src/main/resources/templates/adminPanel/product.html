@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminPanel-layout}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title th:text="#{settings.title.product}"></title>
+</head>
+<body>
+
+<th:block layout:fragment="section">
+
+    <h2 class="settings-section__title" th:text="#{settings.section.product.title}"></h2>
+    <div class="settings-section__field" th:text="|#{settings.section.product.id}${p.id}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.product.productName}${p.productName}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.product.cost}${p.cost}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.product.description}${p.description}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.product.quantity}${p.quantity}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.product.discount}${p.discount}|"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.product.seller}${p.seller.login}|"></div>
+    <div class="settings-section__field"
+         th:text="#{settings.section.product.category}+(__${#locale}__=='en'?(${p.category.enCategory}):(${p.category.ruCategory}))"></div>
+    <div class="settings-section__field" th:text="|#{settings.section.product.date}${p.date}|"></div>
+
+
+    <form th:action="@{/adminpanel/products/__${p.id}__}" enctype="multipart/form-data" method="post" th:object="${productChangeForm}"
+          class="settings-section__form">
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="#{settings.section.product.productName}"/>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9 ]+$" maxlength="50" name="productName"
+                       th:value="${p.productName}"></label>
+            <span class="settings-section__error" th:errors="*{productName}"></span>
+        </div>
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="#{settings.section.product.cost}"/>
+                <input type="text" pattern="^[0-9]+$" maxlength="9" name="cost" th:value="${p.cost}"></label>
+            <span class="settings-section__error" th:errors="*{cost}"></span>
+        </div>
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="#{settings.section.product.description}"/>
+                <input type="text" pattern="^[a-zA-Zа-яА-Я0-9., ]+$" maxlength="200" name="description"
+                       th:value="${p.description}"></label>
+            <span class="settings-section__error" th:errors="*{description}"></span>
+        </div>
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="Категория"/>
+                <select th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" size="1"
+                        name="mainCategory">
+                    <th:block
+                            th:each="category : ${p.getCategory().getMotherCategory().getMotherCategory().getSubCategories()}">
+                        <option th:selected="${category.categoryId==p.getCategory().getMotherCategory().categoryId}"
+                                th:value="${category['__${langCategory}__']}"
+                                th:text="${category['__${langCategory}__']}"></option>
+                    </th:block>
+                </select></label>
+        </div>
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="Подкатегория"/>
+                <select th:with="langCategory=(__${#locale}__=='en'?'en':'ru') + 'Category'" size="1"
+                        name="motherCategory">
+                    <th:block th:each="category : ${p.getCategory().getMotherCategory().getSubCategories()}">
+                        <option th:selected="${category.categoryId==p.getCategory().categoryId}"
+                                th:value="${category['__${langCategory}__']}"
+                                th:text="${category['__${langCategory}__']}"></option>
+                    </th:block>
+                </select></label>
+            <span class="settings-section__error" th:errors="*{motherCategory}"></span>
+        </div>
+        <div class="settings-section__input-wrapper">
+            <label class="settings-section__label">
+                <th:block th:text="|Изображения товара|"/>
+                <input type="file" name="files" multiple accept="image/png, image/jpeg"></label>
+            <span class="settings-section__error" th:errors="*{files}"></span>
+        </div>
+        <button class="button settings-section__button" th:text="#{settings.section.profile.button}"></button>
+    </form>
+
+</th:block>
+
+<th:block layout:fragment="jsscript">
+    <script th:src="@{/js/addProduct.js}"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/settings-layout}">
+<head>
+    <title>Profile-layout</title>
+</head>
+<body>
+
+    <th:block layout:fragment="menu">
+                <nav class="settings-menu">
+                    <a th:href="@{/profile}" class="settings-menu__item" th:classappend="${currentSection == 'profile'}? 'settings-menu__item--active' : _" th:text="#{settings.section.profile.title}"></a>
+                    <a th:href="@{/wishlist}" class="settings-menu__item" th:classappend="${currentSection == 'wish'}? 'settings-menu__item--active' : _" th:text="#{wish.list.title}"></a>
+                    <a th:if="${user.hasRole('SELLER')}" th:href="@{/profile/products}" class="settings-menu__item"  th:classappend="${currentSection == 'products'}? 'settings-menu__item--active' : _" th:text="#{settings.section.profile.products}"></a>
+                </nav>
+                <!-- /.settings-menu -->
+    </th:block>
+
+</body>
+</html>

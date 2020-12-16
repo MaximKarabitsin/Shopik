@@ -1,0 +1,20 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/settings-layout}">
+<head>
+    <title>Order-layout</title>
+</head>
+<body>
+
+    <th:block layout:fragment="menu">
+                <nav class="settings-menu">
+                    <a class="settings-menu__item" th:classappend="${currentSection == 'basket'}? 'settings-menu__item--active' : _">Корзина</a>
+                    <a class="settings-menu__item" th:classappend="${currentSection == 'order'}? 'settings-menu__item--active' : _">Заказ</a>
+                </nav>
+                <!-- /.settings-menu -->
+    </th:block>
+
+</body>
+</html>

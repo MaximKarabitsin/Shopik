@@ -1,0 +1,8 @@
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (1, '2019-06-17', 'Открылся новый интернет магазин!', 'Мы открылись!');
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (2, '2019-06-17', 'Теперь вы можете выбрать количество покупаемого товара в корзине!', 'Обновление!');
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (3, '2019-06-17', 'Добавлена возможность занести понравившийся товар в список желаемого!', 'Новая возможность!');
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (4, '2019-06-17', 'Вы можете изменить настройки своего аккаунта во вкладке Профиль', 'Обновление!');
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (5, '2019-06-17', 'Вам доступна так же английская версия сайта', 'Знаете ли вы что..');
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (6, '2019-06-17', 'В нашем магазине стала доступна покупка новой модели Samsung Galaxy A50!', 'Samsung Galaxy A50 уже в продаже!');
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (7, '2019-06-17', ' Успейте обзавестись летними товарами по отличным ценам!', 'Началась июньская распродажа!');
+INSERT INTO shopik.news (news_id, date, description, news_title) VALUES (8, '2019-06-17', 'В нашем магазине появился раздел мебели! Обставьте свой дом со вкусом с товарами из Shopik!', 'Новая возможность!');

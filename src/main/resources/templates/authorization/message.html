@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main-layout}">
+<head>
+    <title th:text="${title}"></title>
+</head>
+<body>
+
+
+    <th:block layout:fragment="main">
+        <div class="container">
+            <div class="test-message" th:text="${message}"></div>
+        </div>
+        <!-- /.container -->
+    </th:block>
+
+
+</body>
+</html>

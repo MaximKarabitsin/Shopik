@@ -1,0 +1,114 @@
+@media (min-width: 576px) {
+
+
+}
+
+@media (min-width: 768px) {
+    .catalog-nav {
+        flex-direction: row;
+    }
+
+    .catalog-list-categories{
+        width: 25%;
+        margin-bottom: 0;
+    }
+
+    .labelBtn, .labelCategory {
+        display: none;
+    }
+
+    .list-categories {
+        width: 100%;
+        position: absolute;
+        transition: .3s;
+        display: none;
+    }
+
+    .category__link--main:after {
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 8px solid transparent;
+        border-left: 8px solid #777;
+    }
+
+    .category:last-child > .category__link {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .category {
+        list-style: none;
+
+        background-color: #f5f7f9;
+
+    }
+
+    .category:hover > .category__link {
+        color: #fff;
+        background-color: #78c4cd;
+    }
+
+    .category:hover > .category__link:after {
+        border: 8px solid transparent;
+        border-left: 8px solid #fff;
+    }
+
+    .category .list-categories {
+        top: 0px;
+        right: -100%;
+    }
+
+    .catalog__btn:hover + .list-categories,
+    .list-categories:hover,
+    .category:hover > .list-categories {
+        display: block;
+    }
+
+    .catalog-info{
+        flex-grow: 1;
+        margin-left: 15px;
+    }
+
+
+    .current-categories {
+        margin-bottom: 7px;
+    }
+
+    .catalog-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .product-wrapper {
+        margin: 10px 0;
+    }
+}
+
+@media (min-width: 992px) {
+    .catalog-info{
+        margin-left: 20px;
+    }
+
+    .catalog-list {
+        justify-content: flex-start;
+    }
+
+    .product-wrapper {
+        margin: 12px 0;
+    }
+
+    .product-wrapper:nth-child(3n+2){
+       margin: 12px 30px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .catalog-info{
+        margin-left: 30px;
+    }
+
+    .product-wrapper:nth-child(3n+2){
+        margin: 15px 115px;
+    }
+}
